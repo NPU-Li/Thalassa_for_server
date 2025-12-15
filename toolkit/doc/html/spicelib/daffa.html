@@ -1,0 +1,1183 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>daffa</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>daffa</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     DAFFA ( DAF, find array )
+
+     SUBROUTINE DAFFA ( HANDLE, SUM, NAME, FOUND )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Find arrays in a DAF.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/daf.html">DAF</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     FILES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE              'zzddhman.inc'
+
+     INTEGER               TBSIZE
+     PARAMETER           ( TBSIZE = FTSIZE )
+
+     INTEGER               HANDLE
+     DOUBLE PRECISION      SUM    ( * )
+     CHARACTER*(*)         NAME
+     LOGICAL               FOUND
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  ENTRY
+     --------  ---  --------------------------------------------------
+     HANDLE    I-O  <a href="dafbfs.html">DAFBFS</a>, <a href="dafbbs.html">DAFBBS</a>, <a href="dafgh.html">DAFGH</a>, <a href="dafcs.html">DAFCS</a>
+     SUM       I-O  <a href="dafgs.html">DAFGS</a>,  <a href="dafrs.html">DAFRS</a>,  <a href="dafws.html">DAFWS</a>
+     NAME      I-O  <a href="dafgn.html">DAFGN</a>,  <a href="dafrn.html">DAFRN</a>
+     FOUND      O   <a href="daffna.html">DAFFNA</a>, <a href="daffpa.html">DAFFPA</a>
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     HANDLE   on input is the handle of the DAF to be searched.
+
+     SUM      on input is an array summary that replaces the
+              summary of the current array in the DAF currently
+              being searched.
+
+     NAME     on input is an array name that replaces the name
+              of the current array in the DAF currently being
+              searched.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     HANDLE   on output is the handle of the DAF currently being
+              searched.
+
+     SUM      on output is the summary for the array found most
+              recently.
+
+     NAME     on output is the name for the array found
+              most recently.
+
+     FOUND    is .TRUE. whenever the search for the next or the
+              previous array is successful, and is .FALSE. otherwise.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     TBSIZE   is the maximum number of files (DAS and DAF) that may be
+              simultaneously open. TBSIZE is set to FTSIZE which is
+              assigned and defined in zzdhman.inc.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If <b>DAFFA</b> is called directly, the error SPICE(BOGUSENTRY)
+         is signaled.
+
+     2)  See entry points <a href="dafbfs.html">DAFBFS</a>, <a href="daffna.html">DAFFNA</a>, <a href="dafbbs.html">DAFBBS</a>, <a href="daffpa.html">DAFFPA</a>, <a href="dafgs.html">DAFGS</a>, <a href="dafgn.html">DAFGN</a>,
+         <a href="dafgh.html">DAFGH</a>, <a href="dafrs.html">DAFRS</a>, <a href="dafws.html">DAFWS</a>, <a href="dafrn.html">DAFRN</a>, and <a href="dafcs.html">DAFCS</a> for exceptions specific
+         to those entry points.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     DAFs read by <b>DAFFA</b> and its entry points are opened
+     elsewhere, and referred to only by their handles.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     <b>DAFFA</b> serves as an umbrella, allowing data to be shared by its
+     entry points:
+
+        <a href="dafbfs.html">DAFBFS</a>         Begin forward search.
+        <a href="daffna.html">DAFFNA</a>         Find next array.
+
+        <a href="dafbbs.html">DAFBBS</a>         Begin backward search.
+        <a href="daffpa.html">DAFFPA</a>         Find previous array.
+
+        <a href="dafgs.html">DAFGS</a>          Get summary.
+        <a href="dafgn.html">DAFGN</a>          Get name.
+        <a href="dafgh.html">DAFGH</a>          Get handle.
+
+        <a href="dafrs.html">DAFRS</a>          Replace summary.
+        <a href="dafws.html">DAFWS</a>          Write summary.
+        <a href="dafrn.html">DAFRN</a>          Replace name.
+
+        <a href="dafcs.html">DAFCS</a>          Continue search.
+
+     The main function of these entry points is to allow the
+     contents of any DAF to be examined on an array-by-array
+     basis.
+
+     Conceptually, the arrays in a DAF form a doubly linked list,
+     which can be searched in either of two directions: forward or
+     backward. It is possible to search multiple DAFs simultaneously.
+
+     <a href="dafbfs.html">DAFBFS</a> (begin forward search) and <a href="daffna.html">DAFFNA</a> are used to search the
+     arrays in a DAF in forward order. In applications that search a
+     single DAF at a time, the normal usage is
+
+        CALL <a href="dafbfs.html">DAFBFS</a> ( HANDLE )
+        CALL <a href="daffna.html">DAFFNA</a> ( FOUND  )
+
+        DO WHILE ( FOUND )
+
+           CALL <a href="dafgs.html">DAFGS</a> ( SUM  )
+           CALL <a href="dafgn.html">DAFGN</a> ( NAME )
+            .
+            .
+
+           CALL <a href="daffna.html">DAFFNA</a> ( FOUND )
+
+        END DO
+
+
+
+     <a href="dafbbs.html">DAFBBS</a> (begin backward search) and <a href="daffpa.html">DAFFPA</a> are used to search the
+     arrays in a DAF in backward order. In applications that search
+     a single DAF at a time, the normal usage is
+
+        CALL <a href="dafbbs.html">DAFBBS</a> ( HANDLE )
+        CALL <a href="daffpa.html">DAFFPA</a> ( FOUND  )
+
+        DO WHILE ( FOUND )
+
+           CALL <a href="dafgs.html">DAFGS</a> ( SUM  )
+           CALL <a href="dafgn.html">DAFGN</a> ( NAME )
+            .
+            .
+
+           CALL <a href="daffpa.html">DAFFPA</a> ( FOUND )
+
+        END DO
+
+
+     In applications that conduct multiple searches simultaneously,
+     the above usage must be modified to specify the handle of the
+     file to operate on, in any case where the file may not be the
+     last one specified by <a href="dafbfs.html">DAFBFS</a> or <a href="dafbbs.html">DAFBBS</a>. The routine <a href="dafcs.html">DAFCS</a>
+     (DAF, continue search) is used for this purpose. Below, we
+     give an example of an interleaved search of two files specified
+     by the handles HANDL1 and HANDL2. The directions of searches
+     in different DAFs are independent; here we conduct a forward
+     search on one file and a backward search on the other.
+     Throughout, we use <a href="dafcs.html">DAFCS</a> to specify which file to operate on,
+     before calling <a href="daffna.html">DAFFNA</a>, <a href="daffpa.html">DAFFPA</a>, <a href="dafgs.html">DAFGS</a>, <a href="dafrs.html">DAFRS</a>, <a href="dafws.html">DAFWS</a>, <a href="dafgn.html">DAFGN</a>, or
+     <a href="dafrn.html">DAFRN</a>.
+
+
+        CALL <a href="dafbfs.html">DAFBFS</a> ( HANDL1 )
+        CALL <a href="dafbbs.html">DAFBBS</a> ( HANDL2 )
+
+        CALL <a href="dafcs.html">DAFCS</a>  ( HANDL1 )
+        CALL <a href="daffna.html">DAFFNA</a> ( FOUND1 )
+
+        CALL <a href="dafcs.html">DAFCS</a>  ( HANDL2 )
+        CALL <a href="daffpa.html">DAFFPA</a> ( FOUND2 )
+
+        DO WHILE ( FOUND1 .OR. FOUND2 )
+
+           IF ( FOUND1 ) THEN
+
+              CALL <a href="dafcs.html">DAFCS</a> ( HANDL1 )
+              CALL <a href="dafgs.html">DAFGS</a> ( SUM    )
+              CALL <a href="dafgn.html">DAFGN</a> ( NAME   )
+               .
+               .
+              CALL <a href="dafcs.html">DAFCS</a>  ( HANDL1 )
+              CALL <a href="daffna.html">DAFFNA</a> ( FOUND1 )
+
+           END IF
+
+           IF ( FOUND2 ) THEN
+
+              CALL <a href="dafcs.html">DAFCS</a> ( HANDL2 )
+              CALL <a href="dafgs.html">DAFGS</a> ( SUM    )
+              CALL <a href="dafgn.html">DAFGN</a> ( NAME   )
+               .
+               .
+              CALL <a href="dafcs.html">DAFCS</a>  ( HANDL2 )
+              CALL <a href="daffpa.html">DAFFPA</a> ( FOUND2 )
+
+           END IF
+
+        END DO
+
+
+     At any time, the latest array found (whether by <a href="daffna.html">DAFFNA</a> or <a href="daffpa.html">DAFFPA</a>)
+     is regarded as the `current' array for the file in which the
+     array was found. The last DAF in which a search was started,
+     executed, or continued by any of <a href="dafbfs.html">DAFBFS</a>, <a href="dafbbs.html">DAFBBS</a>, <a href="daffna.html">DAFFNA</a>, <a href="daffpa.html">DAFFPA</a>
+     or <a href="dafcs.html">DAFCS</a> is regarded as the `current' DAF. The summary and name
+     for the current array in the current DAF can be returned
+     separately, as shown above, by calls to <a href="dafgs.html">DAFGS</a> (get summary) and
+     <a href="dafgn.html">DAFGN</a> (get name). The handle of the current DAF can also be
+     returned by calling <a href="dafgh.html">DAFGH</a> (get handle).
+
+     The summary and name of the current array in the current DAF can
+     be updated (again, separately) by providing new ones through <a href="dafrs.html">DAFRS</a>
+     (replace summary) and <a href="dafrn.html">DAFRN</a> (replace name). This feature
+     should not be used except to correct errors that occurred during
+     the creation of a file. Note that changes can only be made to
+     files opened for write access. Also, the addresses of an array
+     cannot be changed using these routines. (Another routine,
+     <a href="dafws.html">DAFWS</a>, is provided for this purpose, but should be used only
+     to reorder the arrays in a file.)
+
+     Once a search has been begun, it may be continued in either
+     direction. That is, <a href="daffpa.html">DAFFPA</a> may be used to back up during a
+     forward search, and <a href="daffna.html">DAFFNA</a> may be used to advance during a
+     backward search.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for these examples may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) The following program illustrates the way summaries and
+        names for the arrays contained in a DAF can be modified.
+
+        This example is provided for educational purpose only.
+
+        Replace the body ID code 301 (Moon) with a test body ID,
+        e.g. -999, in every descriptor of an SPK file; update the
+        segment identifier to indicate that such change has been
+        implemented.
+
+
+        Example code begins here.
+
+
+              PROGRAM DAFFA_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions
+        C
+              INTEGER               <a href="cardi.html">CARDI</a>
+              INTEGER               <a href="rtrim.html">RTRIM</a>
+
+        C
+        C     Local parameters.
+        C
+              INTEGER               DSCSIZ
+              PARAMETER           ( DSCSIZ  = 5    )
+
+              INTEGER               FILSIZ
+              PARAMETER           ( FILSIZ  = 255  )
+
+              INTEGER               LBCELL
+              PARAMETER           ( LBCELL = -5 )
+
+              INTEGER               MAXOBJ
+              PARAMETER           ( MAXOBJ  = 1000 )
+
+              INTEGER               ND
+              PARAMETER           ( ND      = 2    )
+
+              INTEGER               NI
+              PARAMETER           ( NI      = 6    )
+
+              INTEGER               NEWCODE
+              PARAMETER           ( NEWCODE = -999 )
+
+              INTEGER               OLDCODE
+              PARAMETER           ( OLDCODE =  301 )
+
+              INTEGER               SGIDLN
+              PARAMETER           ( SGIDLN  = 1000 )
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(FILSIZ)    FNAME
+              CHARACTER*(SGIDLN)    SEGID
+              CHARACTER*(SGIDLN)    UPDSID
+
+              DOUBLE PRECISION      DC     ( ND )
+              DOUBLE PRECISION      SUM    ( DSCSIZ )
+
+              INTEGER               HANDLE
+              INTEGER               I
+              INTEGER               IC     ( NI )
+              INTEGER               IDS    ( LBCELL : MAXOBJ )
+              INTEGER               OBJ
+
+              LOGICAL               FOUND
+              LOGICAL               UPDATE
+
+        C
+        C     Get the SPK file name.
+        C
+              CALL PROMPT ( 'Enter name of the SPK file &gt; ', FNAME )
+
+        C
+        C     Initialize the set IDS.
+        C
+              CALL <a href="ssizei.html">SSIZEI</a> ( MAXOBJ, IDS )
+
+        C
+        C     Find the set of objects in the SPK file.
+        C
+              CALL <a href="spkobj.html">SPKOBJ</a> ( FNAME, IDS )
+
+              WRITE(*,'(A)') 'Objects in the original DAF file:'
+              WRITE(*,'(20I4)') ( IDS(I), I= 1, <a href="cardi.html">CARDI</a> ( IDS ) )
+
+        C
+        C     Open for writing the SPK file.
+        C
+              CALL <a href="dafopw.html">DAFOPW</a> ( FNAME, HANDLE )
+
+        C
+        C     Search the file in forward order.
+        C
+              CALL <a href="dafbfs.html">DAFBFS</a> ( HANDLE )
+              CALL <a href="daffna.html">DAFFNA</a> ( FOUND  )
+
+              WRITE(*,'(A)') 'Original Segment IDs (forward order):'
+
+              DO WHILE ( FOUND )
+
+        C
+        C        Fetch and unpack the descriptor (aka summary)
+        C        of the current segment, and get its name.
+        C
+                 CALL <a href="dafgn.html">DAFGN</a> ( SEGID )
+                 CALL <a href="dafgs.html">DAFGS</a> ( SUM   )
+                 CALL <a href="dafus.html">DAFUS</a> ( SUM, ND, NI, DC, IC )
+
+        C
+        C        Print the current segment name
+        C
+                 WRITE(*,'(2I6,2X,A)') IC(1), IC(2),
+             .                         SEGID(:<a href="rtrim.html">RTRIM</a>(SEGID))
+
+        C
+        C        Replace ID codes if necessary.
+        C
+                 UPDATE = .FALSE.
+                 IF ( IC(1) .EQ. OLDCODE ) THEN
+
+                    IC(1)  = NEWCODE
+                    UPDATE = .TRUE.
+
+                 END IF
+                 IF ( IC(2) .EQ. OLDCODE ) THEN
+
+                    IC(2) = NEWCODE
+                    UPDATE = .TRUE.
+
+                 END IF
+
+        C
+        C        Update segment ID if necessary.
+        C
+                 IF ( UPDATE ) THEN
+
+                    UPDSID = '# - Updated. Do not use.'
+                    CALL <a href="repmc.html">REPMC</a> ( UPDSID, '#', SEGID(:<a href="rtrim.html">RTRIM</a>(SEGID)),
+             .                   UPDSID                            )
+                    CALL <a href="dafrn.html">DAFRN</a> ( UPDSID )
+
+                 END IF
+
+        C
+        C        Re-pack the descriptor; replace the descriptor
+        C        in the file.
+        C
+                 CALL <a href="dafps.html">DAFPS</a> ( ND, NI, DC, IC, SUM )
+
+                 CALL <a href="dafrs.html">DAFRS</a> ( SUM )
+
+        C
+        C        Find the next segment.
+        C
+                 CALL <a href="daffna.html">DAFFNA</a> ( FOUND )
+
+              END DO
+
+        C
+        C     Close the file.
+        C
+              CALL <a href="dafcls.html">DAFCLS</a> ( HANDLE )
+
+        C
+        C     Reset the set IDS.
+        C
+              CALL <a href="scardi.html">SCARDI</a> ( 0, IDS )
+
+        C
+        C     Find the set of objects in the updated SPK file.
+        C
+              CALL <a href="spkobj.html">SPKOBJ</a> ( FNAME, IDS )
+
+              WRITE(*,*) ' '
+              WRITE(*,'(A)') 'Objects in the updated DAF file:'
+              WRITE(*,'(20I4)') ( IDS(I), I= 1, <a href="cardi.html">CARDI</a> ( IDS ) )
+
+        C
+        C     Search the file in backwards order and output the
+        C     segment IDs.
+        C
+              CALL <a href="dafopr.html">DAFOPR</a> ( FNAME, HANDLE )
+
+              CALL <a href="dafbbs.html">DAFBBS</a> ( HANDLE )
+              CALL <a href="daffpa.html">DAFFPA</a> ( FOUND  )
+
+              WRITE(*,'(A)') 'Updated Segment IDs (backwards order):'
+
+              DO WHILE ( FOUND )
+
+        C
+        C        Fetch and unpack the descriptor (aka summary)
+        C        of the current segment, and get its name.
+        C
+                 CALL <a href="dafgn.html">DAFGN</a> ( SEGID )
+                 CALL <a href="dafgs.html">DAFGS</a> ( SUM   )
+                 CALL <a href="dafus.html">DAFUS</a> ( SUM, ND, NI, DC, IC )
+
+                 WRITE(*,'(2I6,2X,A)') IC(1), IC(2),
+             .                         SEGID(:<a href="rtrim.html">RTRIM</a>(SEGID))
+
+        C
+        C        Find the previous segment.
+        C
+                 CALL <a href="daffpa.html">DAFFPA</a> ( FOUND )
+
+              END DO
+
+        C
+        C     Close the file.
+        C
+              CALL <a href="dafcls.html">DAFCLS</a> ( HANDLE )
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, using the SPK file named de430.bsp, the output was:
+
+
+        Enter name of the SPK file &gt; de430.bsp
+        Objects in the original DAF file:
+           1   2   3   4   5   6   7   8   9  10 199 299 301 399
+        Original Segment IDs (forward order):
+             1     0  DE-0430LE-0430
+             2     0  DE-0430LE-0430
+             3     0  DE-0430LE-0430
+             4     0  DE-0430LE-0430
+             5     0  DE-0430LE-0430
+             6     0  DE-0430LE-0430
+             7     0  DE-0430LE-0430
+             8     0  DE-0430LE-0430
+             9     0  DE-0430LE-0430
+            10     0  DE-0430LE-0430
+           301     3  DE-0430LE-0430
+           399     3  DE-0430LE-0430
+           199     1  DE-0430LE-0430
+           299     2  DE-0430LE-0430
+
+        Objects in the updated DAF file:
+        -999   1   2   3   4   5   6   7   8   9  10 199 299 399
+        Updated Segment IDs (backwards order):
+           299     2  DE-0430LE-0430
+           199     1  DE-0430LE-0430
+           399     3  DE-0430LE-0430
+          -999     3  DE-0430LE-0430 - Updated. Do not use.
+            10     0  DE-0430LE-0430
+             9     0  DE-0430LE-0430
+             8     0  DE-0430LE-0430
+             7     0  DE-0430LE-0430
+             6     0  DE-0430LE-0430
+             5     0  DE-0430LE-0430
+             4     0  DE-0430LE-0430
+             3     0  DE-0430LE-0430
+             2     0  DE-0430LE-0430
+             1     0  DE-0430LE-0430
+
+
+     2) The following program compares data in two DAFs. The DAFs are
+        expected to have the same number of arrays, the same number
+        of elements in each corresponding array, and the same summary
+        format.
+
+        Each difference whose magnitude exceeds a specified tolerance
+        is flagged. The difference information is written to the
+        screen.
+
+
+        Example code begins here.
+
+
+              PROGRAM DAFFA_EX2
+              IMPLICIT NONE
+
+        C
+        C     Local parameters
+        C
+              INTEGER               <a href="rtrim.html">RTRIM</a>
+
+        C
+        C     Local parameters
+        C
+              INTEGER               ARRYSZ
+              PARAMETER           ( ARRYSZ = 10000000 )
+
+              INTEGER               ERRLEN
+              PARAMETER           ( ERRLEN =  240 )
+
+              INTEGER               FILEN
+              PARAMETER           ( FILEN  =  128 )
+
+              INTEGER               LINLEN
+              PARAMETER           ( LINLEN =   80 )
+
+              INTEGER               MAXND
+              PARAMETER           ( MAXND  =  125 )
+
+              INTEGER               MAXNI
+              PARAMETER           ( MAXNI  =  250 )
+
+              INTEGER               MAXSUM
+              PARAMETER           ( MAXSUM =  128 )
+
+              INTEGER               RLEN
+              PARAMETER           ( RLEN   = 1000 )
+
+
+        C
+        C     Local variables
+        C
+              CHARACTER*(RLEN)      ANAME1
+              CHARACTER*(RLEN)      ANAME2
+              CHARACTER*(FILEN)     DAF1
+              CHARACTER*(FILEN)     DAF2
+              CHARACTER*(FILEN)     LOG
+              CHARACTER*(ERRLEN)    PRSERR
+              CHARACTER*(LINLEN)    STR
+              CHARACTER*(LINLEN)    TOLCH
+
+              DOUBLE PRECISION      ARRAY1 ( ARRYSZ )
+              DOUBLE PRECISION      ARRAY2 ( ARRYSZ )
+              DOUBLE PRECISION      DC1    ( MAXND )
+              DOUBLE PRECISION      DC2    ( MAXND )
+              DOUBLE PRECISION      TOL
+              DOUBLE PRECISION      DIFF
+              DOUBLE PRECISION      SUM1   ( MAXSUM )
+              DOUBLE PRECISION      SUM2   ( MAXSUM )
+
+              INTEGER               FA1
+              INTEGER               FA2
+              INTEGER               I
+              INTEGER               IA1
+              INTEGER               IA2
+              INTEGER               IC1    ( MAXNI )
+              INTEGER               IC2    ( MAXNI )
+              INTEGER               HANDL1
+              INTEGER               HANDL2
+              INTEGER               LEN1
+              INTEGER               LEN2
+              INTEGER               ND1
+              INTEGER               ND2
+              INTEGER               NI1
+              INTEGER               NI2
+              INTEGER               PTR
+
+              LOGICAL               FOUND
+
+
+        C
+        C     Start out by obtaining the names of the DAFs to be
+        C     compared.
+        C
+              CALL PROMPT ( 'Enter name of first DAF  &gt; ', DAF1 )
+              CALL PROMPT ( 'Enter name of second DAF &gt; ', DAF2 )
+              CALL PROMPT ( 'Enter tolerance for data comparison &gt; ',
+             .              TOLCH                                   )
+
+              CALL <a href="nparsd.html">NPARSD</a> ( TOLCH, TOL, PRSERR, PTR )
+
+        C
+        C     Open both DAFs for reading.
+        C
+              CALL <a href="dafopr.html">DAFOPR</a> ( DAF1, HANDL1 )
+              CALL <a href="dafopr.html">DAFOPR</a> ( DAF2, HANDL2 )
+
+        C
+        C     Start forward searches in both DAFS.
+        C
+              CALL <a href="dafbfs.html">DAFBFS</a> ( HANDL1 )
+              CALL <a href="dafbfs.html">DAFBFS</a> ( HANDL2 )
+
+        C
+        C     Obtain the summary formats for each DAF. Stop now
+        C     if the summary formats don't match.
+        C
+              CALL <a href="dafhsf.html">DAFHSF</a> ( HANDL1, ND1, NI1 )
+              CALL <a href="dafhsf.html">DAFHSF</a> ( HANDL2, ND2, NI2 )
+
+              IF (  ( ND1 .NE. ND2 ) .OR. ( NI1 .NE. NI2 )  ) THEN
+
+                 STR = 'Summary formats do not match.  NI1 = #, '//
+             .                      'NI2 = #, ND1 = #, ND2 = #.'
+
+                 CALL <a href="repmi.html">REPMI</a>  ( STR, '#', NI1, STR )
+                 CALL <a href="repmi.html">REPMI</a>  ( STR, '#', NI2, STR )
+                 CALL <a href="repmi.html">REPMI</a>  ( STR, '#', ND1, STR )
+                 CALL <a href="repmi.html">REPMI</a>  ( STR, '#', ND2, STR )
+
+                 WRITE(*,*) STR
+
+                 CALL <a href="sigerr.html">SIGERR</a> ( 'Incompatible DAFs' )
+
+              END IF
+
+        C
+        C     Find the first array in each DAF. Use <a href="dafcs.html">DAFCS</a>
+        C     (DAF, continue search) to set the handle of the DAF
+        C     to search in before calling <a href="daffna.html">DAFFNA</a>.
+        C
+              CALL <a href="dafcs.html">DAFCS</a>  ( HANDL1 )
+              CALL <a href="daffna.html">DAFFNA</a> ( FOUND  )
+
+              IF ( FOUND ) THEN
+                 CALL <a href="dafcs.html">DAFCS</a>  ( HANDL2 )
+                 CALL <a href="daffna.html">DAFFNA</a> ( FOUND  )
+              END IF
+
+              DO WHILE ( FOUND )
+
+        C
+        C        Get the summary and name of each array, using
+        C        <a href="dafcs.html">DAFCS</a> to select the DAF to get the information
+        C        from. Unpack the summaries and find the beginning
+        C        and ending addresses of the arrays. Read the
+        C        arrays into the variables ARRAY1 and ARRAY2.
+        C
+                 CALL <a href="dafcs.html">DAFCS</a> ( HANDL1 )
+                 CALL <a href="dafgn.html">DAFGN</a> ( ANAME1 )
+                 CALL <a href="dafgs.html">DAFGS</a> ( SUM1   )
+                 CALL <a href="dafus.html">DAFUS</a> ( SUM1, ND1, NI1, DC1, IC1 )
+
+                 IA1  = IC1 ( NI1 - 1 )
+                 FA1  = IC1 ( NI1     )
+                 LEN1 = FA1 - IA1  + 1
+
+                 IF (  LEN1  .GT.  ARRYSZ  ) THEN
+                    CALL <a href="setmsg.html">SETMSG</a> ( 'Buffer too small; need # elts.')
+                    CALL <a href="errint.html">ERRINT</a> ( '#', LEN1                       )
+                    CALL <a href="sigerr.html">SIGERR</a> ( 'ARRAYTOOSMALL'                 )
+                 ELSE
+                    CALL <a href="dafgda.html">DAFGDA</a> ( HANDL1, IA1, FA1, ARRAY1 )
+                 END IF
+
+                 CALL <a href="dafcs.html">DAFCS</a> ( HANDL2 )
+                 CALL <a href="dafgn.html">DAFGN</a> ( ANAME2 )
+                 CALL <a href="dafgs.html">DAFGS</a> ( SUM2   )
+                 CALL <a href="dafus.html">DAFUS</a> ( SUM2, ND2, NI2, DC2, IC2 )
+
+                 IA2 = IC2 ( NI2 - 1 )
+                 FA2 = IC2 ( NI2     )
+
+                 LEN2 = FA2 - IA2  + 1
+
+                 IF (  LEN2  .GT.  ARRYSZ  ) THEN
+
+                    CALL <a href="setmsg.html">SETMSG</a> ( 'Buffer too small; need # elts.')
+                    CALL <a href="errint.html">ERRINT</a> ( '#', LEN2                       )
+                    CALL <a href="sigerr.html">SIGERR</a> ( 'ARRAYTOOSMALL'                 )
+
+                 ELSE IF ( LEN1 .NE. LEN2 ) THEN
+
+                    CALL <a href="setmsg.html">SETMSG</a> ( 'DAF structures do not match. '//
+             .                    'LEN1 = #, LEN2 = #. ' )
+                    CALL <a href="errint.html">ERRINT</a> ( '#', LEN1              )
+                    CALL <a href="errint.html">ERRINT</a> ( '#', LEN2              )
+                    CALL <a href="sigerr.html">SIGERR</a> ( 'Incompatible DAFs' )
+
+                 ELSE
+                    CALL <a href="dafgda.html">DAFGDA</a> ( HANDL2, IA2, FA2, ARRAY2 )
+                 END IF
+        C
+        C
+        C        Compare the data in the two arrays. Log a message
+        C        for every instance of data that differs by more
+        C        than the allowed tolerance. Use the array names
+        C        to label the data sources.
+        C
+                 DO I = 1, LEN1
+
+                    DIFF  =  ABS( ARRAY1(I) - ARRAY2(I) )
+
+                    IF (  DIFF  .GT.  TOL  ) THEN
+        C
+        C              Get the array names.
+        C
+                       CALL <a href="dafcs.html">DAFCS</a> ( HANDL1 )
+                       CALL <a href="dafgn.html">DAFGN</a> ( ANAME1 )
+                       CALL <a href="dafcs.html">DAFCS</a> ( HANDL2 )
+                       CALL <a href="dafgn.html">DAFGN</a> ( ANAME2 )
+
+        C
+        C              Construct the report strings. The number 14
+        C              below is the number of significant digits to
+        C              show in the strings representing d.p.
+        C              numbers.
+        C
+
+                       WRITE(*,*) ' '
+                       WRITE(*,*) 'Difference of array ' //
+             .                    'elements exceeded '   //
+             .                    'tolerance.'
+                       WRITE(*,*) 'First array : ',
+             .                     ANAME1(:<a href="rtrim.html">RTRIM</a>(ANAME1))
+                       WRITE(*,*) 'Second array: ',
+             .                     ANAME2(:<a href="rtrim.html">RTRIM</a>(ANAME2))
+
+                       STR = 'First value : #'
+                       CALL <a href="repmd.html">REPMD</a>  ( STR, '#', ARRAY1(I), 14, STR )
+                       WRITE(*,*) STR
+
+                       STR = 'Second value: #'
+                       CALL <a href="repmd.html">REPMD</a>  ( STR, '#', ARRAY2(I), 14, STR )
+                       WRITE(*,*) STR
+
+                       STR = 'Difference  :  #'
+                       CALL <a href="repmd.html">REPMD</a>  ( STR, '#', DIFF,      14, STR )
+                       WRITE(*,*) STR
+
+                    END IF
+
+                 END DO
+
+        C
+        C        Find the next pair of arrays.
+        C
+                 CALL <a href="dafcs.html">DAFCS</a>  ( HANDL1 )
+                 CALL <a href="daffna.html">DAFFNA</a> ( FOUND  )
+
+                 IF ( FOUND ) THEN
+                    CALL <a href="dafcs.html">DAFCS</a>  ( HANDL2 )
+                    CALL <a href="daffna.html">DAFFNA</a> ( FOUND  )
+                 END IF
+
+              END DO
+
+        C
+        C     Close the DAFs.
+        C
+              CALL <a href="dafcls.html">DAFCLS</a> ( HANDL1 )
+              CALL <a href="dafcls.html">DAFCLS</a> ( HANDL2 )
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, using the PCK (DAF) files named
+        earth_720101_031229.bpc and earth_720101_070527.bpc, and a
+        tolerance of '1.D0', the output was:
+
+
+        Enter name of first DAF  &gt; earth_720101_031229.bpc
+        Enter name of second DAF &gt; earth_720101_070527.bpc
+        Enter tolerance for data comparison &gt; 1.D0
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8352636890345E+08
+         Second value: -8.8352636783584E+08
+         Difference  :  1.0676109790802E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8343997629503E+08
+         Second value: -8.8343997451568E+08
+         Difference  :  1.7793515920639E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8335358368661E+08
+         Second value: -8.8335358119552E+08
+         Difference  :  2.4910920858383E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8326719107819E+08
+         Second value: -8.8326718787536E+08
+         Difference  :  3.2028328180313E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8318079846977E+08
+         Second value: -8.8318079455519E+08
+         Difference  :  3.9145733118057E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8309440586135E+08
+         Second value: -8.8309440123503E+08
+         Difference  :  4.6263140439987E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8300801325293E+08
+         Second value: -8.8300800791487E+08
+         Difference  :  5.3380546569824E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8292162064451E+08
+         Second value: -8.8292161459471E+08
+         Difference  :  6.0497951507568E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8283522803609E+08
+         Second value: -8.8283522127455E+08
+         Difference  :  6.7615358829498E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8274883542767E+08
+         Second value: -8.8274882795439E+08
+         Difference  :  7.4732763767242E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8266244281925E+08
+         Second value: -8.8266243463423E+08
+         Difference  :  8.1850171089172E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8257605021083E+08
+         Second value: -8.8257604131407E+08
+         Difference  :  8.8967577219009E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8248965760241E+08
+         Second value: -8.8248964799391E+08
+         Difference  :  9.6084982156754E+00
+
+         Difference of array elements exceeded tolerance.
+         First array : Earth PCK, ITRF93 Frame
+         Second array: Earth PCK, ITRF93 Frame
+         First value : -8.8240326499398E+08
+         Second value: -8.8240325467375E+08
+
+        [...]
+
+
+        Warning: incomplete output. Only 100 out of 80582 lines have
+        been provided.
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  Calls that do or may change DAF addresses of DAF summaries,
+         names, or data of a given DAF file should not be made during
+         a search of that file initiated by either <a href="dafbfs.html">DAFBFS</a> or <a href="dafbbs.html">DAFBBS</a>.
+         No such changes should be made between the start of a search
+         and calls to any entry point that reads or writes to the
+         summary of the &quot;current array&quot; found by that search, or
+         that returns a &quot;found&quot; flag indicating whether the current
+         array exists.
+
+         Changing the size of the comment area while a search is in
+         progress can invalidate record numbers stored in local data
+         structures of this routine. This can cause corrupted array
+         summaries and names to be returned upon read access and file
+         corruption to occur upon write access.
+
+         Adding arrays (aka &quot;segments&quot;) while either a forward or
+         backward search is in progress can cause the search to miss
+         the new segments.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     H.A. Neilan        (JPL)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+     F.S. Turner        (JPL)
+     I.M. Underwood     (JPL)
+     E.D. Wright        (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 3.2.0, 27-OCT-2021 (JDR) (NJB)
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header of <b>DAFFA</b> umbrella routine and all its entry
+        to comply with NAIF standard.
+
+        Updated $Restrictions sections of this routine and its entry
+        points.
+
+    SPICELIB Version 3.1.1, 14-MAR-2017 (NJB)
+
+        Updated second header code example in this routine: fixed
+        error check for array overflow, corrected indentation of
+        continuation characters, added IMPLICIT NONE, deleted unused
+        declaration, increased buffer size, and changed <a href="dafrda.html">DAFRDA</a> call to
+        <a href="dafgda.html">DAFGDA</a> call.
+
+        Updated header example in entry point <a href="dafgh.html">DAFGH</a>: changed <a href="dafrda.html">DAFRDA</a>
+        call to <a href="dafgda.html">DAFGDA</a> call.
+
+    SPICELIB Version 3.1.0, 10-FEB-2014 (EDW) (BVS)
+
+        Added a functional code example to the $Examples section
+        in <a href="dafbfs.html">DAFBFS</a>, <a href="daffna.html">DAFFNA</a>, <a href="dafgs.html">DAFGS</a>.
+
+        Added check on value of &quot;found&quot; boolean returned from
+        <a href="dafgsr.html">DAFGSR</a> calls. Failure to check this value can cause an
+        infinite loop during segment searches on damaged SPKs.
+
+        Eliminated unneeded $Revisions section.
+
+        Removed the obsolete Reference citation to &quot;NAIF
+        Document 167.0.&quot;
+
+        Added full declaration of HANDLE to the $Declarations section
+        of the <a href="dafcs.html">DAFCS</a> header.
+
+    SPICELIB Version 3.0.0, 16-NOV-2001 (FST)
+
+        This umbrella and its entry points were updated to
+        work properly with the changes in the DAF system as
+        a result of its utilization of the new handle manager.
+        Calls to <a href="dafrdr.html">DAFRDR</a> were replaced with the translation-aware
+        interface <a href="dafgsr.html">DAFGSR</a> for retrieving summary records from
+        DAFs.
+
+        Updated the entry points of <b>DAFFA</b> to enable its
+        internal state table size, TBSIZE, to be smaller
+        than the file table maintained by <a href="dafah.html">DAFAH</a>: FTSIZE.
+
+        Since <a href="dafah.html">DAFAH</a> now tracks FTSIZE files as defined in
+        the include file 'zzddhman.inc', it was decided that
+        in the interest of releasing the toolkit this module
+        would undergo simple changes. As such most previous
+        references to FTSIZE in this umbrella have been replaced
+        with TBSIZE where appropriate. <a href="dafbfs.html">DAFBFS</a> and <a href="dafbbs.html">DAFBBS</a> now signal
+        errors if there is not enough room to add a new DAF's
+        dossier to the state table. Also, after attempting to
+        clean up all files listed in the state table that are
+        not currently open, <a href="dafbfs.html">DAFBFS</a> and <a href="dafbbs.html">DAFBBS</a> attempt to locate
+        the first dossier with STADDG set to .FALSE. This is then
+        freed to make room for the new DAF. If <a href="dafbna.html">DAFBNA</a> fails
+        to locate such a dossier in the state table, it
+        signals the error SPICE(STFULL).
+
+        The parameter FILEN was removed, as it is defined
+        on an environmental basis in the include file
+        'zzddhman.inc'.
+
+    SPICELIB Version 2.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 2.0.0, 04-SEP-1991 (NJB) (WLT)
+
+        Updated to support simultaneous searches of multiple DAFs.
+
+        In previous versions of <b>DAFFA</b>, only one search could be
+        conducted at a time. Therefore, there was no question about
+        which DAF was being operated on by any of the <b>DAFFA</b> entry
+        points that don't accept file handles as input arguments.
+        In the current version of <b>DAFFA</b>, the entry points that don't
+        accept file handles as inputs operate on the `current DAF'.
+        The current DAF is the last one in which a search was
+        started by <a href="dafbfs.html">DAFBFS</a> or <a href="dafbbs.html">DAFBBS</a>, or continued by the new entry
+        point <a href="dafcs.html">DAFCS</a>. <a href="dafcs.html">DAFCS</a> was added to allow users to set the
+        current DAF, so that searches of multiple DAFs can be
+        interleaved.
+
+        Note that the notion of `current DAF' as discussed here applies
+        only to DAFs acted upon by entry points of <b>DAFFA</b>. In <a href="dafana.html">DAFANA</a>,
+        there is a DAF that is treated as the `current DAF' for
+        adding data; there is no connection between the DAFs regarded
+        as current by <b>DAFFA</b> and <a href="dafana.html">DAFANA</a>.
+
+        The two principal changes to <b>DAFFA</b> are the addition of the
+        new entry point <a href="dafcs.html">DAFCS</a>, and the addition of a data structure
+        called the `state table'. The state table is a collection of
+        parallel arrays that maintain information about the state
+        of each search that is currently in progress. The arrays are
+        indexed by a singly linked list pool; this mechanism allows
+        addition and deletion of information about searches without
+        requiring movement of data already in the state table. The
+        linked list pool contains an `active' list and a `free' list.
+        Nodes in the active list are used to index elements of the
+        state table where data about searches in progress is stored.
+        The head node of the active list is of particular significance:
+        the state information pointed to by this node is that of the
+        current DAF. Nodes in the free list index elements of the
+        state table that are available for use.
+
+        When a search is started on a DAF that is not already `known'
+        to <b>DAFFA</b>, information about the DAF is added to the state
+        table. If there are no free elements in the state table,
+        the routine starting the search (<a href="dafbfs.html">DAFBFS</a> or <a href="dafbbs.html">DAFBBS</a>) will
+        perform garbage collection: the routine will test the handles
+        of each file about which information in stored in the state
+        table to see whether that file is still open. Nodes containing
+        information about DAFs that are no longer open will be moved
+        to the free list.
+
+        Whenever a DAF becomes the current DAF, the linked list
+        that indexes the state table is adjusted so that the
+        information about the current DAF is at the head of the list.
+        This way, a slight efficiency is gained when repeated search
+        accesses are made to the same DAF, since the linear search
+        through the state table for information on that DAF will
+        be shortened.
+
+        Since the algorithms for maintenance of linked lists are well
+        known, they are not documented here. However, see the
+        internals of the SPICELIB routine <a href="spkbsr.html">SPKBSR</a> for a nice diagram
+        describing a similar data structure.
+
+        The state table contains two arrays that are quite large:
+        there are buffers that contain the last character record
+        and summary record read from each DAF. A parallel situation
+        exists in <a href="dafana.html">DAFANA</a>, where the name and array summary for each
+        array under construction are buffered. The total storage
+        required for these arrays (in <a href="dafana.html">DAFANA</a> and <b>DAFFA</b> together) is
+        4000 * TBSIZE bytes. For this reason, it may be a good idea
+        to reduce the value of TBSIZE in SPICELIB versions for
+        machines where memory is scarce.
+
+    SPICELIB Version 1.0.1, 22-MAR-1990 (HAN)
+
+        Literature references added to the header.
+
+    SPICELIB Version 1.0.0, 31-JAN-1990 (IMU)</PRE>
+<h4>Link to routine DAFFA source file <a href='../../../src/spicelib/daffa.f'>daffa.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:07 2021</pre>
+
+</body>
+</html>
+

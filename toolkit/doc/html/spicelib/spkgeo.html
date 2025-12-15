@@ -1,0 +1,474 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>spkgeo</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>spkgeo</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     SPKGEO ( S/P Kernel, geometric state )
+
+     SUBROUTINE SPKGEO ( TARG, ET, REF, OBS, STATE, LT )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Compute the geometric state (position and velocity) of a target
+     body relative to an observing body.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/spk.html">SPK</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     EPHEMERIS
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE               'ninert.inc'
+     INCLUDE               'zzctr.inc'
+
+     INTEGER               TARG
+     DOUBLE PRECISION      ET
+     CHARACTER*(*)         REF
+     INTEGER               OBS
+     DOUBLE PRECISION      STATE    ( 6 )
+     DOUBLE PRECISION      LT
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     TARG       I   Target body.
+     ET         I   Target epoch.
+     REF        I   Target reference frame.
+     OBS        I   Observing body.
+     STATE      O   State of target.
+     LT         O   Light time.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     TARG     is the standard NAIF ID code for a target body.
+
+     ET       is the epoch (ephemeris time) at which the state
+              of the target body is to be computed.
+
+     REF      is the name of the reference frame to
+              which the vectors returned by the routine should
+              be rotated. This may be any frame supported by
+              the SPICELIB subroutine <a href="frmchg.html">FRMCHG</a>.
+
+     OBS      is the standard NAIF ID code for an observing body.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     STATE    is a 6-dimensional vector that contains the geometric
+              position and velocity of the target body, relative to the
+              observing body, at epoch ET. STATE has six elements: the
+              first three contain the target's position; the last three
+              contain the target's velocity. These vectors are
+              transformed into the specified reference frame. Units are
+              always km and km/sec.
+
+     LT       is the one-way light time in seconds from the
+              observing body to the geometric position of the
+              target body at the specified epoch.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If insufficient ephemeris data has been loaded to compute
+         the necessary states, the error SPICE(SPKINSUFFDATA) is
+         signaled.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See $Restrictions.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     <b>SPKGEO</b> computes the geometric state, T(t), of the target
+     body and the geometric state, O(t), of the observing body
+     relative to the first common center of motion. Subtracting
+     O(t) from T(t) gives the geometric state of the target
+     body relative to the observer.
+
+
+        CENTER ----- O(t)
+            |      /
+            |     /
+            |    /
+            |   /  T(t) - O(t)
+            |  /
+           T(t)
+
+
+     The one-way light time, tau, is given by
+
+
+               | T(t) - O(t) |
+        tau = -----------------
+                      c
+
+
+     For example, if the observing body is -94, the Mars Observer
+     spacecraft, and the target body is 401, Phobos, then the
+     first common center is probably 4, the Mars Barycenter.
+     O(t) is the state of -94 relative to 4 and T(t) is the
+     state of 401 relative to 4.
+
+     The center could also be the Solar System Barycenter, body 0.
+     For example, if the observer is 399, Earth, and the target
+     is 299, Venus, then O(t) would be the state of 399 relative
+     to 0 and T(t) would be the state of 299 relative to 0.
+
+     Ephemeris data from more than one segment may be required
+     to determine the states of the target body and observer
+     relative to a common center. <b>SPKGEO</b> reads as many segments
+     as necessary, from as many files as necessary, using files
+     that have been loaded by previous calls to <a href="furnsh.html">FURNSH</a> or <a href="spklef.html">SPKLEF</a>
+     (load ephemeris file).
+
+     <b>SPKGEO</b> is similar to <a href="spkez.html">SPKEZ</a> but returns geometric states
+     only, with no option to make planetary (light-time) nor
+     stellar aberration corrections. The geometric states
+     returned by <a href="spkez.html">SPKEZ</a> and <b>SPKGEO</b> are the same.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Return the geometric state vector of Mars (499) as seen from
+        Earth (399) in the J2000 frame and the one-way light time
+        between them at the epoch July 4, 2003 11:00 AM PST.
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File: spkgeo_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                        Contents
+              ---------                        --------
+              de430.bsp                        Planetary ephemeris
+              mar097.bsp                       Mars satellite ephemeris
+              naif0011.tls                     Leapseconds
+
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'de430.bsp',
+                                  'mar097.bsp',
+                                  'naif0011.tls' )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM SPKGEO_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions
+        C
+              DOUBLE PRECISION      <a href="vnorm.html">VNORM</a>
+
+        C
+        C     Local parameters.
+        C
+              INTEGER               NAMLEN
+              PARAMETER           ( NAMLEN = 32 )
+
+              INTEGER               TIMLEN
+              PARAMETER           ( TIMLEN = 26 )
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(TIMLEN)    EPOCH
+              CHARACTER*(NAMLEN)    REFFRM
+
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      LT
+              DOUBLE PRECISION      STATE ( 6 )
+
+              INTEGER               I
+              INTEGER               OBSRVR
+              INTEGER               TARGET
+
+
+        C
+        C     Load a set of kernels: an SPK file, a PCK
+        C     file and a leapseconds file. Use a meta
+        C     kernel for convenience.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'spkgeo_ex1.tm' )
+
+        C
+        C     Define parameters for a state lookup.
+        C
+              TARGET = 499
+              EPOCH  = 'July 4, 2003 11:00 AM PST'
+              REFFRM = 'J2000'
+              OBSRVR = 399
+
+        C
+        C     Convert the epoch to ephemeris time.
+        C
+              CALL <a href="str2et.html">STR2ET</a> ( EPOCH, ET )
+
+        C
+        C     Look-up the state for the defined parameters.
+        C
+              CALL <b>SPKGEO</b> ( TARGET, ET, REFFRM, OBSRVR, STATE, LT )
+
+        C
+        C     Output...
+        C
+              WRITE(*,'(A,I3)') 'The position of    : ', TARGET
+              WRITE(*,'(A,I3)') 'As observed from   : ', OBSRVR
+              WRITE(*,'(2A)')   'In reference frame : ', REFFRM
+              WRITE(*,'(2A)')   'At epoch           : ', EPOCH
+              WRITE(*,*) ' '
+
+        C
+        C     The first three entries of state contain the
+        C     X, Y, Z position components. The final three contain
+        C     the Vx, Vy, Vz velocity components.
+        C
+              WRITE(*,'(A,3F18.6)') 'R   (km):', ( STATE(I), I=1,3 )
+              WRITE(*,'(A,3F18.6)') 'V (km/s):', ( STATE(I), I=4,6 )
+              WRITE(*,*) ' '
+              WRITE(*,'(A,F19.14)') 'Light time (s) between observer '
+             .                   // 'and target: ', LT
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        The position of    : 499
+        As observed from   : 399
+        In reference frame : J2000
+        At epoch           : July 4, 2003 11:00 AM PST
+
+        R   (km):   73826216.435288  -27128030.732406  -18741973.868287
+        V (km/s):         -6.809504          7.513814          3.001290
+
+        Light time (s) between observer and target:  269.70264776317532
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  The ephemeris files to be used by <b>SPKGEO</b> must be loaded
+         by <a href="furnsh.html">FURNSH</a> or <a href="spklef.html">SPKLEF</a> before <b>SPKGEO</b> is called.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     J.E. McLean        (JPL)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+     E.D. Wright        (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 3.1.0, 09-OCT-2021 (JDR) (NJB)
+
+        Bug fix: added calls to <a href="failed.html">FAILED</a> after calls to <a href="spkpvn.html">SPKPVN</a>.
+        Previously only one call to <a href="spkpvn.html">SPKPVN</a> was followed by a <a href="failed.html">FAILED</a>
+        call. Moved some <a href="failed.html">FAILED</a> checks so they will be hit whether
+        or not <a href="spksfs.html">SPKSFS</a> finds a segment.
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example to $Examples section. Removed unnecessary
+        $Revisions section.
+
+        Added reference to <a href="furnsh.html">FURNSH</a> in $Particulars and $Restrictions
+        sections.
+
+    SPICELIB Version 3.0.0, 08-JAN-2014 (BVS)
+
+        Updated to save the input frame name and <a href="pool.html">POOL</a> state counter
+        and to do frame name-ID conversion only if the counter has
+        changed.
+
+        Updated to map the input frame name to its ID by first calling
+        ZZNAMFRM, and then calling <a href="irfnum.html">IRFNUM</a>. The side effect of this
+        change is that now the frame with the fixed name 'DEFAULT'
+        that can be associated with any code via <a href="chgirf.html">CHGIRF</a>'s entry point
+        <a href="irfdef.html">IRFDEF</a> will be fully masked by a frame with identical name
+        defined via a text kernel. Previously the <a href="chgirf.html">CHGIRF</a>'s 'DEFAULT'
+        frame masked the text kernel frame with the same name.
+
+        Fixed description of STATE in Detailed Output. Replaced
+        <a href="spklef.html">SPKLEF</a> with <a href="furnsh.html">FURNSH</a> and fixed errors in $Examples.
+
+    SPICELIB Version 2.4.0, 01-SEP-2005 (NJB)
+
+        Updated to remove non-standard use of duplicate arguments
+        in <a href="vaddg.html">VADDG</a> calls.
+
+    SPICELIB Version 2.3.0, 05-JAN-2005 (NJB)
+
+        Tests of routine <a href="failed.html">FAILED</a>() were added.
+
+    SPICELIB Version 2.2.1, 20-OCT-2003 (EDW)
+
+        Added mention that LT returns in seconds.
+
+    SPICELIB Version 2.2.0, 11-APR-1997 (WLT)
+
+        The routine was modified to take advantage of the fact
+        that most state transformation are between inertial frames.
+        Looking up a transformation between inertial frames is
+        substantially faster than looking up non-inertial
+        transformations. Consequently slightly more
+        complex code produces about a 50% increase in speed for
+        many users.
+
+    SPICELIB Version 2.1.0, 26-JUL-1996 (WLT)
+
+        The routine was upgraded so that potentially redundant
+        computations are not performed.
+
+    SPICELIB Version 2.0.0, 19-SEP-1995 (WLT)
+
+        The routine was upgraded so that it can return states
+        relative to rotating frames.
+
+    SPICELIB Version 1.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.0.0, 18-JUL-1991 (JEM)</PRE>
+<h4>Link to routine SPKGEO source file <a href='../../../src/spicelib/spkgeo.f'>spkgeo.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:52 2021</pre>
+
+</body>
+</html>
+

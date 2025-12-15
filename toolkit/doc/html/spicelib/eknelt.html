@@ -1,0 +1,595 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>eknelt</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>eknelt</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     EKNELT  ( EK, get number of elements in column entry )
+
+     ENTRY EKNELT ( SELIDX, ROW, NELT )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Return the number of elements in a specified column entry in
+     the current row.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/ek.html">EK</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     EK
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+    INTEGER               SELIDX
+    INTEGER               ROW
+    INTEGER               NELT
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     SELIDX     I   Index of parent column in SELECT clause.
+     ROW        I   Row containing element.
+     NELT       O   Number of elements in entry in current row.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     SELIDX   is the SELECT clause index of the column to
+              fetch from.
+
+     ROW      is the index of the row containing the element.
+              This number refers to a member of the set of rows
+              matching a query. ROW must be in the range
+
+                 1 : NMROWS
+
+              where NMROWS is the matching row count returned
+              by <a href="eksrch.html">EKSRCH</a>.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     NELT     is the number of elements in the column entry
+              belonging to the specified column in the current
+              row.
+
+              Null entries in variable-size columns are
+              considered to have size 1.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If this routine is called when no E-kernels have been loaded,
+         the error SPICE(NOLOADEDFILES) is signaled.
+
+     2)  If SELIDX is outside of the range established by the
+         last query passed to <a href="eksrch.html">EKSRCH</a>, the error SPICE(INVALIDINDEX)
+         is signaled.
+
+     3)  If ROW is outside of the range established by the
+         last query passed to <a href="eksrch.html">EKSRCH</a>, the error SPICE(INVALIDINDEX)
+         is signaled.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See the header of <a href="ekqmgr.html">EKQMGR</a> for a description of files used
+     by this routine.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine is meant to be used in conjunction with the <a href="ekqmgr.html">EKQMGR</a>
+     fetch entry points <a href="ekgc.html">EKGC</a>, <a href="ekgd.html">EKGD</a>, and <a href="ekgi.html">EKGI</a>. This routine
+     allows the caller of those routines to determine appropriate
+     loop bounds to use to fetch each column entry in the current row.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) This example demonstrates how to fetch integer, double
+        precision and character string values from a column when such
+        column corresponds to either a variable-size array or to a
+        static-size array.
+
+        Create an EK that contains a table TAB that has the following
+        columns:
+
+            Column name   Data Type   Size
+            -----------   ---------   ----
+            IARRAY        INT         3
+            DARRAY        DP          VARIABLE
+            CARRAY        CHR         VARIABLE
+
+        Issue the following query
+
+            QUERY = 'SELECT IARRAY, DARRAY, CARRAY FROM TAB'
+
+        to fetch and dump column values from the rows that satisfy the
+        query.
+
+
+        Example code begins here.
+
+
+              PROGRAM EKNELT_EX1
+              IMPLICIT NONE
+
+        C
+        C     Include the EK Column Name Size (CNAMSZ)
+        C     and EK Query Limit Parameters (MAXQRY)
+        C
+              INCLUDE 'ekcnamsz.inc'
+              INCLUDE 'ekqlimit.inc'
+
+        C
+        C     SPICELIB functions
+        C
+              INTEGER               <a href="rtrim.html">RTRIM</a>
+
+        C
+        C     Local parameters
+        C
+              CHARACTER*(*)         EKNAME
+              PARAMETER           ( EKNAME  = 'eknelt_ex1.bdb' )
+
+              CHARACTER*(*)         TABLE
+              PARAMETER           ( TABLE   = 'TAB' )
+
+              INTEGER               CHRSLN
+              PARAMETER           ( CHRSLN = 5   )
+
+              INTEGER               COL1SZ
+              PARAMETER           ( COL1SZ = 3   )
+
+              INTEGER               DECLEN
+              PARAMETER           ( DECLEN = 200 )
+
+              INTEGER               ERRLEN
+              PARAMETER           ( ERRLEN = 1840 )
+
+              INTEGER               MXC2SZ
+              PARAMETER           ( MXC2SZ = 4   )
+
+              INTEGER               MXC3SZ
+              PARAMETER           ( MXC3SZ = 7   )
+
+              INTEGER               NAMLEN
+              PARAMETER           ( NAMLEN = 40  )
+
+              INTEGER               NCOLS
+              PARAMETER           ( NCOLS  = 3   )
+
+              INTEGER               NROWS
+              PARAMETER           ( NROWS  = 4   )
+
+              INTEGER               STRSIZ
+              PARAMETER           ( STRSIZ  = 30 )
+
+        C
+        C     Local variables
+        C
+              CHARACTER*(DECLEN)    CDECLS ( NCOLS  )
+              CHARACTER*(CNAMSZ)    CNAMES ( NCOLS  )
+              CHARACTER*(CHRSLN)    COL3   ( MXC3SZ )
+              CHARACTER*(STRSIZ)    CVALS  ( MXC3SZ )
+              CHARACTER*(ERRLEN)    ERRMSG
+              CHARACTER*(NAMLEN)    IFNAME
+              CHARACTER*(MAXQRY)    QUERY
+
+              DOUBLE PRECISION      COL2   ( MXC2SZ )
+              DOUBLE PRECISION      DVALS  ( MXC2SZ )
+
+              INTEGER               COL1   ( COL1SZ )
+              INTEGER               ELTIDX
+              INTEGER               HANDLE
+              INTEGER               I
+              INTEGER               IVALS ( COL1SZ )
+              INTEGER               J
+              INTEGER               NELT
+              INTEGER               NMROWS
+              INTEGER               NRESVC
+              INTEGER               RECNO
+              INTEGER               ROW
+              INTEGER               SEGNO
+              INTEGER               SELIDX
+
+              LOGICAL               ERROR
+              LOGICAL               FOUND
+              LOGICAL               ISNULL
+
+        C
+        C     Open a new EK file.  For simplicity, we will not
+        C     reserve any space for the comment area, so the
+        C     number of reserved comment characters is zero.
+        C     The variable IFNAME is the internal file name.
+        C
+              NRESVC  =  0
+              IFNAME  =  'Test EK/Created 13-JUN-2019'
+
+              CALL <a href="ekopn.html">EKOPN</a> ( EKNAME, IFNAME, NRESVC, HANDLE )
+
+        C
+        C     Set up the column names and declarations
+        C     for the TAB segment.  We'll index all of
+        C     the columns.
+        C
+              CNAMES(1) = 'IARRAY'
+              CDECLS(1) = 'DATATYPE = INTEGER, SIZE = 3'
+
+              CNAMES(2) = 'DARRAY'
+              CDECLS(2) = 'DATATYPE = DOUBLE PRECISION, ' //
+             .            'SIZE = VARIABLE'
+
+              CNAMES(3) = 'CARRAY'
+              CDECLS(3) = 'DATATYPE = CHARACTER*(5), ' //
+             .            'SIZE = VARIABLE'
+
+        C
+        C     Start the segment.
+        C
+              CALL <a href="ekbseg.html">EKBSEG</a> ( HANDLE, TABLE,  NCOLS,
+             .              CNAMES, CDECLS, SEGNO )
+
+        C
+        C     At the records to the table.
+        C
+              DO I = 1, NROWS
+
+        C
+        C        Append a new record to the EK.
+        C
+                 CALL <a href="ekappr.html">EKAPPR</a> ( HANDLE, SEGNO, RECNO )
+
+        C
+        C        Add 3 items to IARRAY
+        C
+                 DO J = 1, COL1SZ
+                    COL1(J) =  I + J*100.D0
+                 END DO
+
+                 CALL <a href="ekacei.html">EKACEI</a> ( HANDLE,    SEGNO,  RECNO,
+             .                 CNAMES(1), COL1SZ, COL1,  .FALSE. )
+
+        C
+        C        Add I items to DARRAY
+        C
+                 DO J = 1, I
+                    COL2(J) = J + I*200.D0
+                 END DO
+
+                 CALL <a href="ekaced.html">EKACED</a> ( HANDLE,    SEGNO, RECNO,
+             .                 CNAMES(2), I,     COL2,  .FALSE. )
+
+        C
+        C        Add 3+I items to CARRAY
+        C
+                 DO J = 1, 3+I
+                    CALL <a href="repmi.html">REPMI</a> ( 'ST#', '#', J + I*100, COL3(J) )
+                 END DO
+
+                 CALL <a href="ekacec.html">EKACEC</a> ( HANDLE,    SEGNO, RECNO,
+             .                 CNAMES(3), I+3,   COL3,  .FALSE. )
+
+              END DO
+
+        C
+        C     Close the file.
+        C
+              CALL <a href="ekcls.html">EKCLS</a> ( HANDLE )
+
+        C
+        C     Open the created file. Perform the query and show the
+        C     results.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( EKNAME )
+
+              QUERY = 'SELECT IARRAY, DARRAY, CARRAY FROM TAB'
+
+        C
+        C     Query the EK system for data rows matching the
+        C     SELECT constraints.
+        C
+              CALL <a href="ekfind.html">EKFIND</a> ( QUERY, NMROWS, ERROR, ERRMSG )
+
+        C
+        C     Check whether an error occurred while processing the
+        C     SELECT clause. If so, output the error message.
+        C
+              IF ( ERROR ) THEN
+
+                 WRITE(*,*) 'SELECT clause error: ', ERRMSG
+
+              ELSE
+
+                 DO ROW = 1, NMROWS
+
+                    WRITE(*,*) ' '
+                    WRITE(*,'(A,I3)') 'ROW  = ', ROW
+
+        C
+        C           Fetch values from column IARRAY in the current
+        C           row.  Since IARRAY was the first column selected,
+        C           the selection index SELIDX is set to 1.
+        C
+                    SELIDX = 1
+                    ELTIDX = 1
+                    ISNULL = .FALSE.
+
+                    DO WHILE (       ( ELTIDX .LE.  COL1SZ )
+             .                 .AND. (        .NOT. ISNULL )  )
+        C
+        C              If the column entry is null, we'll be kicked
+        C              out of this loop after the first iteration.
+        C
+                       CALL <a href="ekgi.html">EKGI</a> ( SELIDX,         ROW,     ELTIDX,
+             .                     IVALS(ELTIDX),  ISNULL,  FOUND   )
+
+                       ELTIDX = ELTIDX + 1
+
+                    END DO
+
+                    IF ( ISNULL ) THEN
+
+                       WRITE(*,'(A)') '   COLUMN = IARRAY: &lt;Null&gt;'
+
+                    ELSE
+
+                       WRITE(*,'(A,3I6)') '   COLUMN = IARRAY:',
+             .                            ( IVALS(I), I = 1, COL1SZ )
+
+                    END IF
+
+        C
+        C           Fetch values from column DARRAY in the current
+        C           row.  Since DARRAY contains variable-size array
+        C           elements, we call <b>EKNELT</b> to determine how many
+        C           elements to fetch.
+        C
+                    SELIDX = 2
+                    CALL <b>EKNELT</b> ( SELIDX, ROW, NELT )
+
+                    ELTIDX = 1
+                    ISNULL = .FALSE.
+
+                    DO WHILE (       ( ELTIDX .LE.  NELT   )
+             .                 .AND. (        .NOT. ISNULL )  )
+
+                       CALL <a href="ekgd.html">EKGD</a> ( SELIDX,         ROW,     ELTIDX,
+             .                     DVALS(ELTIDX),  ISNULL,  FOUND   )
+
+                       ELTIDX = ELTIDX + 1
+
+                    END DO
+
+                    IF ( ISNULL ) THEN
+
+                       WRITE(*,'(A)') '   COLUMN = DARRAY: &lt;Null&gt;'
+
+                    ELSE
+
+                       WRITE(*,'(A,4F6.1)') '   COLUMN = DARRAY:',
+             .                              ( DVALS(I), I = 1, NELT )
+
+                    END IF
+
+        C
+        C           Fetch values from column CARRAY in the current
+        C           row.
+        C
+                    SELIDX = 3
+                    CALL <b>EKNELT</b> ( SELIDX, ROW, NELT )
+
+                    ELTIDX = 1
+                    ISNULL = .FALSE.
+
+                    DO WHILE (       ( ELTIDX .LE.  NELT   )
+             .                 .AND. (        .NOT. ISNULL )  )
+
+                       CALL <a href="ekgc.html">EKGC</a> ( SELIDX,         ROW,     ELTIDX,
+             .                     CVALS(ELTIDX),  ISNULL,  FOUND   )
+
+                       ELTIDX = ELTIDX + 1
+
+                    END DO
+
+                    IF ( ISNULL ) THEN
+
+                       WRITE(*,'(A)') '   COLUMN = CARRAY: &lt;Null&gt;'
+
+                    ELSE
+
+                       WRITE(*,'(8A)') '   COLUMN = CARRAY: ',
+             .                     ( CVALS(I)(:<a href="rtrim.html">RTRIM</a>(CVALS(I))) //' ',
+             .                                         I = 1, NELT   )
+
+                    END IF
+
+                 END DO
+
+        C
+        C     We either parsed the SELECT clause or had an error.
+        C
+              END IF
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        ROW  =   1
+           COLUMN = IARRAY:   101   201   301
+           COLUMN = DARRAY: 201.0
+           COLUMN = CARRAY: ST101 ST102 ST103 ST104
+
+        ROW  =   2
+           COLUMN = IARRAY:   102   202   302
+           COLUMN = DARRAY: 401.0 402.0
+           COLUMN = CARRAY: ST201 ST202 ST203 ST204 ST205
+
+        ROW  =   3
+           COLUMN = IARRAY:   103   203   303
+           COLUMN = DARRAY: 601.0 602.0 603.0
+           COLUMN = CARRAY: ST301 ST302 ST303 ST304 ST305 ST306
+
+        ROW  =   4
+           COLUMN = IARRAY:   104   204   304
+           COLUMN = DARRAY: 801.0 802.0 803.0 804.0
+           COLUMN = CARRAY: ST401 ST402 ST403 ST404 ST405 ST406 ST407
+
+
+        Note that after run completion, a new EK file exists in the
+        output directory.
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 2.1.0, 06-JUL-2021 (JDR)
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard.
+        Added complete code example from existing fragment.
+
+    SPICELIB Version 2.0.0, 16-NOV-2001 (NJB)
+
+        Bug fix: When an already loaded kernel is opened with <a href="ekopr.html">EKOPR</a>,
+        it now has its link count reset to 1 via a call to <a href="ekcls.html">EKCLS</a>.
+
+    SPICELIB Version 1.2.0, 12-FEB-1999 (NJB)
+
+        Bug fix: There was a error handling branch that called CHKOUT
+        where CHKIN should have been called. This has been fixed.
+
+    SPICELIB Version 1.1.0, 09-JUL-1996 (NJB)
+
+        Bug fix: <b>EKNELT</b> now initiates a sort operation if sorted
+        outputs are required and <b>EKNELT</b> is called after query
+        resolution but before the fetch routines. Also, addressing
+        for sorted query results has been fixed.
+
+        Misspelling of &quot;issued&quot; was fixed. Previous version line was
+        changed from &quot;Beta&quot; to &quot;SPICELIB.&quot;
+
+
+    SPICELIB Version 1.0.0, 23-OCT-1995 (NJB)</PRE>
+<h4>Link to routine EKNELT source file <a href='../../../src/spicelib/ekqmgr.f'>ekqmgr.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:18 2021</pre>
+
+</body>
+</html>
+

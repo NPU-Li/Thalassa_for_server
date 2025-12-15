@@ -1,0 +1,643 @@
+ 
+      PROGRAM DSKEXP
+      IMPLICIT NONE
+ 
+C$ Abstract
+C
+C     Export a SPICE DSK file to a set of one or more text
+C     data files. The output files are suitable for input to
+C     MKDSK.
+C
+C$ Disclaimer
+C
+C     THIS SOFTWARE AND ANY RELATED MATERIALS WERE CREATED BY THE
+C     CALIFORNIA INSTITUTE OF TECHNOLOGY (CALTECH) UNDER A U.S.
+C     GOVERNMENT CONTRACT WITH THE NATIONAL AERONAUTICS AND SPACE
+C     ADMINISTRATION (NASA). THE SOFTWARE IS TECHNOLOGY AND SOFTWARE
+C     PUBLICLY AVAILABLE UNDER U.S. EXPORT LAWS AND IS PROVIDED "AS-IS"
+C     TO THE RECIPIENT WITHOUT WARRANTY OF ANY KIND, INCLUDING ANY
+C     WARRANTIES OF PERFORMANCE OR MERCHANTABILITY OR FITNESS FOR A
+C     PARTICULAR USE OR PURPOSE (AS SET FORTH IN UNITED STATES UCC
+C     SECTIONS 2312-2313) OR FOR ANY PURPOSE WHATSOEVER, FOR THE
+C     SOFTWARE AND RELATED MATERIALS, HOWEVER USED.
+C
+C     IN NO EVENT SHALL CALTECH, ITS JET PROPULSION LABORATORY, OR NASA
+C     BE LIABLE FOR ANY DAMAGES AND/OR COSTS, INCLUDING, BUT NOT
+C     LIMITED TO, INCIDENTAL OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+C     INCLUDING ECONOMIC DAMAGE OR INJURY TO PROPERTY AND LOST PROFITS,
+C     REGARDLESS OF WHETHER CALTECH, JPL, OR NASA BE ADVISED, HAVE
+C     REASON TO KNOW, OR, IN FACT, SHALL KNOW OF THE POSSIBILITY.
+C
+C     RECIPIENT BEARS ALL RISK RELATING TO QUALITY AND PERFORMANCE OF
+C     THE SOFTWARE AND ANY RELATED MATERIALS, AND AGREES TO INDEMNIFY
+C     CALTECH AND NASA FOR ALL THIRD-PARTY CLAIMS RESULTING FROM THE
+C     ACTIONS OF RECIPIENT IN THE USE OF THE SOFTWARE.
+C
+C$ Required_Reading
+C
+C     DSK
+C     PCK
+C     TIME
+C
+C$ Keywords
+C
+C     FILES
+C     TOPOGRAPHY
+C
+C$ Files
+C
+C     Inputs:   DSK file. The file should contain only type 2
+C               segments.
+C
+C     Outputs:  A set of text files, one for each type 2 segment
+C               in the input file.
+C
+C
+C$ Particulars
+C
+C     This is a command-line program. The command syntax is
+C
+C         dskexp    -dsk <dsk>
+C                   -text <output name>
+C                   -format <MKDSK format code/name>
+C                 [ -prec <# of vertex mantissa digits (1:17)> ]
+C
+C     The supported format codes are
+C
+C        MKDSK format code 1: "plate-vertex"
+C        Gaskell format (code 2) is not supported
+C        MKDSK format code 3: "vertex-facet" or "obj"
+C        MKDSK format code 4: "ver"
+C
+C     The MKDSK user's guide documents these formats.
+C
+C
+C     A syntax summary can be dumped by typing any of the
+C     commands
+C
+C        dskexp -usage
+C        dskexp -u
+C        dskexp -help
+C        dskexp -h
+C
+C$ Examples
+C
+C     The commands shown below create a text output file from
+C     an input DSK called
+C
+C         phobos.bds
+C
+C
+C     1)  Create a vertex-facet format output file. This example uses
+C         default precision for the output vertices.
+C
+C           dskexp -dsk phobos.bds -text phobos.obj -format vertex-facet
+C
+C     2)  Create a vertex-facet format output file. Use 9-digit
+C         mantissas for the vertices. The format name "obj" can be used
+C         to indicate vertex-facet format.
+C
+C           dskexp -dsk phobos.bds -text phobos.obj -format obj -prec 9
+C
+C     3)  Create a vertex-facet format output file. Use 9-digit
+C         mantissas for the vertices. The format code 3 can be used to
+C         indicate vertex-facet format.
+C
+C           dskexp -dsk phobos.bds -text phobos.obj -format 3 -prec 9
+C
+C     4)  Create a plate-vertex format output file. This example uses
+C         default precision for the output vertices.
+C
+C           dskexp -dsk phobos.bds -text phobos.obj -format plate-vertex
+C
+C     5)  Create a plate-vertex format output file. Use the integer
+C         code for this format.
+C
+C           dskexp -dsk phobos.bds -text phobos.obj -format 1
+C
+C     6)  Create a Rosetta "ver" format output file.
+C
+C           dskexp -dsk phobos.bds -text phobos.obj -format ver
+C
+C     7)  Create a Rosetta "ver" format output file. Use the integer
+C         code for this format.
+C
+C           dskexp -dsk phobos.bds -text phobos.obj -format 4
+C
+C
+C$ Restrictions
+C
+C     Currently only type 2 DSK segments can be exported.
+C
+C$ Literature_References
+C
+C     None.
+C
+C$ Author_and_Institution
+C
+C     N.J. Bachman   (JPL)
+C
+C$ Version
+C
+C-    DSKEXP Version 1.0.0, 07-MAR-2017 (NJB)
+C
+C        Previous verfsoin 07-APR-2015 (NJB)
+C
+C-&
+ 
+ 
+ 
+ 
+ 
+      INCLUDE 'dla.inc'
+      INCLUDE 'dskdsc.inc'
+      INCLUDE 'dsk02.inc'
+ 
+C
+C     SPICELIB functions
+C
+      LOGICAL               EQSTR
+ 
+C
+C     Local parameters
+C
+      INTEGER               CMDLEN
+      PARAMETER           ( CMDLEN = 2000 )
+ 
+      INTEGER               FILSIZ
+      PARAMETER           ( FILSIZ = 255 )
+ 
+      INTEGER               LNSIZE
+      PARAMETER           ( LNSIZE = 80 )
+ 
+      INTEGER               NKEYS
+      PARAMETER           ( NKEYS  = 8 )
+ 
+      INTEGER               KWLEN
+      PARAMETER           ( KWLEN  = 40 )
+ 
+      INTEGER               TOKLEN
+      PARAMETER           ( TOKLEN = 50 )
+ 
+C
+C     Output format codes
+C
+      INTEGER               PLTVTX
+      PARAMETER           ( PLTVTX = 1 )
+ 
+      INTEGER               GASKEL
+      PARAMETER           ( GASKEL = 2 )
+ 
+      INTEGER               VTXFAC
+      PARAMETER           ( VTXFAC = 3 )
+ 
+      INTEGER               ROSVER
+      PARAMETER           ( ROSVER = 4 )
+ 
+      INTEGER               VER
+      PARAMETER           ( VER    = 4 )
+ 
+ 
+C
+C     Local variables
+C
+      CHARACTER*(CMDLEN)    CMD
+      CHARACTER*(TOKLEN)    DPFM
+      CHARACTER*(FILSIZ)    DSK
+      CHARACTER*(KWLEN)     KEYS    ( NKEYS )
+      CHARACTER*(TOKLEN)    NUMFMT
+      CHARACTER*(TOKLEN)    NUMSTR
+      CHARACTER*(FILSIZ)    OUTFIL
+      CHARACTER*(LNSIZE)    OUTSTR
+      CHARACTER*(TOKLEN)    STPREC
+      CHARACTER*(FILSIZ)    TXTFIL
+      CHARACTER*(TOKLEN)    TXTFMT
+ 
+      DOUBLE PRECISION      DSKDSC ( DSKDSZ )
+      DOUBLE PRECISION      VERTS  ( 3, MAXVRT )
+ 
+      INTEGER               DLADSC ( DLADSZ )
+      INTEGER               DTYPE
+      INTEGER               FMTCDE
+      INTEGER               HANDLE
+      INTEGER               I
+      INTEGER               J
+      INTEGER               N
+      INTEGER               NDIG
+      INTEGER               NFIL
+      INTEGER               NSEG
+      INTEGER               NV
+      INTEGER               NP
+      INTEGER               NXTDSC ( DLADSZ )
+      INTEGER               PLATES ( 3, MAXPLT )
+      INTEGER               PREC
+      INTEGER               SEGNO
+      INTEGER               UNIT
+ 
+      LOGICAL               FOUND
+ 
+C
+C     Saved variables
+C
+      SAVE
+ 
+C
+C     Initial values
+C
+      DATA                  KEYS / '-dsk',    '-text',
+     .                             '-format', '-prec',
+     .                             '-usage',  '-u',
+     .                             '-help',   '-h'    /
+ 
+      CALL CHKIN ( 'DSKEXP' )
+ 
+ 
+      CALL GETCML ( CMD )
+ 
+C
+C     Look for a help request first.
+C
+      DO I = 5, 8
+ 
+         CALL KXTRCT ( KEYS(I), KEYS, NKEYS, CMD, FOUND, OUTSTR )
+ 
+         IF ( FOUND ) THEN
+            CALL USAGE
+            CALL BYEBYE( 'FAILURE' )
+         END IF
+ 
+      END DO
+ 
+C
+C     Look for normal command parameters.
+C
+      CALL KXTRCT ( KEYS(1), KEYS, NKEYS, CMD, FOUND, DSK )
+ 
+      IF ( .NOT. FOUND ) THEN
+         CALL USAGE
+         CALL BYEBYE( 'FAILURE' )
+      END IF
+ 
+      CALL KXTRCT ( KEYS(2), KEYS, NKEYS, CMD, FOUND, TXTFIL )
+ 
+      IF ( .NOT. FOUND ) THEN
+         CALL USAGE
+         CALL BYEBYE( 'FAILURE' )
+      END IF
+ 
+      CALL KXTRCT ( KEYS(3), KEYS, NKEYS, CMD, FOUND, TXTFMT )
+ 
+      IF ( .NOT. FOUND ) THEN
+         CALL USAGE
+         CALL BYEBYE( 'FAILURE' )
+      END IF
+ 
+      CALL KXTRCT ( KEYS(4), KEYS, NKEYS, CMD, FOUND, STPREC )
+ 
+ 
+      IF ( FOUND ) THEN
+ 
+         CALL PRSINT ( STPREC, PREC )
+ 
+         IF ( ( PREC .LT. 1 ) .OR. ( PREC .GT. 17 ) ) THEN
+            CALL SETMSG ( 'Precision must be in the range 1:17.' )
+            CALL SIGERR ( 'SPICE(BADPRECVALUE)'                  )
+         END IF
+ 
+         DPFM = '(1PE#.#)'
+         CALL REPMI ( DPFM, '#', PREC+9, DPFM )
+         CALL REPMI ( DPFM, '#', PREC-1, DPFM )
+      ELSE
+         DPFM = '(1PE25.16)'
+      END IF
+ 
+ 
+ 
+      CALL TOSTDO ( ' ' )
+      CALL TOSTDO ( 'Input DSK:        '//DSK    )
+      CALL TOSTDO ( 'Output text file: '//TXTFIL )
+      CALL TOSTDO ( 'Output format:    '//TXTFMT )
+      CALL TOSTDO ( ' ' )
+ 
+C
+C     Identify output format code.
+C
+      IF (      EQSTR( TXTFMT, '1'            )
+     .     .OR. EQSTR( TXTFMT, 'plate-vertex' ) ) THEN
+ 
+         FMTCDE = PLTVTX
+ 
+ 
+      ELSE IF (      EQSTR( TXTFMT, '3'            )
+     .          .OR. EQSTR( TXTFMT, 'vertex-facet' )
+     .          .OR. EQSTR( TXTFMT, 'obj'          ) ) THEN
+ 
+         FMTCDE = VTXFAC
+ 
+      ELSE IF (      EQSTR( TXTFMT, '4'            )
+     .          .OR. EQSTR( TXTFMT, 'ver'          ) ) THEN
+ 
+         FMTCDE = ROSVER
+ 
+      ELSE
+ 
+         CALL SETMSG ( 'Output format <#> is not recognized.' )
+         CALL ERRCH  ( '#',  TXTFMT                           )
+         CALL SIGERR ( 'SPICE(NOTSUPPORTED)'                  )
+ 
+      END IF
+ 
+ 
+C
+C     Scan DSK file; make sure all segments have
+C     supported data types.
+C
+      CALL DASOPR ( DSK, HANDLE )
+ 
+      SEGNO = 0
+      NFIL  = 0
+ 
+      CALL DLABFS ( HANDLE, NXTDSC, FOUND )
+ 
+      IF ( .NOT. FOUND ) THEN
+ 
+         CALL SETMSG ( 'No segments were found in DSK file #.' )
+         CALL ERRCH  ( '#', DSK                                )
+         CALL SIGERR ( 'SPICE(NODSKSEGMENT)'                   )
+ 
+      END IF
+ 
+C
+C     Process the segments of the file.
+C
+      DO WHILE ( FOUND )
+ 
+         CALL MOVEI  ( NXTDSC, DLADSZ, DLADSC )
+ 
+         SEGNO = SEGNO + 1
+ 
+         CALL DSKGD  ( HANDLE, DLADSC, DSKDSC )
+ 
+         DTYPE = NINT( DSKDSC(TYPIDX) )
+ 
+C
+C        Right now type 2 is all we do.
+C
+         IF ( DTYPE .NE. 2 ) THEN
+ 
+            CALL SETMSG ( 'Segment # in DSK file # has data type #.' )
+            CALL ERRINT ( '#', SEGNO                                 )
+            CALL ERRCH  ( '#', DSK                                   )
+            CALL ERRINT ( '#', DTYPE                                 )
+            CALL SIGERR ( 'SPICE(NOTSUPPORTED)'                      )
+ 
+         END IF
+ 
+C
+C        Find the next segment.
+C
+         CALL DLAFNS ( HANDLE, DLADSC, NXTDSC, FOUND )
+ 
+      END DO
+ 
+C
+C     Create the output format for the file number suffix, if
+C     it's needed.
+C
+      NSEG = SEGNO
+ 
+      IF ( NSEG .GT. 1 ) THEN
+ 
+         NDIG   = NINT( LOG10( DBLE(NSEG) ) )  +  1
+ 
+         NUMFMT = '(I@.@)'
+ 
+         DO I = 1, 2
+            CALL REPMI ( NUMFMT, '@', NDIG, NUMFMT )
+         END DO
+ 
+      END IF
+ 
+ 
+C
+C     Scan the input file; write data to the output file.
+C
+      SEGNO = 0
+ 
+      CALL DLABFS ( HANDLE, NXTDSC, FOUND )
+ 
+      DO WHILE ( FOUND )
+ 
+         SEGNO = SEGNO + 1
+ 
+         CALL MOVEI ( NXTDSC, DLADSZ, DLADSC )
+ 
+         CALL TOSTDO ( ' ' )
+ 
+         OUTSTR = 'Processing segment #'
+         CALL REPMI  ( OUTSTR, '#', SEGNO, OUTSTR )
+         CALL TOSTDO ( OUTSTR )
+ 
+         CALL DSKGD ( HANDLE, DLADSC, DSKDSC )
+ 
+         DTYPE = NINT( DSKDSC(TYPIDX) )
+ 
+         IF ( DTYPE .EQ. 2 ) THEN
+C
+C           Making it here means we can try to open the output file.
+C
+            NFIL   = NFIL + 1
+ 
+            IF ( NSEG .GT. 1 ) THEN
+ 
+               OUTFIL = TXTFIL
+ 
+               WRITE ( NUMSTR, NUMFMT ) NFIL
+ 
+               CALL SUFFIX( '_',    0, OUTFIL )
+               CALL SUFFIX( NUMSTR, 0, OUTFIL )
+ 
+            ELSE
+ 
+               OUTFIL = TXTFIL
+ 
+            END IF
+ 
+            CALL TXTOPN ( OUTFIL, UNIT )
+ 
+            CALL TOSTDO ( '  Segment is type 2' )
+ 
+            CALL DSKZ02 ( HANDLE, DLADSC, NV, NP )
+ 
+ 
+            OUTSTR = '   Number of vertices: #'
+            CALL REPMI  ( OUTSTR, '#', NV, OUTSTR )
+            CALL TOSTDO ( OUTSTR )
+ 
+            OUTSTR = '   Number of plates:   #'
+            CALL REPMI  ( OUTSTR, '#', NP, OUTSTR )
+            CALL TOSTDO ( OUTSTR )
+ 
+ 
+            CALL TOSTDO ( '   Reading vertices...' )
+ 
+            CALL DSKV02 ( HANDLE, DLADSC, 1, NV, N, VERTS )
+ 
+            CALL TOSTDO ( '    Reading plates...' )
+ 
+            CALL DSKP02 ( HANDLE, DLADSC, 1, NP, N, PLATES )
+ 
+ 
+            CALL TOSTDO ( '    Writing output file '//OUTFIL )
+ 
+C
+C           Format code 1: plate-vertex table.
+C
+            IF ( FMTCDE .EQ. PLTVTX ) THEN
+ 
+ 
+               CALL TOSTDO ( '    Writing vertices...' )
+ 
+               WRITE( UNIT, '(1X,I10)' )  NV
+ 
+               DO I = 1, NV
+ 
+                  WRITE (UNIT, '(1X,I11,3'//DPFM//')' )
+     .                   I, (VERTS(J,I), J = 1, 3 )
+               END DO
+ 
+               CALL TOSTDO ( '    Writing plates...' )
+ 
+               WRITE( UNIT, '(1X,I10)' )  NP
+ 
+               DO I = 1, NP
+ 
+                  WRITE (UNIT, '(1X,4I10)' )
+     .                   I, ( PLATES(J,I), J = 1, 3 )
+               END DO
+ 
+ 
+C
+C           Format code 3: vertex-facet table. Also called
+C           "obj" format.
+C
+            ELSE IF ( FMTCDE .EQ. VTXFAC ) THEN
+ 
+               CALL TOSTDO ( '    Writing vertices...' )
+ 
+               DO I = 1, NV
+ 
+                  WRITE (UNIT, '(1X,A3,3'//DPFM//')' )
+     .                   ' v ', (VERTS(J,I), J = 1, 3 )
+               END DO
+ 
+               CALL TOSTDO ( '    Writing plates...' )
+ 
+               DO I = 1, NP
+ 
+                  WRITE (UNIT, '(1X,A3,3I10)' )
+     .                   ' f ', ( PLATES(J,I), J = 1, 3 )
+               END DO
+ 
+C
+C           Format code 4: Rosetta "ver" format.
+C
+            ELSE IF ( FMTCDE .EQ. ROSVER ) THEN
+ 
+               WRITE( UNIT, '(1X,2I10)' )  NV, NP
+ 
+               CALL TOSTDO ( '    Writing vertices...' )
+ 
+               DO I = 1, NV
+ 
+                  WRITE (UNIT, '(1X, 3'//DPFM//')' )
+     .                  (VERTS(J,I), J = 1, 3 )
+               END DO
+ 
+               CALL TOSTDO ( '    Writing plates...' )
+ 
+               DO I = 1, NP
+ 
+                  WRITE ( UNIT, '(1X,A1)' )  '3'
+ 
+                  WRITE (UNIT, '(1X,A2,3I10)' )
+     .                  '  ', ( PLATES(J,I), J = 1, 3 )
+               END DO
+ 
+ 
+            ELSE
+ 
+               CALL SETMSG ( 'Output format <#> is not recognized.' )
+               CALL ERRCH  ( '#',  TXTFMT                           )
+               CALL SIGERR ( 'SPICE(NOTSUPPORTED)'                  )
+ 
+            END IF
+ 
+ 
+            CLOSE ( UNIT )
+ 
+            CALL TOSTDO (  '    Finished writing output file '//OUTFIL )
+ 
+ 
+         END IF
+C
+C        Find the next segment.
+C
+         CALL DLAFNS ( HANDLE, DLADSC, NXTDSC, FOUND )
+ 
+      END DO
+ 
+      CALL TOSTDO ( ' ' )
+ 
+      CALL CHKOUT ( 'DSKEXP' )
+      END
+ 
+ 
+ 
+      SUBROUTINE USAGE
+ 
+      INTEGER               LNSIZE
+      PARAMETER           ( LNSIZE = 80 )
+ 
+      INTEGER               NLINES
+      PARAMETER           ( NLINES = 12 )
+ 
+      CHARACTER*(LNSIZE)    OUTSTR
+      CHARACTER*(LNSIZE)    USESTR( NLINES )
+      CHARACTER*(LNSIZE)    VERSN
+ 
+      INTEGER               I
+ 
+ 
+      CALL TOSTDO ( ' ' )
+ 
+      OUTSTR = 'DSKEXP --- Version 1.0.0, March 7, 2017 --- '
+     .//       'Toolkit Version #'
+      CALL TKVRSN ( 'TOOLKIT', VERSN )
+ 
+      CALL REPMC  ( OUTSTR, '#', VERSN, OUTSTR )
+      CALL TOSTDO ( OUTSTR )
+ 
+ 
+      USESTR(1)  = ' '
+      USESTR(2)  = '  Usage: dskexp -dsk <dsk> -text '
+     .//           '<output name> -format <MKDSK format code/name>'
+      USESTR(3)  =
+     .'                 [ -prec <# of vertex mantissa digits (1:17)> ]'
+      USESTR(4)  = ' '
+      USESTR(5)  = '     MKDSK format code 1: "plate-vertex"'
+      USESTR(6)  = '     Gaskell format (code 2) is not supported'
+      USESTR(7)  = '     MKDSK format code 3: "vertex-facet" or "obj"'
+      USESTR(8)  = '     MKDSK format code 4: "ver"'
+      USESTR(9)  = '     MKDSK height grid format (code 5) is not '
+     .//           'supported'
+      USESTR(10)  = ' '
+      USESTR(11) = '  Example: dskexp -dsk phobos.bds -text phobos.txt '
+     .//          '-format plate-vertex -prec 10'
+      USESTR(12) = ' '
+ 
+      DO I = 1, NLINES
+         CALL TOSTDO ( USESTR(I) )
+      END DO
+ 
+      END

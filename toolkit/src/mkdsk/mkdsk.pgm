@@ -1,0 +1,209 @@
+
+      PROGRAM MKDSK
+      IMPLICIT NONE
+ 
+C$ Abstract
+C
+C     Convert an input file containing topography data to a SPICE DSK
+C     file.
+C
+C$ Disclaimer
+C
+C     THIS SOFTWARE AND ANY RELATED MATERIALS WERE CREATED BY THE
+C     CALIFORNIA INSTITUTE OF TECHNOLOGY (CALTECH) UNDER A U.S.
+C     GOVERNMENT CONTRACT WITH THE NATIONAL AERONAUTICS AND SPACE
+C     ADMINISTRATION (NASA). THE SOFTWARE IS TECHNOLOGY AND SOFTWARE
+C     PUBLICLY AVAILABLE UNDER U.S. EXPORT LAWS AND IS PROVIDED "AS-IS"
+C     TO THE RECIPIENT WITHOUT WARRANTY OF ANY KIND, INCLUDING ANY
+C     WARRANTIES OF PERFORMANCE OR MERCHANTABILITY OR FITNESS FOR A
+C     PARTICULAR USE OR PURPOSE (AS SET FORTH IN UNITED STATES UCC
+C     SECTIONS 2312-2313) OR FOR ANY PURPOSE WHATSOEVER, FOR THE
+C     SOFTWARE AND RELATED MATERIALS, HOWEVER USED.
+C
+C     IN NO EVENT SHALL CALTECH, ITS JET PROPULSION LABORATORY, OR NASA
+C     BE LIABLE FOR ANY DAMAGES AND/OR COSTS, INCLUDING, BUT NOT
+C     LIMITED TO, INCIDENTAL OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+C     INCLUDING ECONOMIC DAMAGE OR INJURY TO PROPERTY AND LOST PROFITS,
+C     REGARDLESS OF WHETHER CALTECH, JPL, OR NASA BE ADVISED, HAVE
+C     REASON TO KNOW, OR, IN FACT, SHALL KNOW OF THE POSSIBILITY.
+C
+C     RECIPIENT BEARS ALL RISK RELATING TO QUALITY AND PERFORMANCE OF
+C     THE SOFTWARE AND ANY RELATED MATERIALS, AND AGREES TO INDEMNIFY
+C     CALTECH AND NASA FOR ALL THIRD-PARTY CLAIMS RESULTING FROM THE
+C     ACTIONS OF RECIPIENT IN THE USE OF THE SOFTWARE.
+C
+C$ Required_Reading
+C
+C     DSK
+C     PCK
+C     TIME
+C
+C$ Keywords
+C
+C     FILES
+C     TOPOGRAPHY
+C
+C$ Files
+C
+C     Inputs:  Shape data file, setup file, leapseconds kernel, optional
+C              comment file.
+C
+C     Outputs:  DSK file.
+C
+C$ Particulars
+C
+C     None.
+C
+C$ Examples
+C
+C     None.
+C
+C$ Restrictions
+C
+C     None.
+C
+C$ Literature_References
+C
+C     None.
+C
+C$ Author_and_Institution
+C
+C     N.J. Bachman   (JPL)
+C
+C$ Version
+C
+C-    MKDSK Version 1.0.0, 31-MAR-2010 (NJB)
+C
+C-&
+ 
+C
+C     SPICELIB functions
+C
+
+      LOGICAL               EQSTR
+      LOGICAL               EXISTS
+      LOGICAL               FAILED
+
+C
+C     Global parameters
+C     
+      INCLUDE 'mkdsk.inc'
+
+C
+C     Local parameters
+C     
+      INTEGER               NAMLEN
+      PARAMETER           ( NAMLEN = 32 )
+
+C
+C     Local variables
+C           
+      CHARACTER*(CMDLEN)    CMDLIN
+      CHARACTER*(NAMLEN)    INFTYP 
+     
+      CHARACTER*(FILSIZ)    CMTFIL
+      CHARACTER*(FILSIZ)    INPUT
+      CHARACTER*(FILSIZ)    SETUP
+      CHARACTER*(FILSIZ)    OUTPUT
+
+      INTEGER               HANDLE
+
+      LOGICAL               INFO
+
+
+      CALL CHKIN ( 'MKDSK' )
+
+C
+C     Turn off the "Oh, by the way..." error handling dreck.
+C
+      CALL ERRACT ( 'SET', 'ABORT' )
+
+C
+C     Show version info.
+C
+      CALL PRCINF ( 'VERSION' )
+
+C
+C     Get and parse the command line.
+C     
+      CALL GETCML ( CMDLIN )
+      CALL PRSCML ( CMDLIN, INFO, INFTYP, SETUP, INPUT, OUTPUT )
+
+      IF ( INFO ) THEN
+C
+C        The command is an information request.  Do nothing if
+C        the version was requested, since we've already displayed it.
+C
+         IF (  .NOT.  EQSTR(INFTYP, 'VERSION')  ) THEN
+            CALL PRCINF ( INFTYP )
+         END IF
+
+      ELSE
+C
+C        Process the setup file.  If the input or output files were
+C        not named on the command line, use the file names specified
+C        in the setup file.  GETSET will update INPUT and OUTPUT
+C        if necessary.
+C
+         CALL GETSET ( SETUP, INPUT, OUTPUT, CMTFIL )
+C
+C        At this point, we're ready to do the conversion.  Set the error
+C        handling so we'll return to this point if a conversion error
+C        occurs.
+C
+
+
+         CALL ERRACT ( 'SET', 'RETURN' )
+
+         CALL WRTDSK ( SETUP, INPUT, OUTPUT, CMTFIL, HANDLE )
+
+         IF ( FAILED() ) THEN
+
+            CALL RESET
+
+            CALL TOSTDO ( ' '                  )
+            CALL TOSTDO ( 'Conversion failed.' )
+
+
+            IF ( EXISTS(OUTPUT) ) THEN
+C
+C              If the output file is open, close it before calling
+C              DELFIL.  
+C
+               CALL DSKCLS ( HANDLE, .FALSE. )
+
+               CALL DELFIL ( OUTPUT )
+
+               IF ( .NOT. FAILED() ) THEN
+
+                  CALL TOSTDO ( 'Output file has been deleted.' )
+                  CALL TOSTDO ( ' '                             )
+
+               END IF
+
+            END IF
+
+            CALL TOSTDO ( ' ' )
+
+            CALL BYEBYE ( 'FAILURE' )
+
+         END IF
+
+      END IF 
+
+C
+C     Perform termination functions.
+C
+      IF ( .NOT. INFO ) THEN
+
+         CALL TOSTDO ( ' '         )
+         CALL TOSTDO ( 'All done.' )
+         CALL TOSTDO ( ' '         )
+
+      END IF
+
+      CALL CHKOUT( 'MKDSK'   )
+      CALL BYEBYE( 'SUCCESS' )
+
+      END
+

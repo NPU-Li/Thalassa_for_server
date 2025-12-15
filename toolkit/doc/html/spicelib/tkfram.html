@@ -1,0 +1,451 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>tkfram</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>tkfram</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     TKFRAM ( TK frame, find position rotation )
+
+     SUBROUTINE TKFRAM ( FRCODE, ROT, FRAME, FOUND )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Find the position rotation matrix from a Text Kernel (TK) frame
+     with the specified frame class ID to its base frame.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/frames.html">FRAMES</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     POINTING
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INTEGER               FRCODE
+     DOUBLE PRECISION      ROT   ( 3, 3 )
+     INTEGER               FRAME
+     LOGICAL               FOUND
+
+     INTEGER               BUFSIZ
+     PARAMETER           ( BUFSIZ = 200 )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  ----------------------------------------------
+     FRCODE     I   Frame class ID of a TK frame.
+     ROT        O   Rotation matrix from TK frame to frame FRAME.
+     FRAME      O   Frame ID of the base reference.
+     FOUND      O   .TRUE. if the rotation could be determined.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     FRCODE   is the unique frame class ID of the TK frame for which
+              data is being requested. For TK frames the frame class
+              ID is always equal to the frame ID.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     ROT      is a position rotation matrix that converts positions
+              relative to the TK frame given by its frame class ID,
+              FRCODE, to positions relative to the base frame given by
+              its frame ID, FRAME.
+
+              Thus, if a position S has components x,y,z in the TK
+              frame, then S has components x', y', z' in the base
+              frame.
+
+                 .-  -.     .-     -. .- -.
+                 | x' |     |       | | x |
+                 | y' |  =  |  ROT  | | y |
+                 | z' |     |       | | z |
+                 `-  -'     `-     -' `- -'
+
+
+     FRAME    is the ID code of the base reference frame to which ROT
+              will transform positions.
+
+     FOUND    is a logical indicating whether or not a frame definition
+              for the TK frame with the frame class ID, FRCODE, was
+              constructed from kernel pool data. If ROT and FRAME were
+              constructed, FOUND will be returned with the value .TRUE.
+              Otherwise it will be returned with the value .FALSE.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     BUFSIZ   is the number of rotation, frame class ID pairs that can
+              have their instance data buffered for the sake of
+              improving run-time performance. This value MUST be
+              positive and should probably be at least 10.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If some kernel variable associated with this frame is not
+         present in the kernel pool, or does not have the proper type
+         or dimension, an error is signaled by a routine in the call
+         tree of this routine. In such a case FOUND will be set to
+         .FALSE.
+
+     2)  If the input FRCODE has the value 0, the error
+         SPICE(ZEROFRAMEID) is signaled. FOUND will be set to .FALSE.
+
+     3)  If the name of the frame corresponding to FRCODE cannot be
+         determined, the error SPICE(INCOMPLETEFRAME) is signaled.
+
+     4)  If the frame given by FRCODE is defined relative to a frame
+         that is unrecognized, the error SPICE(BADFRAMESPEC) is
+         signaled. FOUND will be set to .FALSE.
+
+     5)  If the kernel pool specification for the frame given by
+         FRCODE is not one of 'MATRIX', 'ANGLES' or 'QUATERNION',
+         the error SPICE(UNKNOWNFRAMESPEC) is signaled. FOUND will be
+         set to .FALSE.
+
+     6)  If the frame FRCODE is equal to the relative frame ID (i.e.
+         the frame is defined relative to itself), the error
+         SPICE(BADFRAMESPEC2) is signaled. FOUND will be set to .FALSE.
+
+     7)  If name-based and ID-based forms of any TKFRAME_ keyword
+         are detected in the kernel pool at the same time, the error
+         SPICE(COMPETINGFRAMESPEC) is signaled. FOUND will be set to
+         .FALSE.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     This routine makes use of the loaded text kernels to determine
+     the rotation from a constant offset TK frame to its base frame.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine is used to construct the rotation from some frame
+     that is a constant rotation offset from some other reference
+     frame. This rotation is derived from data stored in the kernel
+     pool.
+
+     This routine is intended to be used as a low level routine by the
+     frame system software. However, you could use this routine to
+     directly retrieve the rotation from an fixed offset TK frame to
+     its base frame.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Compute the rotation from the DSS-34 topocentric frame to
+        its base Earth body-fixed frame and use it to determine the
+        geodetic latitude and longitude of the DSS-34 site.
+
+
+        Use the FK kernel below to load the required topocentric
+        reference frame definition for the DSS-34 site.
+
+           earth_topo_050714.tf
+
+
+        Example code begins here.
+
+
+              PROGRAM TKFRAM_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions.
+        C
+              DOUBLE PRECISION      <a href="dpr.html">DPR</a>
+
+        C
+        C     Local parameters
+        C
+              CHARACTER*(*)         MYTOPO
+              PARAMETER           ( MYTOPO = 'DSS-34_TOPO' )
+
+              INTEGER               MXFRLN
+              PARAMETER           ( MXFRLN = 26 )
+
+        C
+        C     Local variables
+        C
+              CHARACTER*(MXFRLN)    FRNAME
+
+              DOUBLE PRECISION      LAT
+              DOUBLE PRECISION      LON
+              DOUBLE PRECISION      RAD
+              DOUBLE PRECISION      ROT   ( 3, 3 )
+              DOUBLE PRECISION      Z     ( 3    )
+
+              INTEGER               FRAME
+              INTEGER               FRCODE
+
+              LOGICAL               FOUND
+
+        C
+        C     Load the FK that contains the topocentric reference
+        C     frame definition for DSS-34.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'earth_topo_050714.tf' )
+
+        C
+        C     The name of the topocentric frame is MYTOPO.
+        C     First we get the ID code of the topocentric frame.
+        C
+              CALL <a href="namfrm.html">NAMFRM</a> ( MYTOPO, FRCODE )
+
+        C
+        C     Next get the rotation from the topocentric frame to
+        C     the body-fixed frame. We can use the TK frame ID in
+        C     place of the TK frame class ID in this call because
+        C     for TK frames these IDs are identical.
+        C
+              CALL <b>TKFRAM</b> ( FRCODE, ROT, FRAME, FOUND )
+
+        C
+        C     Make sure the topocentric frame is relative to one of
+        C     the Earth fixed frames.
+        C
+              CALL <a href="frmnam.html">FRMNAM</a>( FRAME, FRNAME )
+
+              IF (       FRNAME .NE. 'IAU_EARTH'
+             .     .AND. FRNAME .NE. 'EARTH_FIXED'
+             .     .AND. FRNAME .NE. 'ITRF93'  ) THEN
+
+                 WRITE (*,*) 'The frame ', MYTOPO,
+             .               ' does not appear to be '
+                 WRITE (*,*) 'defined relative to an '
+             .            // 'Earth fixed frame.'
+                 STOP
+
+              END IF
+
+        C
+        C     Things look ok. Get the location of the Z-axis in the
+        C     topocentric frame.
+        C
+              Z(1) = ROT(1,3)
+              Z(2) = ROT(2,3)
+              Z(3) = ROT(3,3)
+
+        C
+        C     Convert the Z vector to latitude, longitude and radius.
+        C
+              CALL <a href="reclat.html">RECLAT</a> ( Z, RAD, LAT, LON )
+
+              WRITE (*,'(A)') 'The geodetic coordinates of the center'
+              WRITE (*,'(A)') 'of the topographic frame are:'
+              WRITE (*,*)
+              WRITE (*,'(A,F20.13)') '   Latitude  (deg): ', LAT*<a href="dpr.html">DPR</a>()
+              WRITE (*,'(A,F20.13)') '   Longitude (deg): ', LON*<a href="dpr.html">DPR</a>()
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        The geodetic coordinates of the center
+        of the topographic frame are:
+
+           Latitude  (deg):    148.9819650021110
+           Longitude (deg):    -35.3984778756552
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+     F.S. Turner        (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 2.3.0, 20-AUG-2021 (JDR) (BVS) (NJB)
+
+        BUG FIX: the routine now signals an error if it detects
+        name-based and ID-based forms of any TKFRAME_ keyword present
+        in the <a href="pool.html">POOL</a> at the same time. This prevents name-based
+        keywords from frame definitions loaded with lower priority
+        from being used instead of ID-based keywords from frame
+        definitions loaded with higher priority.
+
+        BUG FIX: when failing to fetch any frame keywords from the
+        <a href="pool.html">POOL</a> or for any other reason, the routine now always returns
+        FOUND = .FALSE. Previously FOUND could be set to .TRUE. by a
+        <a href="dtpool.html">DTPOOL</a> call preceding the failure.
+
+        BUG FIX: when failing due to a frame defined relative to
+        itself or due to an unrecognized _SPEC, the routine now always
+        returns FRAME = 0. Previously FRAME was set to the _RELATIVE
+        keyword.
+
+        BUG FIX: the misspelled short error message
+        SPICE(INCOMPLETEFRAME) was corrected. The message had been
+        spelled correctly in header comments but not in the code.
+
+        Changed to return ROT as identity for all failures; previously
+        it was returned this way only for some failures.
+
+        Changed the input argument name ID to FRCODE for consistency
+        with other routines.
+
+        Fixed minor typo on the UNKNOWNFRAMESPEC long error message.
+
+        Edited the header to comply with NAIF standard and modern
+        SPICE CK and frames terminology.
+
+        Added complete code example based on existing fragments.
+
+        Construction of kernel variable names now uses trimmed
+        strings in order to suppress gfortran compile warnings.
+
+        Added DATA statements to initialize BUFFI, BUFFD, and IDENTS.
+        This change suppresses ftnchek warnings for variables possibly
+        not initialized before use. It is not a bug fix.
+
+        Minor inline comment typos were corrected.
+
+    SPICELIB Version 2.2.0, 08-JAN-2014 (BVS)
+
+        Added an error check for frames defined relative to
+        themselves.
+
+        Increased BUFSIZ from 20 to 200.
+
+    SPICELIB Version 2.1.0, 23-APR-2009 (NJB)
+
+        Bug fix: watch is deleted only for frames
+        that are deleted from the buffer.
+
+    SPICELIB Version 2.0.0, 19-MAR-2009 (NJB)
+
+        Bug fix: this routine now deletes watches set on
+        kernel variables of frames that are discarded from
+        the local buffering system.
+
+    SPICELIB Version 1.2.0, 09-SEP-2005 (NJB)
+
+        Updated to remove non-standard use of duplicate arguments
+        in <a href="convrt.html">CONVRT</a>, <a href="ucrss.html">UCRSS</a>, <a href="vhatg.html">VHATG</a> and <a href="vscl.html">VSCL</a> calls.
+
+    SPICELIB Version 1.1.0, 21-NOV-2001 (FST)
+
+        Updated this routine to dump the buffer of frame ID codes
+        it saves when it or one of the modules in its call tree
+        signals an error. This fixes a bug where a frame's ID code is
+        buffered, but the matrix and kernel pool watcher were not set
+        properly.
+
+    SPICELIB Version 1.0.0, 18-NOV-1996 (WLT)</PRE>
+<h4>Link to routine TKFRAM source file <a href='../../../src/spicelib/tkfram.f'>tkfram.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:37:02 2021</pre>
+
+</body>
+</html>
+

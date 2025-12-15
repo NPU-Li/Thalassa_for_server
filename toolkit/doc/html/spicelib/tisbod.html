@@ -1,0 +1,811 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>tisbod</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>tisbod</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     TISBOD ( Transformation, inertial state to bodyfixed )
+
+     SUBROUTINE TISBOD ( REF, BODY, ET, TSIPM )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Return a 6x6 matrix that transforms states in inertial
+     coordinates to states in body-equator-and-prime-meridian
+     coordinates.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/frames.html">FRAMES</a>
+     <a href="../req/pck.html">PCK</a>
+     <a href="../req/naif_ids.html">NAIF_IDS</a>
+     <a href="../req/rotation.html">ROTATION</a>
+     <a href="../req/time.html">TIME</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     ROTATION
+     TRANSFORMATION
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE               'errhnd.inc'
+     INCLUDE               'frmtyp.inc'
+     INCLUDE               'zzctr.inc'
+
+     CHARACTER*(*)         REF
+     INTEGER               BODY
+     DOUBLE PRECISION      ET
+     DOUBLE PRECISION      TSIPM   ( 6,6 )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     REF        I   ID of inertial reference frame to transform from
+     BODY       I   ID code of body
+     ET         I   Epoch of transformation
+     TSIPM      O   Transformation (state), inertial to prime meridian
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     REF      is the NAIF name for an inertial reference frame.
+              Acceptable names include:
+
+                 Name       Description
+                 --------   --------------------------------
+                 'J2000'    Earth mean equator, dynamical
+                            equinox of J2000
+
+                 'B1950'    Earth mean equator, dynamical
+                            equinox of B1950
+
+                 'FK4'      Fundamental Catalog (4)
+
+                 'DE-118'   JPL Developmental Ephemeris (118)
+
+                 'DE-96'    JPL Developmental Ephemeris ( 96)
+
+                 'DE-102'   JPL Developmental Ephemeris (102)
+
+                 'DE-108'   JPL Developmental Ephemeris (108)
+
+                 'DE-111'   JPL Developmental Ephemeris (111)
+
+                 'DE-114'   JPL Developmental Ephemeris (114)
+
+                 'DE-122'   JPL Developmental Ephemeris (122)
+
+                 'DE-125'   JPL Developmental Ephemeris (125)
+
+                 'DE-130'   JPL Developmental Ephemeris (130)
+
+                 'GALACTIC' Galactic System II
+
+                 'DE-200'   JPL Developmental Ephemeris (200)
+
+                 'DE-202'   JPL Developmental Ephemeris (202)
+
+              See the Frames Required Reading frames.req for a full
+              list of inertial reference frame names built into
+              SPICE.
+
+              The output TSIPM will give the transformation
+              from this frame to the bodyfixed frame specified by
+              BODY at the epoch specified by ET.
+
+     BODY     is the integer ID code of the body for which the
+              state transformation matrix is requested. Bodies
+              are numbered according to the standard NAIF numbering
+              scheme. The numbering scheme is explained in the NAIF
+              IDs Required Reading naif_ids.req.
+
+     ET       is the epoch at which the state transformation
+              matrix is requested. (This is typically the
+              epoch of observation minus the one-way light time
+              from the observer to the body at the epoch of
+              observation.)
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     TSIPM    is a 6x6 transformation matrix. It is used to
+              transform states from inertial coordinates to body
+              fixed (also called equator and prime meridian ---
+              PM) coordinates.
+
+              Given a state S in the inertial reference frame
+              specified by REF, the corresponding bodyfixed state
+              is given by the matrix vector product:
+
+                 TSIPM * S
+
+              The X axis of the PM system is directed  to the
+              intersection of the equator and prime meridian.
+              The Z axis points along  the spin axis and points
+              towards the same side of the invariable plane of
+              the solar system as does earth's north pole.
+
+              NOTE: The inverse of TSIPM is NOT its transpose.
+              The matrix, TSIPM, has a structure as shown below:
+
+                 .-            -.
+                 |       :      |
+                 |   R   :  0   |
+                 | ......:......|
+                 |       :      |
+                 | dR/dt :  R   |
+                 |       :      |
+                 `-            -'
+
+              where R is a time varying rotation matrix and dR/dt is
+              its derivative. The inverse of this matrix is:
+
+                 .-              -.
+                 |     T  :       |
+                 |    R   :  0    |
+                 | .......:.......|
+                 |        :       |
+                 |      T :   T   |
+                 | dR/dt  :  R    |
+                 |        :       |
+                 `-              -'
+
+              The SPICELIB routine <a href="invstm.html">INVSTM</a> is available for producing
+              this inverse.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If data required to define the body-fixed frame associated
+         with BODY are not found in the binary PCK system or the kernel
+         pool, the error SPICE(FRAMEDATANOTFOUND) is signaled. In
+         the case of IAU style body-fixed frames, the absence of
+         prime meridian polynomial data (which are required) is used
+         as an indicator of missing data.
+
+     2)  If the test for exception (1) passes, but in fact requested
+         data are not available in the kernel pool, an error is
+         signaled by a routine in the call tree of this routine.
+
+     3)  If the kernel pool does not contain all of the data required
+         to define the number of nutation precession angles
+         corresponding to the available nutation precession
+         coefficients, the error SPICE(INSUFFICIENTANGLES) is
+         signaled.
+
+     4)  If the reference frame REF is not recognized, an error is
+         signaled by a routine in the call tree of this routine.
+
+     5)  If the specified body code BODY is not recognized, an error is
+         signaled by a routine in the call tree of this routine.
+
+     6)  If, for a given body, both forms of the kernel variable names
+
+            BODY&lt;body ID&gt;_CONSTANTS_JED_EPOCH
+            BODY&lt;body ID&gt;_CONSTS_JED_EPOCH
+
+         are found in the kernel pool, the error
+         SPICE(COMPETINGEPOCHSPEC) is signaled. This is done
+         regardless of whether the values assigned to the kernel
+         variable names match.
+
+     7)  If, for a given body, both forms of the kernel variable names
+
+            BODY&lt;body ID&gt;_CONSTANTS_REF_FRAME
+            BODY&lt;body ID&gt;_CONSTS_REF_FRAME
+
+         are found in the kernel pool, the error
+         SPICE(COMPETINGFRAMESPEC) is signaled. This is done
+         regardless of whether the values assigned to the kernel
+         variable names match.
+
+     8)  If the central body associated with the input BODY, whether
+         a system barycenter or BODY itself, has associated phase
+         angles (aka nutation precession angles), and the kernel
+         variable BODY&lt;body ID&gt;_MAX_PHASE_DEGREE for the central
+         body is present but has a value outside the range 1:3,
+         the error SPICE(DEGREEOUTOFRANGE) is signaled.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     Note: NAIF recommends the use of <a href="spkezr.html">SPKEZR</a> with the appropriate
+     frames kernels when possible over <b>TISBOD</b>.
+
+     The matrix for transforming inertial states to bodyfixed
+     states is the 6x6 matrix shown below as a block structured
+     matrix.
+
+        .-            -.
+        |       :      |
+        | TIPM  :  0   |
+        | ......:......|
+        |       :      |
+        | DTIPM : TIPM |
+        |       :      |
+        `-            -'
+
+     This can also be expressed in terms of Euler angles
+     PHI, DELTA and W. The transformation from inertial to
+     bodyfixed coordinates is represented in the SPICE kernel
+     pool as:
+
+        TIPM   = [W]  [DELTA]  [PHI]
+                    3        1      3
+     Thus
+
+        DTIPM  = d[W] /dt [DELTA]  [PHI]
+                     3           1      3
+
+               + [W]  d[DELTA] /dt  [PHI]
+                    3             1      3
+
+               + [W]  [DELTA]  d[PHI] /dt
+                    3        1           3
+
+
+     If a binary PCK file record can be used for the time and
+     body requested, it will be used. The most recently loaded
+     binary PCK file has first priority, followed by previously
+     loaded binary PCK files in backward time order. If no
+     binary PCK file has been loaded, the text P_constants
+     kernel file is used.
+
+     If there is only text PCK kernel information, it is
+     expressed in terms of RA, DEC and W, where
+
+        RA  = PHI - <a href="halfpi.html">HALFPI</a>
+        DEC = <a href="halfpi.html">HALFPI</a> - DELTA
+        W   = W
+
+     The angles RA, DEC, and W are defined as follows in the
+     text PCK file:
+
+                                      2    .-----
+                      RA1*t      RA2*t      \
+        RA  = RA0  + -------  + -------   +  )  a(i) * sin( theta(i) )
+                        T          2        /
+                                  T        '-----
+                                              i
+
+                                       2   .-----
+                      DEC1*t     DEC2*t     \
+        DEC = DEC0 + -------- + --------  +  )  d(i) * cos( theta(i) )
+                        T           2       /
+                                   T       '-----
+                                              i
+
+                                     2     .-----
+                       W1*t      W2*t       \
+        W   = W0   +  ------  + -------   +  )  w(i) * sin( theta(i) )
+                        d          2        /
+                                  d        '-----
+                                              i
+
+
+     where `d' is in seconds/day; T in seconds/Julian century;
+     a(i), d(i), and w(i) arrays apply to satellites only; and
+     theta(i), defined as
+
+                                THETA1(i)*t
+        theta(i) = THETA0(i) + -------------
+                                     T
+
+     are specific to each planet.
+
+     These angles ---typically nodal rates--- vary in number and
+     definition from one planetary system to the next.
+
+     Thus
+
+                                   .-----
+                 RA1     2*RA2*t    \   a(i)*THETA1(i)*cos(theta(i))
+     dRA/dt   = ----- + --------- +  ) ------------------------------
+                  T          2      /                 T
+                            T      '-----
+                                      i
+
+                                     .-----
+                 DEC1     2*DEC2*t    \   d(i)*THETA1(i)*sin(theta(i))
+      dDEC/dt = ------ + ---------- -  ) ------------------------------
+                   T          2       /                 T
+                             T       '-----
+                                        i
+
+                                 .-----
+                 W1     2*W2*t    \   w(i)*THETA1(i)*cos(theta(i))
+      dW/dt   = ---- + -------- +  ) ------------------------------
+                 d         2      /                 T
+                          d      '-----
+                                    i
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for these examples may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Calculate the matrix to transform a state vector from the
+        J2000 frame to the Saturn fixed frame at a specified
+        time, and use it to compute the geometric position and
+        velocity of Titan in Saturn's body-fixed frame.
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: tisbod_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                     Contents
+              ---------                     --------
+              sat375.bsp                    Saturn satellite ephemeris
+              pck00010.tpc                  Planet orientation and
+                                            radii
+              naif0012.tls                  Leapseconds
+
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'sat375.bsp',
+                                  'pck00010.tpc',
+                                  'naif0012.tls'  )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM TISBOD_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local variables
+        C
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      LT
+              DOUBLE PRECISION      STATE  ( 6    )
+              DOUBLE PRECISION      SATVEC ( 6    )
+              DOUBLE PRECISION      TSIPM  ( 6, 6 )
+
+              INTEGER               I
+              INTEGER               SATID
+
+        C
+        C     Load the kernels.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'tisbod_ex1.tm' )
+
+        C
+        C     The body ID for Saturn.
+        C
+              SATID = 699
+
+        C
+        C     Retrieve the transformation matrix at some time.
+        C
+              CALL <a href="str2et.html">STR2ET</a> ( 'Jan 1 2005',   ET        )
+              CALL <b>TISBOD</b> ( 'J2000', SATID, ET, TSIPM )
+
+        C
+        C     Retrieve the state of Titan as seen from Saturn
+        C     in the J2000 frame at ET.
+        C
+              CALL <a href="spkezr.html">SPKEZR</a> ( 'TITAN',  ET,    'J2000', 'NONE',
+             .              'SATURN', STATE, LT              )
+
+              WRITE(*,'(A)') 'Titan as seen from Saturn '
+             .            // '(J2000 frame):'
+              WRITE(*,'(A,3F13.3)') '   position   (km):',
+             .               ( STATE(I), I=1,3 )
+              WRITE(*,'(A,3F13.3)') '   velocity (km/s):',
+             .               ( STATE(I), I=4,6 )
+
+        C
+        C     Rotate the 6-vector STATE into the
+        C     Saturn body-fixed reference frame.
+        C
+              CALL <a href="mxvg.html">MXVG</a> ( TSIPM, STATE, 6, 6, SATVEC )
+
+              WRITE(*,'(A)') 'Titan as seen from Saturn '
+             .            // '(IAU_SATURN frame):'
+              WRITE(*,'(A,3F13.3)') '   position   (km):',
+             .               ( SATVEC(I), I=1,3 )
+              WRITE(*,'(A,3F13.3)') '   velocity (km/s):',
+             .               ( SATVEC(I), I=4,6 )
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Titan as seen from Saturn (J2000 frame):
+           position   (km):  1071928.661  -505781.970   -60383.976
+           velocity (km/s):        2.404        5.176       -0.560
+        Titan as seen from Saturn (IAU_SATURN frame):
+           position   (km):   401063.338 -1116965.364    -5408.806
+           velocity (km/s):     -177.547      -63.745        0.028
+
+
+        Note that the complete example could be replaced by a single
+        <a href="spkezr.html">SPKEZR</a> call:
+
+           CALL <a href="spkezr.html">SPKEZR</a> ( 'TITAN',  ET,    'IAU_SATURN', 'NONE',
+          .              'SATURN', STATE, LT                   )
+
+
+     2) Use <b>TISBOD</b> is used to compute the angular velocity vector (with
+        respect to the J2000 inertial frame) of the specified body at
+        given time.
+
+        Use the meta-kernel from Example 1 above.
+
+
+        Example code begins here.
+
+
+              PROGRAM TISBOD_EX2
+              IMPLICIT NONE
+
+        C
+        C     Local variables
+        C
+              DOUBLE PRECISION      AV     ( 3    )
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      DTIPM  ( 3, 3 )
+              DOUBLE PRECISION      OMEGA  ( 3, 3 )
+              DOUBLE PRECISION      ROT    ( 3, 3 )
+              DOUBLE PRECISION      TIPM   ( 3, 3 )
+              DOUBLE PRECISION      TSIPM  ( 6, 6 )
+              DOUBLE PRECISION      V      ( 3    )
+
+              INTEGER               I
+              INTEGER               J
+              INTEGER               SATID
+
+        C
+        C     Load the kernels.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'tisbod_ex1.tm' )
+
+        C
+        C     The body ID for Saturn.
+        C
+              SATID = 699
+
+        C
+        C     First get the state transformation matrix.
+        C
+              CALL <a href="str2et.html">STR2ET</a> ( 'Jan 1 2005',   ET        )
+              CALL <b>TISBOD</b> ( 'J2000', SATID, ET, TSIPM )
+
+        C
+        C     This matrix has the form:
+        C
+        C          .-            -.
+        C          |       :      |
+        C          | TIPM  :  0   |
+        C          | ......:......|
+        C          |       :      |
+        C          | DTIPM : TIPM |
+        C          |       :      |
+        C          `-            -'
+        C
+        C     We extract TIPM and DTIPM
+        C
+              DO  I = 1,3
+                 DO  J = 1,3
+
+                    TIPM  ( I, J ) = TSIPM ( I,   J )
+                    DTIPM ( I, J ) = TSIPM ( I+3, J )
+
+                 END DO
+              END DO
+
+        C
+        C     The transpose of TIPM and DTIPM, (TPMI and DTPMI), gives
+        C     the transformation from bodyfixed coordinates to inertial
+        C     coordinates.
+        C
+        C     Here is a fact about the relationship between angular
+        C     velocity associated with a time varying rotation matrix
+        C     that gives the orientation of a body with respect to
+        C     an inertial frame.
+        C
+        C        The angular velocity vector can be read from the off
+        C        diagonal components of the matrix product:
+        C
+        C                                t
+        C        OMEGA =     DTPMI * TPMI
+        C
+        C                         t
+        C              =     DTIPM * TIPM
+        C
+        C        the components of the angular velocity V will appear
+        C        in this matrix as:
+        C
+        C            .-                   -.
+        C            |                     |
+        C            |   0    -V(3)  V(2)  |
+        C            |                     |
+        C            |  V(3)    0   -V(1)  |
+        C            |                     |
+        C            | -V(2)   V(1)   0    |
+        C            |                     |
+        C            `-                   -'
+        C
+        C
+              CALL <a href="mtxm.html">MTXM</a> ( DTIPM, TIPM, OMEGA )
+
+              V(1) = OMEGA (3,2)
+              V(2) = OMEGA (1,3)
+              V(3) = OMEGA (2,1)
+
+        C
+        C     Display the results.
+        C
+              WRITE(*,'(A)') 'Angular velocity (km/s):'
+              WRITE(*,'(3F16.9)') V
+
+        C
+        C     It is possible to compute the angular velocity using
+        C     a single call to <a href="xf2rav.html">XF2RAV</a>.
+        C
+              CALL <a href="xf2rav.html">XF2RAV</a> ( TSIPM, ROT, AV )
+
+              WRITE(*,'(A)') 'Angular velocity using <a href="xf2rav.html">XF2RAV</a> (km/s):'
+              WRITE(*,'(3F16.9)') AV
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Angular velocity (km/s):
+             0.000014001     0.000011995     0.000162744
+        Angular velocity using <a href="xf2rav.html">XF2RAV</a> (km/s):
+             0.000014001     0.000011995     0.000162744
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  The kernel pool must be loaded with the appropriate
+         coefficients (from a text or binary PCK file) prior to calling
+         this routine.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+     K.S. Zukor         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 4.5.1, 16-DEC-2021 (NJB) (JDR)
+
+        The routine was updated to support user-defined maximum phase
+        angle degrees. The additional text kernel kernel variable name
+        BODYnnn_MAX_PHASE_DEGREE must be used when the phase angle
+        polynomials have degree higher than 1. The maximum allowed
+        degree is 3.
+
+        The kernel variable names
+
+           BODY#_CONSTS_REF_FRAME
+           BODY#_CONSTS_JED_EPOCH
+
+        are now recognized.
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example.
+
+        Added note to $Particulars section.
+
+    SPICELIB Version 4.5.0, 26-JUL-2016 (BVS)
+
+        The routine was updated to be more efficient by using a hash
+        and buffers so save text PCK data instead of doing kernel <a href="pool.html">POOL</a>
+        look-ups over an over again. The routine now checks the <a href="pool.html">POOL</a>
+        state counter and dumps all buffered data if it changes.
+
+        BUG FIX: changed available room in the <a href="bodvcd.html">BODVCD</a> call
+        fetching 'NUT_PREC_ANGLES' from MAXANG to MAXANG*2.
+
+    SPICELIB Version 4.4.0, 01-FEB-2008 (NJB)
+
+        The routine was updated to improve the error messages created
+        when required PCK data are not found. Now in most cases the
+        messages are created locally rather than by the kernel pool
+        access routines. In particular missing binary PCK data will
+        be indicated with a reasonable error message.
+
+    SPICELIB Version 4.3.0, 13-DEC-2005 (NJB)
+
+        Bug fix: previous update introduced bug in state
+        transformation when REF was unequal to PCK native frame.
+
+    SPICELIB Version 4.2.0, 23-OCT-2005 (NJB)
+
+        Re-wrote portions of algorithm to simplify source code.
+        Updated to remove non-standard use of duplicate arguments
+        in <a href="mxm.html">MXM</a> and <a href="vaddg.html">VADDG</a> calls.
+
+        Replaced calls to ZZBODVCD with calls to <a href="bodvcd.html">BODVCD</a>.
+
+    SPICELIB Version 4.1.0, 05-JAN-2005 (NJB)
+
+        Tests of routine <a href="failed.html">FAILED</a>() were added.
+
+    SPICELIB Version 4.0.0, 12-FEB-2004 (NJB)
+
+        Code has been updated to support satellite ID codes in the
+        range 10000 to 99999 and to allow nutation precession angles
+        to be associated with any object.
+
+        Implementation changes were made to improve robustness
+        of the code.
+
+    SPICELIB Version 3.3.0, 29-MAR-1995 (WLT)
+
+        Properly initialized the variable NPAIRS.
+
+    SPICELIB Version 3.2.0, 22-MAR-1995 (KSZ)
+
+        Changed to call <a href="pckmat.html">PCKMAT</a> rather than <a href="pckeul.html">PCKEUL</a>.
+
+    SPICELIB Version 3.1.0, 18-OCT-1994 (KSZ)
+
+        Fixed bug which incorrectly modded DW by two pi.
+
+    SPICELIB Version 3.0.0, 10-MAR-1994 (KSZ)
+
+        Changed to look for binary PCK file, and used this
+        to find Euler angles, if such data has been loaded.
+
+    SPICELIB Version 2.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 2.0.0, 04-SEP-1991 (NJB)
+
+        Updated to handle P_constants referenced to different epochs
+        and inertial reference frames.
+
+        $Required_Reading and $Literature_References sections were
+        updated.
+
+    SPICELIB Version 1.0.0, 05-NOV-1990 (WLT)</PRE>
+<h4>Link to routine TISBOD source file <a href='../../../src/spicelib/tisbod.f'>tisbod.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:37:02 2021</pre>
+
+</body>
+</html>
+

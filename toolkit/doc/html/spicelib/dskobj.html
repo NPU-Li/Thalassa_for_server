@@ -1,0 +1,332 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>dskobj</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>dskobj</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     DSKOBJ ( DSK, get object IDs )
+
+     SUBROUTINE DSKOBJ ( DSKFNM, BODIDS )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Find the set of body ID codes of all objects for which
+     topographic data are provided in a specified DSK file.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/cells.html">CELLS</a>
+     <a href="../req/das.html">DAS</a>
+     <a href="../req/dsk.html">DSK</a>
+     <a href="../req/sets.html">SETS</a>
+     <a href="../req/naif_ids.html">NAIF_IDS</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     COVERAGE
+     TOPOGRAPHY
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE 'dla.inc'
+     INCLUDE 'dskdsc.inc'
+
+     INTEGER               LBCELL
+     PARAMETER           ( LBCELL = -5 )
+
+     CHARACTER*(*)         DSKFNM
+     INTEGER               BODIDS ( LBCELL : * )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     DSKFNM     I   Name of DSK file.
+     BODIDS    I-O  Set of ID codes of objects in DSK file.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     DSKFNM   is the name of a DSK file. This file will be opened for
+              read access by this routine.
+
+     BODIDS   is an initialized SPICE set data structure.
+
+              BODIDS optionally may contain a set of body ID codes on
+              input; on output, the data already present in BODIDS will
+              be combined with ID code set found for the file DSKFNM.
+
+              If BODIDS contains no data on input, its size and
+              cardinality still must be initialized.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     BODIDS   is a SPICE set data structure that contains the union
+              of its contents upon input with the set of body ID codes
+              of segments in the indicated DSK file.
+
+              The elements of SPICE sets are unique; each ID code in
+              BODIDS appears only once, even if the DSK file contains
+              multiple segments for that ID code.
+
+              See the $Examples section below for a complete example
+              program showing how to retrieve the body and surface ID
+              codes from a DSK file.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If the input file has transfer format, the error
+         SPICE(INVALIDFORMAT) is signaled.
+
+     2)  If the input file is not a transfer file but has architecture
+         other than DAS, the error SPICE(INVALIDARCHTYPE) is signaled.
+
+     3)  If the input file is a binary DAS file of type other than DSK,
+         the error SPICE(INVALIDFILETYPE) is signaled.
+
+     4)  If the DSK file cannot be opened or read, an error is signaled
+         by a routine in the call tree of this routine.
+
+     5)  If the size of the output set argument BODIDS is insufficient
+         to contain the actual number of ID codes of objects covered by
+         the indicated DSK file, the error SPICE(CELLTOOSMALL) is
+         signaled.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See the description of the argument DSKFNM above.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine provides an API via which applications can determine
+     the set of objects for which there are topographic data in a
+     specified DSK file.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Display the coverage for each object in a specified DSK file.
+        Find the set of objects in the file. Loop over the contents
+        of the ID code set: find the surface ID for each item in the
+        set and display the surface ID.
+
+
+        Example code begins here.
+
+
+        C
+        C     Examine a DSK file and identify the set of
+        C     central bodies associated with the segments
+        C     in the file. For each body, find the
+        C     set of surfaces associated with that body.
+        C
+              PROGRAM DSKOBJ_EX1
+              IMPLICIT NONE
+        C
+        C     SPICELIB functions
+        C
+              INTEGER               <a href="cardi.html">CARDI</a>
+        C
+        C     Local parameters
+        C
+              INTEGER               LBCELL
+              PARAMETER           ( LBCELL = -5 )
+
+              INTEGER               FILSIZ
+              PARAMETER           ( FILSIZ = 255 )
+
+              INTEGER               MAXID
+              PARAMETER           ( MAXID  = 10000 )
+        C
+        C     Local variables
+        C
+              CHARACTER*(FILSIZ)    DSKFNM
+
+              INTEGER               BODIDS ( LBCELL : MAXID )
+              INTEGER               I
+              INTEGER               J
+              INTEGER               SRFIDS ( LBCELL : MAXID )
+
+        C
+        C     Initialize body ID and surface ID cells.
+        C
+              CALL <a href="ssizei.html">SSIZEI</a> ( MAXID, BODIDS )
+              CALL <a href="ssizei.html">SSIZEI</a> ( MAXID, SRFIDS )
+
+        C
+        C     Prompt for the name of a DSK file.
+        C
+              CALL PROMPT ( 'Enter name of DSK file &gt; ', DSKFNM )
+
+        C
+        C     Obtain body ID set for the DSK.
+        C
+              CALL <b>DSKOBJ</b> ( DSKFNM, BODIDS )
+
+              DO I = 1, <a href="cardi.html">CARDI</a>( BODIDS )
+
+                 WRITE (*,*) ' '
+                 WRITE (*,*) 'Body ID:     ', BODIDS(I)
+        C
+        C        Get the surface IDs for the Ith body.
+        C
+                 CALL <a href="dsksrf.html">DSKSRF</a> ( DSKFNM, BODIDS(I), SRFIDS )
+
+                 DO J = 1, <a href="cardi.html">CARDI</a>( SRFIDS )
+                    WRITE (*,*) '   Surface ID: ', SRFIDS(J)
+                 END DO
+
+              END DO
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, using the DSK file named phobos512.bds, the output
+        was:
+
+
+        Enter name of DSK file &gt; phobos512.bds
+
+         Body ID:              401
+            Surface ID:          401
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  If an error occurs while this routine is updating the set
+         BODIDS, the set may be corrupted.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 08-OCT-2021 (JDR) (NJB)
+
+        Changed input argument name &quot;DSK&quot; to &quot;DSKFNM&quot; for consistency
+        with other routines.
+
+        Bug fix: added call to <a href="failed.html">FAILED</a> after call to GETFAT.
+
+        Edited the header comments to comply with NAIF standard.
+        Changed the DKS file used in the code example's solution.
+        Added NAIF_IDS to the $Required_Reading section.
+
+        Corrected short error message in entries #2, #3 and #5 in
+        $Exceptions section.
+
+    SPICELIB Version 1.0.0, 22-AUG-2016 (NJB)</PRE>
+<h4>Link to routine DSKOBJ source file <a href='../../../src/spicelib/dskobj.f'>dskobj.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:15 2021</pre>
+
+</body>
+</html>
+

@@ -1,0 +1,17 @@
+GAP_NNODE=1
+GAP_JOB_NAME=STDIN_1208_173035
+GAP_NODE_TYPE=
+GAP_SCHED_FILE=/public/home/guojg/thalassa_dir/batch/test1.sh
+GAP_STD_ERR_FILE=/public/home/guojg/thalassa_dir/batch/std.err.%j
+GAP_SUBMIT_TYPE=sched
+GAP_GUI=0
+GAP_NGPU=
+GAP_WORK_DIR=/public/home/guojg/thalassa_dir/batch
+GAP_MULTI_SUB=1
+GAP_STD_OUT_FILE=/public/home/guojg/thalassa_dir/batch/std.out.%j
+GAP_JOB_MEM=
+GAP_NDCU=
+GAP_QUEUE=cpu_56c
+GAP_SCHED_TYPE=SLURM
+GAP_PPN=40
+GAP_WALL_TIME=200:00:00

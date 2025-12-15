@@ -1,0 +1,254 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>det</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>det</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     DET  ( Determinant of a double precision 3x3 matrix )
+
+     DOUBLE PRECISION FUNCTION  DET ( M1 )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Compute the determinant of a double precision 3x3 matrix.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     MATH
+     MATRIX
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     DOUBLE PRECISION    M1 ( 3,3 )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     M1         I   Matrix whose determinant is to be found.
+
+     The function returns the value of the determinant found by direct
+     application of the definition of the determinant.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     M1       is any double precision, 3x3 matrix.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     The function returns the value of the determinant found by direct
+     application of the definition of the determinant.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     Error free.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     <b>DET</b> calculates the determinant of M1 in a single arithmetic
+     expression which is, effectively, the expansion of M1 about its
+     first row. Since the calculation of the determinant involves
+     the multiplication of numbers whose magnitudes are unrestricted,
+     there is the possibility of floating point overflow or underflow.
+     NO error checking or recovery is implemented in this routine.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Given a 3x3 double precision matrix, compute its determinant.
+
+        Example code begins here.
+
+
+              PROGRAM DET_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions.
+        C
+              DOUBLE PRECISION      <b>DET</b>
+
+        C
+        C     Local variables
+        C
+              DOUBLE PRECISION      M1     ( 3, 3 )
+              DOUBLE PRECISION      M2     ( 3, 3 )
+
+        C
+        C     Set M1 and M2.
+        C
+              DATA                  M1 /  1.D0,  2.D0,  3.D0,
+             .                            4.D0,  5.D0,  6.D0,
+             .                            7.D0,  8.D0,  9.D0  /
+
+              DATA                  M2 /  1.D0,  2.D0,  3.D0,
+             .                            0.D0,  5.D0,  6.D0,
+             .                            0.D0,  0.D0,  9.D0  /
+
+        C
+        C     Display the determinant of M1 and M2.
+        C
+              WRITE(*,'(A,F6.2)') 'Determinant of M1:', <b>DET</b>(M1)
+              WRITE(*,'(A,F6.2)') 'Determinant of M2:', <b>DET</b>(M2)
+
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Determinant of M1:  0.00
+        Determinant of M2: 45.00
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  No checking is implemented to determine whether M1 will cause
+         overflow or underflow in the process of calculating the
+         determinant. In most cases, this will not pose a problem.
+         The user is required to determine if M1 is suitable matrix
+         for <b>DET</b> to operate on.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     J. Diaz del Rio    (ODC Space)
+     W.M. Owen          (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.0.2, 02-JUL-2021 (JDR)
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example based on existing fragment.
+
+        Added missing IMPLICIT NONE statement.
+
+    SPICELIB Version 1.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.0.0, 31-JAN-1990 (WMO)</PRE>
+<h4>Link to routine DET source file <a href='../../../src/spicelib/det.f'>det.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:13 2021</pre>
+
+</body>
+</html>
+

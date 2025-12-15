@@ -1,0 +1,1166 @@
+C$Program    DSKBRIEF ( BRIEF DSK summary )
+
+      PROGRAM DSKBRIEF
+      IMPLICIT NONE
+
+C$ Abstract
+C
+C     DSKBRIEF is a utility program that provides brief summaries of
+C     the contents of one or more DSK files.
+C
+C$ Disclaimer
+C
+C     THIS SOFTWARE AND ANY RELATED MATERIALS WERE CREATED BY THE
+C     CALIFORNIA INSTITUTE OF TECHNOLOGY (CALTECH) UNDER A U.S.
+C     GOVERNMENT CONTRACT WITH THE NATIONAL AERONAUTICS AND SPACE
+C     ADMINISTRATION (NASA). THE SOFTWARE IS TECHNOLOGY AND SOFTWARE
+C     PUBLICLY AVAILABLE UNDER U.S. EXPORT LAWS AND IS PROVIDED "AS-IS"
+C     TO THE RECIPIENT WITHOUT WARRANTY OF ANY KIND, INCLUDING ANY
+C     WARRANTIES OF PERFORMANCE OR MERCHANTABILITY OR FITNESS FOR A
+C     PARTICULAR USE OR PURPOSE (AS SET FORTH IN UNITED STATES UCC
+C     SECTIONS 2312-2313) OR FOR ANY PURPOSE WHATSOEVER, FOR THE
+C     SOFTWARE AND RELATED MATERIALS, HOWEVER USED.
+C
+C     IN NO EVENT SHALL CALTECH, ITS JET PROPULSION LABORATORY, OR NASA
+C     BE LIABLE FOR ANY DAMAGES AND/OR COSTS, INCLUDING, BUT NOT
+C     LIMITED TO, INCIDENTAL OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+C     INCLUDING ECONOMIC DAMAGE OR INJURY TO PROPERTY AND LOST PROFITS,
+C     REGARDLESS OF WHETHER CALTECH, JPL, OR NASA BE ADVISED, HAVE
+C     REASON TO KNOW, OR, IN FACT, SHALL KNOW OF THE POSSIBILITY.
+C
+C     RECIPIENT BEARS ALL RISK RELATING TO QUALITY AND PERFORMANCE OF
+C     THE SOFTWARE AND ANY RELATED MATERIALS, AND AGREES TO INDEMNIFY
+C     CALTECH AND NASA FOR ALL THIRD-PARTY CLAIMS RESULTING FROM THE
+C     ACTIONS OF RECIPIENT IN THE USE OF THE SOFTWARE.
+C
+C$ Required_Reading
+C
+C     DSKBRIEF User's Guide.
+C
+C$ Keywords
+C
+C     FILES
+C     UTILITY
+C
+C$ Parameters
+C
+C     None.
+C
+C$ Exceptions
+C
+C     None.
+C
+C$ Files
+C
+C     1)  All summary tasks performed require a name for at least one
+C         DSK file to be provided.
+C
+C     2)  To display names of surfaces, and appropriate text kernel
+C         files containing surface name-ID mappings must be provided.
+C
+C$ Particulars
+C
+C     For usage details see the DSKBRIEF User's Guide.
+C
+C$ Examples
+C
+C     None.
+C
+C$ Restrictions
+C
+C     None.
+C
+C$ Literature_References
+C
+C     None.
+C
+C$ Author_and_Institution
+C
+C     N.J. Bachman   (JPL)
+C
+C$ Version
+C
+C-       DSKBRIEF Version 7.0.0 07-AUG-2021 (NJB)
+C
+C           Command line length was extended to hold 5300 names of
+C           maximum length, plus blank separators.
+C
+C-       DSKBRIEF Version 6.0.0 21-FEB-2017 (NJB)
+C
+C           Gap summary capability has been added.
+C
+C           Now, by default, summarizes groups of segments
+C           having matching attributes, when those segments
+C           belong to the same DSK file. Optionally summarizes
+C           groups of segments from multiple DSK files.
+C
+C           Summary of type 4 segments is now supported.
+C
+C-       DSKBRIEF Version 5.0.0 05-MAY-2010 (NJB)
+C-       DSKBRIEF Version 4.0.0 14-SEP-2008 (NJB)
+C-       DSKBRIEF Version 3.0.0 28-DEC-2006 (NJB)
+C-       DSKBRIEF Version 2.0.0 04-AUG-2006 (NJB)
+C-       DSKBRIEF Version 1.0.0 10-JUL-2006 (NJB)
+C
+C-&
+
+
+C
+C     Global parameters
+C
+      INCLUDE 'dla.inc'
+      INCLUDE 'dskdsc.inc'
+      INCLUDE 'dsktol.inc'
+
+C
+C     SPICELIB functions
+C
+      INTEGER               BRCKTI
+      INTEGER               ISRCHC
+      INTEGER               LNKNXT
+
+      LOGICAL               BEINT
+      LOGICAL               EXISTS
+
+C
+C     External routines
+C
+      EXTERNAL              ATTCMP
+
+C
+C     Local parameters
+C
+
+C
+C     This command line length is long enough to hold the
+C     maximum number of file names that can be stored by the
+C     KEEPER subsystem (5300), plus single blanks separating the
+C     file names.
+C
+C         255 * 5300 + 5299 = 1356799
+C
+      INTEGER               USELEN
+      PARAMETER           ( USELEN = 1356799 )
+
+      INTEGER               CMDMRG
+      PARAMETER           ( CMDMRG = 500 )
+
+      INTEGER               CMDLEN
+      PARAMETER           ( CMDLEN = USELEN + CMDMRG )
+
+      INTEGER               FILSIZ
+      PARAMETER           ( FILSIZ = 255 )
+
+      INTEGER               LNSIZE
+      PARAMETER           ( LNSIZE = 80 )
+
+      INTEGER               OUTLEN
+      PARAMETER           ( OUTLEN = 255 )
+
+      INTEGER               OPTLEN
+      PARAMETER           ( OPTLEN = 32 )
+
+      INTEGER               NOPT
+      PARAMETER           ( NOPT   = 10 )
+
+      INTEGER               LBPOOL
+      PARAMETER           ( LBPOOL = -5 )
+
+      INTEGER               MAXSEG
+      PARAMETER           ( MAXSEG = 100000 )
+
+      INTEGER               MAXGRP
+      PARAMETER           ( MAXGRP =  10000 )
+
+      INTEGER               MAXREG
+      PARAMETER           ( MAXREG = 4 )
+
+      INTEGER               TYPLEN
+      PARAMETER           ( TYPLEN = 10 )
+
+C
+C     Local variables
+C
+      CHARACTER*(LNSIZE)    BANNER
+      CHARACTER*(CMDLEN)    CMD
+      CHARACTER*(OUTLEN)    ERRMSG
+      CHARACTER*(TYPLEN)    FILTYP
+      CHARACTER*(FILSIZ)    FNAME
+      CHARACTER*(OPTLEN)    NUMSTR
+      CHARACTER*(OPTLEN)    OPTION
+      CHARACTER*(OPTLEN)    OPTLST ( NOPT )
+      CHARACTER*(OUTLEN)    OUTLIN
+      CHARACTER*(FILSIZ)    SOURCE
+
+      DOUBLE PRECISION      COMDSC ( DSKDSZ )
+      DOUBLE PRECISION      DSKDSC ( DSKDSZ )
+      DOUBLE PRECISION      GRPDSC ( DSKDSZ )
+      DOUBLE PRECISION      GXBDS  ( 2, MAXSEG )
+      DOUBLE PRECISION      GYBDS  ( 2, MAXSEG )
+      DOUBLE PRECISION      LONBDS ( 2, 2 )
+      DOUBLE PRECISION      MAXCO1
+      DOUBLE PRECISION      MAXCO2
+      DOUBLE PRECISION      MAXCO3
+      DOUBLE PRECISION      MAXTDB
+      DOUBLE PRECISION      MINCO1
+      DOUBLE PRECISION      MINCO2
+      DOUBLE PRECISION      MINCO3
+      DOUBLE PRECISION      MAXLON
+      DOUBLE PRECISION      MINLON
+      DOUBLE PRECISION      MINTDB
+      DOUBLE PRECISION      OUTBDS ( 2, MAXREG )
+      DOUBLE PRECISION      TIMTOL
+      DOUBLE PRECISION      XBDS   ( 2, MAXSEG )
+      DOUBLE PRECISION      YBDS   ( 2, MAXSEG )
+
+      INTEGER               B
+      INTEGER               B1
+      INTEGER               CORSYS
+      INTEGER               CURRNT ( DLADSZ )
+      INTEGER               DLADS  ( DLADSZ, MAXSEG )
+      INTEGER               DLADSC ( DLADSZ )
+      INTEGER               DSKNO
+      INTEGER               E
+      INTEGER               E1
+      INTEGER               GRPSIZ
+      INTEGER               HANDLE
+      INTEGER               HANLST ( MAXSEG)
+      INTEGER               I
+      INTEGER               J
+      INTEGER               K
+      INTEGER               NCOMP
+      INTEGER               NDSK
+      INTEGER               NG
+      INTEGER               NIVALS
+      INTEGER               NODE
+      INTEGER               NOUT
+      INTEGER               NSEG
+      INTEGER               NSIG
+      INTEGER               NXTDSC ( DLADSZ )
+      INTEGER               SEGNO
+      INTEGER               SEGLST ( MAXSEG )
+      INTEGER               SGPOOL ( 2, LBPOOL : MAXSEG )
+      INTEGER               SGPTRS ( MAXGRP )
+      INTEGER               SRCS   ( MAXREG )
+      INTEGER               TYPCDE
+
+      LOGICAL               ALL
+      LOGICAL               DIDDSK
+      LOGICAL               DIDFIL
+      LOGICAL               EXT
+      LOGICAL               FOUND
+      LOGICAL               FULL
+      LOGICAL               GAP
+      LOGICAL               OPTERR
+      LOGICAL               SEG
+      LOGICAL               SEGTM  ( MAXSEG )
+      LOGICAL               UST
+
+C
+C     Saved variables
+C
+      SAVE
+
+C
+C     Initial values
+C
+      DATA OPTLST / '-h',   '-v',    '-ext', '-full', '-a',
+     .              '-seg', '-gaps', '-d',   '-u',    '-tg'  /
+
+      DATA TIMTOL / 0.D0 /
+
+C
+C     Option flags
+C
+      DATA ALL    / .FALSE. /
+      DATA EXT    / .FALSE. /
+      DATA FULL   / .FALSE. /
+      DATA GAP    / .FALSE. /
+      DATA SEG    / .FALSE. /
+      DATA UST    / .FALSE. /
+
+
+
+      CALL CHKIN ( 'DSKBRIEF' )
+
+C
+C     Set the default value of the number of significant
+C     digits in floating point outputs.
+C
+      NSIG = 6
+
+C
+C     Initialize banner.
+C
+      BANNER = ' '
+
+      DO I = 1, LNSIZE-2
+         BANNER(I:I) = '='
+      END DO
+
+C
+C     Display the DSKBRIEF version.
+C
+      CALL PRCINF ( 'VERSION' )
+
+C
+C     Get the DSK file name, and the names of any
+C     additional files, from the command line.
+C
+      CMD = ' '
+
+      CALL GETCML ( CMD )
+
+      IF ( CMD .EQ. ' ' ) THEN
+
+         CALL PRCINF ( 'USAGE'   )
+         CALL BYEBYE ( 'SUCCESS' )
+
+      END IF
+
+      IF ( CMD(USELEN+1:CMDLEN) .NE. ' ' ) THEN
+
+         CALL SETMSG ( 'Input command is too long: non-blank '
+     .   //            'characters were found past index #.'  )
+         CALL ERRINT ( '#', USELEN                            )
+         CALL SIGERR ( 'SPICE(COMMANDTOOLONG)'                )
+
+      END IF
+
+C
+C     Identify all options specified on the command line.
+C
+      CALL FNDNWD ( CMD, 1, B, E )
+
+
+      DO WHILE ( B .GT. 0 )
+
+         OPTION = CMD(B:E)
+
+         I      = ISRCHC( OPTION, NOPT, OPTLST )
+
+         IF ( I .GT. 0 ) THEN
+C
+C           We have a recognized option.
+C
+            IF ( OPTION .EQ. '-h' ) THEN
+
+               CALL PRCINF ( 'HELP'    )
+               CALL BYEBYE ( 'SUCCESS' )
+
+
+            ELSE IF ( OPTION .EQ. '-u' ) THEN
+
+               CALL PRCINF ( 'USAGE'   )
+               CALL BYEBYE ( 'SUCCESS' )
+
+
+            ELSE IF ( OPTION .EQ. '-v' ) THEN
+
+               CALL BYEBYE ( 'SUCCESS' )
+
+            ELSE IF ( OPTION .EQ. '-a' ) THEN
+
+               ALL  = .TRUE.
+
+            ELSE IF ( OPTION .EQ. '-full' ) THEN
+C
+C              The -full option implies the -seg option.
+C
+               FULL = .TRUE.
+               SEG  = .TRUE.
+
+            ELSE IF ( OPTION .EQ. '-seg' ) THEN
+
+               SEG  = .TRUE.
+
+            ELSE IF ( OPTION .EQ. '-ext' ) THEN
+
+               EXT  = .TRUE.
+
+            ELSE IF ( OPTION .EQ. '-tg' ) THEN
+
+               UST  = .TRUE.
+
+            ELSE IF ( OPTION .EQ. '-gaps' ) THEN
+
+               GAP  = .TRUE.
+
+            ELSE IF ( OPTION .EQ. '-d' ) THEN
+
+C
+C              The next token should be an integer.
+C
+               CALL FNDNWD ( CMD, E+1, B1, E1 )
+
+               IF ( B1 .GT. 0 ) THEN
+
+                  NUMSTR = CMD(B1:E1)
+
+                  IF ( .NOT. BEINT(NUMSTR) ) THEN
+
+                     CALL SETMSG ( 'String <#> following -d option '
+     .               //            'was not an integer.'            )
+                     CALL ERRCH  ( '#', NUMSTR                      )
+                     CALL SIGERR ( 'SPICE(INVALIDINTEGER)'          )
+
+                  ELSE
+
+                     CALL PRSINT ( NUMSTR, NSIG )
+
+                     NSIG = BRCKTI ( NSIG, 3, 17 )
+
+                  END IF
+C
+C                 Erase the number from the command.
+C
+                  CMD(B1:E1) = ' '
+
+               ELSE
+
+                  CALL SETMSG ( 'An integer in the range 6:17 must '
+     .            //            'follow the -d option.'             )
+                  CALL SIGERR ( 'SPICE(SYNTAXERROR)'                )
+
+               END IF
+
+            ELSE
+
+               CALL SETMSG ( 'BUG: unrecognized option <#>.' )
+               CALL ERRCH  ( '#', OPTION                     )
+               CALL SIGERR ( 'SPICE(BUG)'                    )
+
+            END IF
+
+C
+C           Erase the option from the command.
+C
+            CMD(B:E) = ' '
+
+         END IF
+
+
+         CALL FNDNWD ( CMD, E+1, B, E )
+
+      END DO
+
+C
+C     Check for option combinations that involve overrides.
+C
+      OPTERR = .FALSE.
+
+      IF ( FULL .OR. SEG ) THEN
+
+         ALL = .FALSE.
+         EXT = .FALSE.
+         UST = .FALSE.
+
+      END IF
+
+      IF ( UST ) THEN
+         EXT = .TRUE.
+      END IF
+
+
+      IF ( OPTERR ) THEN
+
+         CALL TOSTDO ( ERRMSG    )
+         CALL TOSTDO ( ' '       )
+         CALL TOSTDO ( 'Run DSKBRIEF without command line options '
+     .   //            'to see program usage.'                    )
+         CALL TOSTDO ( ' '       )
+         CALL BYEBYE ( 'FAILURE' )
+
+      END IF
+
+
+C
+C     Load all files specified on the command line.
+C
+      DIDFIL = .FALSE.
+
+      CALL FNDNWD ( CMD, 1, B, E )
+
+
+      DO WHILE ( B .GT. 0  )
+C
+C        The current word is not an option; assume it's a file
+C        name.
+C
+         FNAME = CMD(B:E)
+
+         IF ( .NOT. EXISTS(FNAME) ) THEN
+
+            CALL SETMSG ( 'Token <#> is neither a recognized option '
+     .      //            'nor the name of an existing file.'        )
+            CALL ERRCH  ( '#', FNAME                                 )
+            CALL SIGERR ( 'SPICE(SYNTAXERROR)'                       )
+
+         END IF
+
+         CALL FURNSH( FNAME )
+
+         DIDFIL = .TRUE.
+
+         CALL FNDNWD ( CMD, E+1, B, E )
+
+      END DO
+
+C
+C     Initialize variables used to group segments.
+C
+      NSEG = 0
+      NG   = 0
+
+C
+C     Now summarize all DSK files.
+C
+      CALL KTOTAL ( 'DSK', NDSK )
+
+      DIDDSK = NDSK .GT. 0
+
+      DO DSKNO = 1, NDSK
+C
+C        Get the name and handle of the current DSK.
+C
+         CALL KDATA ( DSKNO, 'DSK',   FNAME,
+     .                FILTYP, SOURCE, HANDLE, FOUND )
+
+         IF ( .NOT. FOUND ) THEN
+
+            CALL SETMSG ( 'KDATA did not found the DSK at '
+     .      //            'index #. This is a bug.'        )
+            CALL ERRINT ( '#', DSKNO                       )
+            CALL SIGERR ( 'SPICE(BUG)'                     )
+
+         END IF
+
+
+
+         IF ( SEG ) THEN
+C
+C           Summarize the current file segment by segment.
+C
+            CALL DASOPR ( FNAME, HANDLE )
+
+            CALL TOSTDO ( ' ' )
+            CALL TOSTDO ( 'Summary for: '//FNAME)
+            CALL TOSTDO ( ' ' )
+
+C
+C           Search forward through the file, extracting DLA segment
+C           descriptors as we go.
+C
+            SEGNO = 0
+
+            CALL DLABFS ( HANDLE, DLADSC, FOUND )
+
+            DO WHILE ( FOUND )
+
+               SEGNO = SEGNO + 1
+               CALL TOSTDO ( BANNER )
+
+               OUTLIN = 'Segment number # of file #'
+               CALL REPMI  ( OUTLIN, '#', SEGNO, OUTLIN )
+               CALL REPMC  ( OUTLIN, '#', FNAME, OUTLIN )
+               CALL TOSTDO ( OUTLIN )
+               CALL TOSTDO ( ' '    )
+
+C
+C              Get the DSK descriptor from the current segment.
+C
+               CALL DSKGD ( HANDLE, DLADSC, DSKDSC )
+
+               TYPCDE = NINT (  DSKDSC( TYPIDX )  )
+
+C
+C              Show:
+C
+C                 body ID
+C                 surface ID
+C                 reference frame
+C                 data type
+C                 class
+C                 coordinate system
+C                 surface coverage
+C                 time bounds
+C
+               CALL DSPDSC ( DSKDSC, 1, CTRIDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, SRFIDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, FRMIDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, TYPIDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, CLSIDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, SYSIDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, MN1IDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, MN2IDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, MN3IDX, NSIG )
+               CALL DSPDSC ( DSKDSC, 1, BTMIDX, NSIG )
+
+
+               IF ( FULL ) THEN
+C
+C                 Display type-specific parameters:
+C
+                  IF ( TYPCDE .EQ. 2 ) THEN
+C
+C                    Display type 2 parameters.
+C
+                     CALL SUM02( HANDLE, DLADSC, NSIG )
+
+
+                  ELSE IF ( TYPCDE .EQ. 4 ) THEN
+C
+C                    Display type 4 parameters.
+C
+                     CALL SUM04( HANDLE, DLADSC, NSIG )
+
+                  ELSE
+
+                     CALL SETMSG ( 'Segment # has data type #.' )
+                     CALL ERRINT ( '#', SEGNO                   )
+                     CALL ERRINT ( '#', TYPCDE                  )
+                     CALL SIGERR ( 'SPICE(NOTSUPPORTED)'        )
+
+                  END IF
+
+               END IF
+
+C
+C              Copy the last read DLA descriptor to CURRNT.  Fetch
+C              the next descriptor.
+C
+               CALL MOVEI  ( DLADSC, DLADSZ, CURRNT )
+               CALL DLAFNS ( HANDLE, CURRNT, DLADSC, FOUND )
+
+            END DO
+
+            CALL TOSTDO ( BANNER )
+
+
+
+         ELSE
+C
+C           This branch supports the default and -a cases.
+C
+C           Just store information about this file's segments. We'll
+C           create a summary for the file, or a global summary, later.
+C
+            IF ( .NOT. ALL ) THEN
+C
+C              The list we're going to build applies only to the
+C              current file.
+C
+               NSEG = 0
+
+            END IF
+
+
+            CALL DASOPR ( FNAME, HANDLE )
+
+            CALL DLABFS ( HANDLE, DLADSC, FOUND )
+
+            DO WHILE ( FOUND )
+C
+C              We found another segment.
+C
+               NSEG = NSEG + 1
+
+               IF ( NSEG .EQ. MAXSEG ) THEN
+
+                  CALL SETMSG ( 'Size of segment array is #; cannot '
+     .            //            'add a new element.'                 )
+                  CALL ERRINT ( '#', MAXSEG                          )
+                  CALL SIGERR ( 'SPICE(ARRAYTOOSMALL)'               )
+
+               END IF
+
+C
+C              Buffer the handle and descriptor.
+C
+               HANLST(NSEG) = HANDLE
+
+               CALL MOVEI ( DLADSC, DLADSZ, DLADS(1,NSEG) )
+
+C
+C              Fetch the next descriptor.
+C
+               CALL DLAFNS ( HANDLE, DLADSC, NXTDSC, FOUND )
+
+               IF ( FOUND ) THEN
+                  CALL MOVEI ( NXTDSC, DLADSZ, DLADSC )
+               END IF
+
+            END DO
+
+
+            IF ( .NOT. ALL ) THEN
+C
+C              Group the segments according to their attributes.
+C
+               CALL GRPSEG ( ATTCMP, UST,    TIMTOL, NSEG, HANLST,
+     .                       DLADS,  MAXSEG, MAXGRP, NG,   SGPTRS,
+     .                       SGPOOL, SEGLST, SEGTM                )
+
+               CALL TOSTDO ( 'Summary for: '//FNAME )
+               CALL TOSTDO ( ' ' )
+
+               DO I = 1, NG
+C
+C                 Determine coordinate bounds for the Ith group. We'll
+C                 need the coordinate bounds for each segment in the
+C                 group.
+C
+C                 The first segment in the group has attributes, other
+C                 than coordinate bounds, that are representative of
+C                 the group. Extract these from the DSK descriptor of
+C                 this segment.
+C
+C                 J is the index in the segment list of the first
+C                 segment of the Ith segment group.
+C
+                  J      = SEGLST( SGPTRS(I) )
+
+                  GRPSIZ = 1
+C
+C                 Get the DSK descriptor for the first segment of the
+C                 Ith group. This is the source of the "common"
+C                 parameters.
+C
+                  CALL DSKGD ( HANLST(J), DLADS(1,J), COMDSC )
+C
+C                 Initialize the coordinate bounds.
+C
+                  MINCO1 = COMDSC(MN1IDX)
+                  MAXCO1 = COMDSC(MX1IDX)
+                  MINCO2 = COMDSC(MN2IDX)
+                  MAXCO2 = COMDSC(MX2IDX)
+                  MINCO3 = COMDSC(MN3IDX)
+                  MAXCO3 = COMDSC(MX3IDX)
+
+C
+C                 Store the domain coordinate bounds for use in gap
+C                 detection.
+C
+                  XBDS(1,GRPSIZ) = MINCO1
+                  XBDS(2,GRPSIZ) = MAXCO1
+
+                  YBDS(1,GRPSIZ) = MINCO2
+                  YBDS(2,GRPSIZ) = MAXCO2
+
+C
+C                 Initialize the time bounds.
+C
+                  MINTDB = COMDSC(BTMIDX)
+                  MAXTDB = COMDSC(ETMIDX)
+
+C
+C                 Now update the bounds using those of each segment in
+C                 the group. We can skip the first segment.
+C
+                  NODE = LNKNXT ( SGPTRS(I), SGPOOL )
+
+                  DO WHILE ( NODE .GT. 0 )
+
+                     J = SEGLST(NODE)
+
+                     CALL DSKGD ( HANLST(J), DLADS(1,J), DSKDSC )
+
+C
+C                    Longitude is a special case. As usual.
+C
+                     IF (      ( COMDSC(SYSIDX) .EQ. LATSYS )
+     .                    .OR. ( COMDSC(SYSIDX) .EQ. PDTSYS ) ) THEN
+C
+C                       The segment longitude ranges must be compatible
+C                       in order to take meaningful minima and maxima
+C                       of the longitude bounds. We'll regularize the
+C                       combination of the longitude bounds we have so
+C                       far and those of the current segment.
+C
+                        NIVALS      = 2
+                        LONBDS(1,1) = MINCO1
+                        LONBDS(2,1) = MAXCO1
+                        LONBDS(1,2) = DSKDSC(MN1IDX)
+                        LONBDS(2,2) = DSKDSC(MX1IDX)
+
+                        CALL REGLON ( NIVALS, LONBDS, MAXREG, NOUT,
+     .                                MINLON, MAXLON, OUTBDS, SRCS )
+C
+C                       The output longitude bounds belong to a
+C                       consistent range: either -180:180 or 0:360.
+C
+C
+C                       Note that we can't use the extrema from the
+C                       first segment of the group that we obtained
+C                       before the loop start, since these bounds
+C                       haven't been regularized.
+C
+                        MINCO1 = OUTBDS(1,1)
+                        MAXCO1 = OUTBDS(2,1)
+
+                        DO K = 2, NOUT
+
+                           MINCO1 = MIN( MINCO1, OUTBDS(1,K) )
+                           MAXCO1 = MAX( MAXCO1, OUTBDS(2,K) )
+
+                        END DO
+
+                     ELSE
+                        MINCO1 = MIN( MINCO1, DSKDSC(MN1IDX) )
+                        MAXCO1 = MAX( MAXCO1, DSKDSC(MX1IDX) )
+                     END IF
+
+
+                     MINCO2 = MIN( MINCO2, DSKDSC(MN2IDX) )
+                     MAXCO2 = MAX( MAXCO2, DSKDSC(MX2IDX) )
+                     MINCO3 = MIN( MINCO3, DSKDSC(MN3IDX) )
+                     MAXCO3 = MAX( MAXCO3, DSKDSC(MX3IDX) )
+
+C
+C                    Store the domain coordinate bounds for use in gap
+C                    detection. Note that we must use the segment
+C                    bounds, not the group bounds.
+C
+                     GRPSIZ         = GRPSIZ + 1
+
+                     XBDS(1,GRPSIZ) = DSKDSC(MN1IDX)
+                     XBDS(2,GRPSIZ) = DSKDSC(MX1IDX)
+
+                     YBDS(1,GRPSIZ) = DSKDSC(MN2IDX)
+                     YBDS(2,GRPSIZ) = DSKDSC(MX2IDX)
+
+C
+C                    Update the time bounds.
+C
+                     MINTDB = MIN( MINTDB, DSKDSC(BTMIDX) )
+                     MAXTDB = MAX( MAXTDB, DSKDSC(ETMIDX) )
+
+C
+C                    Look at the next segment of the group.
+C
+                     NODE = LNKNXT( NODE, SGPOOL )
+
+                  END DO
+
+C
+C                 Create a DSK descriptor that contains the group's
+C                 coordinate bounds.
+C
+                  CALL MOVED ( COMDSC, DSKDSZ, GRPDSC )
+
+                  GRPDSC(MN1IDX) = MINCO1
+                  GRPDSC(MX1IDX) = MAXCO1
+                  GRPDSC(MN2IDX) = MINCO2
+                  GRPDSC(MX2IDX) = MAXCO2
+                  GRPDSC(MN3IDX) = MINCO3
+                  GRPDSC(MX3IDX) = MAXCO3
+C
+C                 Show:
+C
+C                    body ID
+C                    surface ID
+C                    reference frame
+C                    coordinate system
+C                    surface coverage
+C
+                  CALL DSPDSC ( GRPDSC, 1, CTRIDX, NSIG )
+                  CALL DSPDSC ( GRPDSC, 1, SRFIDX, NSIG )
+                  CALL DSPDSC ( GRPDSC, 1, FRMIDX, NSIG )
+C
+C                 Display data type and class if -ext was
+C                 specified.
+C
+                  IF ( EXT ) THEN
+                     CALL DSPDSC ( GRPDSC, 1, TYPIDX, NSIG )
+                     CALL DSPDSC ( GRPDSC, 1, CLSIDX, NSIG )
+                  END IF
+
+                  CALL DSPDSC ( GRPDSC, 1, SYSIDX, NSIG )
+                  CALL DSPDSC ( GRPDSC, 1, MN1IDX, NSIG )
+                  CALL DSPDSC ( GRPDSC, 1, MN2IDX, NSIG )
+                  CALL DSPDSC ( GRPDSC, 1, MN3IDX, NSIG )
+
+                  IF ( EXT ) THEN
+C
+C                    Display time range.
+C
+                     CALL DSPDSC ( GRPDSC, 1, BTMIDX, NSIG )
+
+                  END IF
+
+C
+C                 If time is not used for segment grouping and
+C                 the members of the group don't have compatible
+C                 times, issue a warning.
+C
+                  IF (  (.NOT. UST ) .AND. ( .NOT. SEGTM(I) )  ) THEN
+
+                     CALL TOSTDO ( '    ***Segments have inconsistent '
+     .               //            'time coverage.***'                )
+
+                  END IF
+C
+C                 Determine whether this set of segments has
+C                 coverage gaps.
+C
+                  CORSYS = NINT( GRPDSC(SYSIDX) )
+
+                  CALL ZZDBRGAP ( CORSYS, GRPSIZ, XBDS,  YBDS,
+     .                            MAXSEG, NCOMP,  GXBDS, GYBDS )
+
+C
+C                 If the user has commanded gap display, and if
+C                 there are gaps, here's where we display them.
+C
+                  CALL DSPGAP ( GAP, CORSYS, NSIG, NCOMP, GXBDS, GYBDS )
+
+                  CALL TOSTDO ( ' ' )
+
+               END DO
+C
+C              End of group loop.
+C
+            END IF
+C
+C           End of default case.
+C
+         END IF
+C
+C        End of the case conditional block.
+C
+      END DO
+C
+C     We've processed all DSK files listed on the command line.
+C
+
+      IF ( ALL .AND. DIDDSK .AND. ( .NOT. SEG )  ) THEN
+C
+C        Group the segments according to their attributes.
+C
+         CALL GRPSEG ( ATTCMP, UST,    TIMTOL, NSEG,   HANLST, DLADS,
+     .                 MAXSEG, MAXGRP, NG,     SGPTRS, SGPOOL, SEGLST,
+     .                 SEGTM                                          )
+
+         CALL TOSTDO ( 'Summary for: all DSK files' )
+         CALL TOSTDO ( ' ' )
+
+         DO I = 1, NG
+C
+C           Determine coordinate bounds for the Ith group.
+C           We'll need the coordinate bounds for each segment
+C           in the group.
+C
+C           The first segment in the group has attributes, other
+C           than coordinate bounds, that are representative of
+C           the group. Extract these from the DSK descriptor of
+C           this segment.
+C
+C           J is the index in the segment list of the first
+C           segment of the Ith segment group.
+C
+            J = SEGLST( SGPTRS(I) )
+
+C
+C           Get the DSK descriptor for the first segment of
+C           the Ith group. This is the source of the "common"
+C           parameters.
+C
+            CALL DSKGD ( HANLST(J), DLADS(1,J), COMDSC )
+C
+C           Initialize the coordinate bounds.
+C
+            MINCO1 = COMDSC(MN1IDX)
+            MAXCO1 = COMDSC(MX1IDX)
+            MINCO2 = COMDSC(MN2IDX)
+            MAXCO2 = COMDSC(MX2IDX)
+            MINCO3 = COMDSC(MN3IDX)
+            MAXCO3 = COMDSC(MX3IDX)
+
+            GRPSIZ = 1
+
+C
+C           Store the domain coordinate bounds for use in gap
+C           detection.
+C
+            XBDS(1,GRPSIZ) = MINCO1
+            XBDS(2,GRPSIZ) = MAXCO1
+
+            YBDS(1,GRPSIZ) = MINCO2
+            YBDS(2,GRPSIZ) = MAXCO2
+
+C
+C           Initialize the time bounds.
+C
+            MINTDB = COMDSC(BTMIDX)
+            MAXTDB = COMDSC(ETMIDX)
+
+C
+C           Now update the bounds using those of each segment in
+C           the group. We can skip the first segment.
+C
+            NODE = LNKNXT ( SGPTRS(I), SGPOOL )
+
+            DO WHILE ( NODE .GT. 0 )
+
+               J = SEGLST(NODE)
+
+               CALL DSKGD ( HANLST(J), DLADS(1,J), DSKDSC )
+
+C
+C              Longitude is a special case. As usual.
+C
+               IF (      ( COMDSC(SYSIDX) .EQ. LATSYS )
+     .              .OR. ( COMDSC(SYSIDX) .EQ. PDTSYS ) ) THEN
+C
+C                 The segment longitude ranges must be compatible in
+C                 order to take meaningful minima and maxima of the
+C                 longitude bounds. We'll regularize the combination of
+C                 the longitude bounds we have so far and those of the
+C                 current segment.
+C
+                  NIVALS      = 2
+                  LONBDS(1,1) = MINCO1
+                  LONBDS(2,1) = MAXCO1
+                  LONBDS(1,2) = DSKDSC(MN1IDX)
+                  LONBDS(2,2) = DSKDSC(MX1IDX)
+
+                  CALL REGLON ( NIVALS, LONBDS, MAXREG, NOUT,
+     .                          MINLON, MAXLON, OUTBDS, SRCS )
+C
+C                 The output longitude bounds belong to a consistent
+C                 range: either -180:180 or 0:360.
+C
+C                 Note that we can't use the extrema from the first
+C                 segment of the group that we obtained before the
+C                 loop start, since these bounds haven't been
+C                 regularized.
+C
+                  MINCO1 = OUTBDS(1,1)
+                  MAXCO1 = OUTBDS(2,1)
+
+                  DO K = 2, NOUT
+
+                     MINCO1 = MIN( MINCO1, OUTBDS(1,K) )
+                     MAXCO1 = MAX( MAXCO1, OUTBDS(2,K) )
+
+                  END DO
+
+               ELSE
+                  MINCO1 = MIN( MINCO1, DSKDSC(MN1IDX) )
+                  MAXCO1 = MAX( MAXCO1, DSKDSC(MX1IDX) )
+               END IF
+
+               MINCO2 = MIN( MINCO2, DSKDSC(MN2IDX) )
+               MAXCO2 = MAX( MAXCO2, DSKDSC(MX2IDX) )
+               MINCO3 = MIN( MINCO3, DSKDSC(MN3IDX) )
+               MAXCO3 = MAX( MAXCO3, DSKDSC(MX3IDX) )
+
+C
+C              Store the domain coordinate bounds for use in gap
+C              detection. Note that we must use the segment bounds,
+C              not the group bounds.
+C
+               GRPSIZ         = GRPSIZ + 1
+
+               XBDS(1,GRPSIZ) = DSKDSC(MN1IDX)
+               XBDS(2,GRPSIZ) = DSKDSC(MX1IDX)
+
+               YBDS(1,GRPSIZ) = DSKDSC(MN2IDX)
+               YBDS(2,GRPSIZ) = DSKDSC(MX2IDX)
+
+C
+C              Update the group time bounds.
+C
+               MINTDB = MIN( MINTDB, DSKDSC(BTMIDX) )
+               MAXTDB = MAX( MAXTDB, DSKDSC(ETMIDX) )
+
+C
+C              Look at the next segment of the group.
+C
+               NODE = LNKNXT( NODE, SGPOOL )
+
+            END DO
+
+C
+C           Now display information about the group.
+C
+C           Create a DSK descriptor that contains the
+C           group's coordinate bounds.
+C
+            CALL MOVED ( COMDSC, DSKDSZ, GRPDSC )
+
+            GRPDSC(MN1IDX) = MINCO1
+            GRPDSC(MX1IDX) = MAXCO1
+            GRPDSC(MN2IDX) = MINCO2
+            GRPDSC(MX2IDX) = MAXCO2
+            GRPDSC(MN3IDX) = MINCO3
+            GRPDSC(MX3IDX) = MAXCO3
+C
+C           Show:
+C
+C              body ID
+C              surface ID
+C              reference frame
+C              coordinate system
+C              surface coverage
+C
+            CALL DSPDSC ( GRPDSC, 1, CTRIDX, NSIG )
+            CALL DSPDSC ( GRPDSC, 1, SRFIDX, NSIG )
+            CALL DSPDSC ( GRPDSC, 1, FRMIDX, NSIG )
+
+            IF ( EXT ) THEN
+               CALL DSPDSC ( GRPDSC, 1, TYPIDX, NSIG )
+               CALL DSPDSC ( GRPDSC, 1, CLSIDX, NSIG )
+            END IF
+
+            CALL DSPDSC ( GRPDSC, 1, SYSIDX, NSIG )
+            CALL DSPDSC ( GRPDSC, 1, MN1IDX, NSIG )
+            CALL DSPDSC ( GRPDSC, 1, MN2IDX, NSIG )
+            CALL DSPDSC ( GRPDSC, 1, MN3IDX, NSIG )
+
+            IF ( EXT ) THEN
+               CALL DSPDSC ( GRPDSC, 1, BTMIDX, NSIG )
+            END IF
+
+            IF (  (.NOT. UST ) .AND. ( .NOT. SEGTM(I) )  ) THEN
+
+               CALL TOSTDO ( '    ***Segments have inconsistent '
+     .         //            'time coverage.***'                )
+
+            END IF
+
+C
+C           Determine whether this set of segments has coverage gaps.
+C
+            CORSYS = NINT( GRPDSC(SYSIDX) )
+
+            CALL ZZDBRGAP ( CORSYS, GRPSIZ, XBDS,  YBDS,
+     .                      MAXSEG, NCOMP,  GXBDS, GYBDS )
+C
+C           If the user has commanded gap display, and if
+C           there are gaps, here's where we display them.
+C
+            CALL DSPGAP ( GAP, CORSYS, NSIG, NCOMP, GXBDS, GYBDS )
+
+            CALL TOSTDO ( ' ' )
+
+         END DO
+C
+C        End of group loop.
+C
+      END IF
+
+
+      IF ( DIDFIL .AND. ( .NOT. DIDDSK ) ) THEN
+
+         CALL TOSTDO ( 'No DSK files were provided -- no summary '
+     .   //            'will be displayed.'                       )
+         CALL TOSTDO ( ' ' )
+         CALL TOSTDO ( 'Run DSKBRIEF without command line options '
+     .   //            'to see program usage.'                    )
+         CALL TOSTDO ( ' ' )
+
+      END IF
+
+      CALL CHKOUT ( 'DSKBRIEF' )
+      END

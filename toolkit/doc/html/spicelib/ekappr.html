@@ -1,0 +1,500 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>ekappr</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>ekappr</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     EKAPPR ( EK, append record onto segment )
+
+     SUBROUTINE EKAPPR ( HANDLE, SEGNO, RECNO )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Append a new, empty record at the end of a specified E-kernel
+     segment.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/ek.html">EK</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     PRIVATE
+     UTILITY
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE 'ekdatpag.inc'
+     INCLUDE 'ekpage.inc'
+     INCLUDE 'ekrecptr.inc'
+     INCLUDE 'eksegdsc.inc'
+     INCLUDE 'ektype.inc'
+
+     INTEGER               HANDLE
+     INTEGER               SEGNO
+     INTEGER               RECNO
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     HANDLE     I   File handle.
+     SEGNO      I   Segment number.
+     RECNO      O   Number of appended record.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     HANDLE   is a file handle of an EK open for write access.
+
+     SEGNO    is the number of the segment to which the record
+              is to be added.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     RECNO    is the number of the record appended by this
+              routine. RECNO is used to identify the record
+              when writing column entries to it.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If HANDLE is invalid, an error is signaled by a routine in the
+         call tree of this routine. The file will not be modified.
+
+     2)  If SEGNO is out of range, the error SPICE(INVALIDINDEX)
+         is signaled. The file will not be modified.
+
+     3)  If an I/O error occurs while reading or writing the indicated
+         file, the error is signaled by a routine in the call tree of
+         this routine. The file may be corrupted.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See the EK Required Reading ek.req for a discussion of the EK file
+     format.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine operates by side effects: It appends a new, empty
+     record structure to an EK segment. The ordinal position of the
+     new record is one greater than the previous number of records in
+     in the segment.
+
+     After a new record has been appended to a segment by this routine,
+     the record must be populated with data using the EKACEx
+     routines.  EKs are valid only when all of their column entries
+     are initialized.
+
+     To insert a record into a segment at a specified ordinal position,
+     use the routine <b>EKAPPR</b>.
+
+     This routine cannot be used with the &quot;fast write&quot; suite of
+     routines. See the EK Required Reading ek.req for a discussion of
+     the fast writers.
+
+     When a record is inserted into an EK file that is not shadowed,
+     the status of the record starts out set to OLD. The status
+     does not change when data is added to the record.
+
+     If the target EK is shadowed, the new record will be given the
+     status NEW. Updating column values in the record does not change
+     its status. When changes are committed, the status is set to OLD.
+     If a rollback is performed before changes are committed, the
+     record is deleted. Closing the target file without committing
+     changes implies a rollback.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Append a record to a specified segment.
+
+        Suppose we have an E-kernel which contains records of orders
+        for data products. The E-kernel has a table called DATAORDERS
+        that consists of the set of columns listed below:
+
+           DATAORDERS
+
+              Column Name     Data Type
+              -----------     ---------
+              ORDER_ID        INTEGER
+              CUSTOMER_ID     INTEGER
+              LAST_NAME       CHARACTER*(*)
+              FIRST_NAME      CHARACTER*(*)
+              ORDER_DATE      TIME
+              COST            DOUBLE PRECISION
+
+        The order database also has a table of items that have been
+        ordered. The columns of this table are shown below:
+
+           DATAITEMS
+
+              Column Name     Data Type
+              -----------     ---------
+              ITEM_ID         INTEGER
+              ORDER_ID        INTEGER
+              ITEM_NAME       CHARACTER*(*)
+              DESCRIPTION     CHARACTER*(*)
+              PRICE           DOUBLE PRECISION
+
+
+        We'll suppose that the EK file contains two segments, the
+        first containing the DATAORDERS table and the second
+        containing the DATAITEMS table.
+
+        This examples creates such EK, with no records in either
+        table, and after re-opening the file, inserts a new record
+        into the DATAITEMS table.
+
+
+        Example code begins here.
+
+
+              PROGRAM EKAPPR_EX1
+              IMPLICIT NONE
+
+        C
+        C     Include the EK Column Name Size (CNAMSZ)
+        C
+              INCLUDE 'ekcnamsz.inc'
+
+        C
+        C     Local parameters
+        C
+              CHARACTER*(*)         EKNAME
+              PARAMETER           ( EKNAME  = 'ekappr_ex1.bdb' )
+
+              INTEGER               DECLEN
+              PARAMETER           ( DECLEN = 200 )
+
+              INTEGER               DESCLN
+              PARAMETER           ( DESCLN = 80  )
+
+              INTEGER               NAMLEN
+              PARAMETER           ( NAMLEN = 40  )
+
+              INTEGER               NCOLS
+              PARAMETER           ( NCOLS  = 6   )
+
+        C
+        C     Local variables
+        C
+              CHARACTER*(DECLEN)    CDECLS ( NCOLS )
+              CHARACTER*(CNAMSZ)    CNAMES ( NCOLS )
+              CHARACTER*(DESCLN)    DESCRP
+              CHARACTER*(NAMLEN)    IFNAME
+              CHARACTER*(NAMLEN)    ITEMNM
+
+              DOUBLE PRECISION      PRICE
+
+              INTEGER               ESIZE
+              INTEGER               HANDLE
+              INTEGER               ITEMID
+              INTEGER               NRESVC
+              INTEGER               ORDID
+              INTEGER               RECNO
+              INTEGER               SEGNO
+
+              LOGICAL               ISNULL
+
+        C
+        C     Open a new EK file.  For simplicity, we will not
+        C     reserve any space for the comment area, so the
+        C     number of reserved comment characters is zero.
+        C     The variable IFNAME is the internal file name.
+        C
+              NRESVC  =  0
+              IFNAME  =  'Test EK/Created 01-JUN-2019'
+
+              CALL <a href="ekopn.html">EKOPN</a> ( EKNAME, IFNAME, NRESVC, HANDLE )
+
+        C
+        C     Set up the table and column names and declarations
+        C     for the DATAORDERS segment.  We'll index all of
+        C     the columns.  All columns are scalar, so we omit
+        C     the size declaration.  Only the COST column may take
+        C     null values.
+        C
+              CNAMES(1) =  'ORDER_ID'
+              CDECLS(1) =  'DATATYPE = INTEGER, INDEXED = TRUE'
+
+              CNAMES(2) =  'CUSTOMER_ID'
+              CDECLS(2) =  'DATATYPE = INTEGER, INDEXED = TRUE'
+
+              CNAMES(3) =  'LAST_NAME'
+              CDECLS(3) =  'DATATYPE = CHARACTER*(*), ' //
+             .             'INDEXED  = TRUE'
+
+              CNAMES(4) =  'FIRST_NAME'
+              CDECLS(4) =  'DATATYPE = CHARACTER*(*), ' //
+             .             'INDEXED  = TRUE'
+
+              CNAMES(5) =  'ORDER_DATE'
+              CDECLS(5) =  'DATATYPE = TIME, INDEXED  = TRUE'
+
+              CNAMES(6) =  'COST'
+              CDECLS(6) =  'DATATYPE = DOUBLE PRECISION,' //
+             .             'INDEXED  = TRUE,'             //
+             .             'NULLS_OK = TRUE'
+
+        C
+        C     Start the first segment. Since we have no data for this
+        C     segment, start the segment by just defining the new
+        C     segment's schema.
+        C
+              CALL <a href="ekbseg.html">EKBSEG</a> ( HANDLE, 'DATAORDERS', NCOLS,
+             .              CNAMES, CDECLS,       SEGNO )
+
+        C
+        C     At this point, the second segment could be
+        C     created by an analogous process.  In fact, the
+        C     second segment could be created at any time; it is
+        C     not necessary to populate the first segment with
+        C     data before starting the second segment.
+        C
+        C     Set up the table and column names and declarations
+        C     for the DATAITEMS segment.  We'll index all of
+        C     the columns.  All columns are scalar, so we omit
+        C     the size declaration.
+        C
+              CNAMES(1) =  'ITEM_ID'
+              CDECLS(1) =  'DATATYPE = INTEGER, INDEXED = TRUE'
+
+              CNAMES(2) =  'ORDER_ID'
+              CDECLS(2) =  'DATATYPE = INTEGER, INDEXED = TRUE'
+
+              CNAMES(3) =  'ITEM_NAME'
+              CDECLS(3) =  'DATATYPE = CHARACTER*(*),' //
+             .             'INDEXED  = TRUE'
+
+              CNAMES(4) =  'DESCRIPTION'
+              CDECLS(4) =  'DATATYPE = CHARACTER*(*),' //
+             .             'INDEXED  = TRUE'
+
+              CNAMES(5) =  'PRICE'
+              CDECLS(5) =  'DATATYPE = DOUBLE PRECISION,' //
+             .             'INDEXED  = TRUE'
+
+
+        C
+        C     Start the new segment. Since we have no data for this
+        C     segment, start the segment by just defining the new
+        C     segment's schema.
+        C
+              CALL <a href="ekbseg.html">EKBSEG</a> ( HANDLE, 'DATAITEMS', 5,
+             .              CNAMES, CDECLS,      SEGNO )
+
+        C
+        C     End the file by a call to <a href="ekcls.html">EKCLS</a>.
+        C
+              CALL <a href="ekcls.html">EKCLS</a> ( HANDLE )
+
+        C
+        C     Now, we want to insert a new record into the DATAITEMS
+        C     table.
+        C
+        C     Open the database for write access.  This call is
+        C     made when the file already exists.
+        C
+              CALL <a href="ekopw.html">EKOPW</a> ( EKNAME, HANDLE )
+
+        C
+        C     Append a new, empty record to the DATAITEMS
+        C     table. Recall that the DATAITEMS table
+        C     is in segment number 2.  The call will return
+        C     the number of the new, empty record.
+        C
+              SEGNO = 2
+              CALL <b>EKAPPR</b> ( HANDLE, SEGNO, RECNO )
+
+        C
+        C     At this point, the new record is empty.  A valid EK
+        C     cannot contain empty records.  We fill in the data
+        C     here.  Data items are filled in one column at a time.
+        C     The order in which the columns are filled in is not
+        C     important.  We use the EKACEx (add column entry)
+        C     routines to fill in column entries.  We'll assume
+        C     that no entries are null.  All entries are scalar,
+        C     so the entry size is 1.
+        C
+              ISNULL =  .FALSE.
+              ESIZE  =  1
+
+        C
+        C     The following variables will contain the data for
+        C     the new record.
+        C
+              ORDID  =   10011
+              ITEMID =   531
+              ITEMNM =  'Sample item'
+              DESCRP =  'This sample item is used only in tests.'
+              PRICE  =   1345.678D0
+
+        C
+        C     Note that the names of the routines called
+        C     correspond to the data types of the columns:  the
+        C     last letter of the routine name is C, I, or D,
+        C     depending on the data type.
+        C
+              CALL <a href="ekacei.html">EKACEI</a> ( HANDLE, SEGNO,  RECNO, 'ORDER_ID',
+             .              ESIZE,  ORDID,  ISNULL               )
+
+              CALL <a href="ekacei.html">EKACEI</a> ( HANDLE, SEGNO,  RECNO, 'ITEM_ID',
+             .              ESIZE,  ITEMID, ISNULL               )
+
+              CALL <a href="ekacec.html">EKACEC</a> ( HANDLE, SEGNO,  RECNO, 'ITEM_NAME',
+             .              ESIZE,  ITEMNM, ISNULL               )
+
+              CALL <a href="ekacec.html">EKACEC</a> ( HANDLE, SEGNO,  RECNO, 'DESCRIPTION',
+             .              ESIZE,  DESCRP, ISNULL               )
+
+              CALL <a href="ekaced.html">EKACED</a> ( HANDLE, SEGNO,  RECNO, 'PRICE',
+             .              ESIZE,  PRICE,  ISNULL               )
+
+        C
+        C     Close the file to make the update permanent.
+        C
+              CALL <a href="ekcls.html">EKCLS</a> ( HANDLE )
+
+              END
+
+
+        When this program is executed, no output is presented on
+        screen. After run completion, a new EK file exists in the
+        output directory.
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 02-JUL-2021 (JDR)
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard.
+        Added complete code example.
+
+    SPICELIB Version 1.0.1, 09-JAN-2002 (NJB)
+
+        Documentation change: instances of the phrase &quot;fast load&quot;
+        were replaced with &quot;fast write.&quot;
+
+    SPICELIB Version 1.0.0, 19-DEC-1995 (NJB)</PRE>
+<h4>Link to routine EKAPPR source file <a href='../../../src/spicelib/ekappr.f'>ekappr.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:17 2021</pre>
+
+</body>
+</html>
+

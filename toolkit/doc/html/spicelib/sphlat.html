@@ -1,0 +1,513 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>sphlat</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>sphlat</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     SPHLAT ( Spherical to latitudinal coordinates )
+
+     SUBROUTINE SPHLAT ( R, COLAT, SLON, RADIUS, LON, LAT )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Convert from spherical coordinates to latitudinal coordinates.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     CONVERSION
+     COORDINATES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     DOUBLE PRECISION R
+     DOUBLE PRECISION COLAT
+     DOUBLE PRECISION SLON
+     DOUBLE PRECISION RADIUS
+     DOUBLE PRECISION LON
+     DOUBLE PRECISION LAT
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     R          I   Distance of the point from the origin.
+     COLAT      I   Angle of the point from positive Z axis (radians).
+     SLON       I   Angle of the point from the XZ plane (radians).
+     RADIUS     O   Distance of a point from the origin
+     LON        O   Angle of the point from the XZ plane in radians
+     LAT        O   Angle of the point from the XY plane in radians
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     R        is the distance of the point from the origin.
+
+     COLAT    is the angle between the vector from the origin to the
+              point and the positive Z-axis in radians.
+
+     SLON     is the angle of the point from the XZ plane (radians).
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     RADIUS   is the distance of a point from the origin.
+
+     LON      is the angle of the point from the XZ plane in
+              radians. LON is set equal to SLON.
+
+     LAT      is the angle of the point from the XY plane in
+              radians. LAT is computed as pi/2 - COLAT.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     Error free.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine returns the latitudinal coordinates of a point
+     whose position is input in spherical coordinates.
+
+     Latitudinal coordinates are defined by a distance from a central
+     reference point, an angle from a reference meridian, and an angle
+     above the equator of a sphere centered at the central reference
+     point.
+
+     Spherical coordinates are defined by a distance from a central
+     reference point, an angle from a reference meridian, and an angle
+     from the Z-axis.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for these examples may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Latitude is obtained by subtracting co-latitude from <a href="halfpi.html">HALFPI</a>
+        Radius and longitude mean the same thing in both latitudinal
+        and spherical coordinates. The table below lists LAT and
+        corresponding COLAT in terms of degrees.
+
+             LAT     COLAT
+            -----    -----
+               0        90
+              20        70
+              45        45
+             -30       120
+              90         0
+             -45       135
+
+
+     2) Compute the spherical coordinates of the position of the Moon
+        as seen from the Earth, and convert them to latitudinal and
+        rectangular coordinates.
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: sphlat_ex2.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                     Contents
+              ---------                     --------
+              de421.bsp                     Planetary ephemeris
+              naif0012.tls                  Leapseconds
+
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'de421.bsp',
+                                  'naif0012.tls'  )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM SPHLAT_EX2
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions
+        C
+              DOUBLE PRECISION      <a href="dpr.html">DPR</a>
+
+        C
+        C     Local parameters
+        C
+              CHARACTER*(*)         FMT1
+              PARAMETER           ( FMT1 = '(A,F20.8)' )
+
+        C
+        C     Local variables
+        C
+              DOUBLE PRECISION      COLAT
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      LT
+              DOUBLE PRECISION      LAT
+              DOUBLE PRECISION      LON
+              DOUBLE PRECISION      POS    ( 3 )
+              DOUBLE PRECISION      R
+              DOUBLE PRECISION      RADIUS
+              DOUBLE PRECISION      RECTAN ( 3 )
+              DOUBLE PRECISION      SLON
+              DOUBLE PRECISION      Z
+
+        C
+        C     Load SPK and LSK kernels, use a meta kernel for
+        C     convenience.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'sphlat_ex2.tm' )
+
+        C
+        C     Look up the geometric state of the Moon as seen from
+        C     the Earth at 2017 Mar 20, relative to the J2000
+        C     reference frame.
+        C
+              CALL <a href="str2et.html">STR2ET</a> ( '2017 Mar 20', ET )
+
+              CALL <a href="spkpos.html">SPKPOS</a> ( 'Moon',  ET,  'J2000', 'NONE',
+             .              'Earth', POS, LT               )
+
+        C
+        C     Convert the position vector POS to spherical
+        C     coordinates.
+        C
+              CALL <a href="recsph.html">RECSPH</a> ( POS, R, COLAT, SLON )
+
+        C
+        C     Convert the spherical coordinates to latitudinal.
+        C
+              CALL <b>SPHLAT</b> ( R, COLAT, SLON, RADIUS, LON, LAT )
+
+        C
+        C     Convert the latitudinal coordinates to rectangular.
+        C
+              CALL <a href="latrec.html">LATREC</a> ( RADIUS, LON, LAT, RECTAN )
+
+
+              WRITE(*,*) ' '
+              WRITE(*,*) 'Original rectangular coordinates:'
+              WRITE(*,*) ' '
+              WRITE(*,FMT1) '  X           (km): ', POS(1)
+              WRITE(*,FMT1) '  Y           (km): ', POS(2)
+              WRITE(*,FMT1) '  Z           (km): ', POS(3)
+              WRITE(*,*) ' '
+              WRITE(*,*) 'Spherical coordinates:'
+              WRITE(*,*) ' '
+              WRITE(*,FMT1) '  Radius      (km): ', R
+              WRITE(*,FMT1) '  Colatitude (deg): ', COLAT*<a href="dpr.html">DPR</a>()
+              WRITE(*,FMT1) '  Longitude  (deg): ', SLON*<a href="dpr.html">DPR</a>()
+              WRITE(*,*) ' '
+              WRITE(*,*) 'Latitudinal coordinates:'
+              WRITE(*,*) ' '
+              WRITE(*,FMT1) '  Radius      (km): ', RADIUS
+              WRITE(*,FMT1) '  Longitude  (deg): ', LON*<a href="dpr.html">DPR</a>()
+              WRITE(*,FMT1) '  Latitude   (deg): ', LAT*<a href="dpr.html">DPR</a>()
+              WRITE(*,*) ' '
+              WRITE(*,*) 'Rectangular coordinates from <a href="latrec.html">LATREC</a>:'
+              WRITE(*,*) ' '
+              WRITE(*,FMT1) '  X           (km): ', RECTAN(1)
+              WRITE(*,FMT1) '  Y           (km): ', RECTAN(2)
+              WRITE(*,FMT1) '  Z           (km): ', RECTAN(3)
+              WRITE(*,*) ' '
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+         Original rectangular coordinates:
+
+          X           (km):      -55658.44323296
+          Y           (km):     -379226.32931475
+          Z           (km):     -126505.93063865
+
+         Spherical coordinates:
+
+          Radius      (km):      403626.33912495
+          Colatitude (deg):         108.26566077
+          Longitude  (deg):         -98.34959789
+
+         Latitudinal coordinates:
+
+          Radius      (km):      403626.33912495
+          Longitude  (deg):         -98.34959789
+          Latitude   (deg):         -18.26566077
+
+         Rectangular coordinates from <a href="latrec.html">LATREC</a>:
+
+          X           (km):      -55658.44323296
+          Y           (km):     -379226.32931475
+          Z           (km):     -126505.93063865
+
+
+     3) Create a table showing a variety of spherical coordinates
+        and the corresponding cylindrical coordinates.
+
+        Corresponding spherical and cylindrical coordinates are
+        listed to three decimal places. Input and output angles
+        are in degrees.
+
+
+        Example code begins here.
+
+
+              PROGRAM SPHLAT_EX3
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions
+        C
+              DOUBLE PRECISION      <a href="dpr.html">DPR</a>
+              DOUBLE PRECISION      <a href="rpd.html">RPD</a>
+
+        C
+        C     Local parameters.
+        C
+              INTEGER               NREC
+              PARAMETER           ( NREC = 11 )
+
+        C
+        C     Local variables.
+        C
+              DOUBLE PRECISION      COLAT  ( NREC )
+              DOUBLE PRECISION      LAT
+              DOUBLE PRECISION      LON
+              DOUBLE PRECISION      R      ( NREC )
+              DOUBLE PRECISION      RADIUS
+              DOUBLE PRECISION      RCOLAT
+              DOUBLE PRECISION      RSLON
+              DOUBLE PRECISION      SLON   ( NREC )
+
+              INTEGER               I
+
+        C
+        C     Define the input spherical coordinates. Angles in
+        C     degrees.
+        C
+              DATA                 R      / 0.D0, 1.D0,     1.D0,
+             .                              1.D0, 1.4142D0, 1.D0,
+             .                              1.D0, 1.D0,     1.4142D0,
+             .                              1.D0, 0.D0               /
+
+              DATA                 COLAT /  0.D0,   90.D0,  90.D0,
+             .                              0.D0,   45.D0,  90.D0,
+             .                            180.D0,   90.D0, 135.D0,
+             .                              0.D0,   90.D0            /
+
+              DATA                 SLON  /  0.D0,    0.D0,  90.D0,
+             .                              0.D0,  180.D0, -90.D0,
+             .                              0.D0,   45.D0, 180.D0,
+             .                             180.D0,  33.D0            /
+
+        C
+        C     Print the banner.
+        C
+              WRITE(*,*) '     R     COLAT     SLON  '
+             . //        '  RADIUS    LON      LAT   '
+              WRITE(*,*) ' -------  -------  ------- '
+             . //        ' -------  -------  ------- '
+
+        C
+        C     Do the conversion. Output angles in degrees.
+        C
+              DO I = 1, NREC
+
+                 RCOLAT = COLAT(I) * <a href="rpd.html">RPD</a>()
+                 RSLON  = SLON(I)  * <a href="rpd.html">RPD</a>()
+
+                 CALL <b>SPHLAT</b>( R(I), RCOLAT, RSLON, RADIUS, LON, LAT )
+
+                 WRITE (*,'(6F9.3)') R(I), COLAT(I), SLON(I),
+             .                       RADIUS, LON * <a href="dpr.html">DPR</a>(), LAT * <a href="dpr.html">DPR</a>()
+
+              END DO
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+              R     COLAT     SLON    RADIUS    LON      LAT
+          -------  -------  -------  -------  -------  -------
+            0.000    0.000    0.000    0.000    0.000   90.000
+            1.000   90.000    0.000    1.000    0.000    0.000
+            1.000   90.000   90.000    1.000   90.000    0.000
+            1.000    0.000    0.000    1.000    0.000   90.000
+            1.414   45.000  180.000    1.414  180.000   45.000
+            1.000   90.000  -90.000    1.000  -90.000    0.000
+            1.000  180.000    0.000    1.000    0.000  -90.000
+            1.000   90.000   45.000    1.000   45.000    0.000
+            1.414  135.000  180.000    1.414  180.000  -45.000
+            1.000    0.000  180.000    1.000  180.000   90.000
+            0.000   90.000   33.000    0.000   33.000    0.000
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 05-JUL-2021 (JDR)
+
+        Changed the argument names LONGS and LONG to SLON and LON for
+        consistency with other routines.
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard. Removed
+        unnecessary $Revisions section. Added complete code examples.
+
+    SPICELIB Version 1.0.2, 26-JUL-2016 (BVS)
+
+        Minor headers edits.
+
+    SPICELIB Version 1.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.0.0, 31-JAN-1990 (WLT)</PRE>
+<h4>Link to routine SPHLAT source file <a href='../../../src/spicelib/sphlat.f'>sphlat.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:50 2021</pre>
+
+</body>
+</html>
+

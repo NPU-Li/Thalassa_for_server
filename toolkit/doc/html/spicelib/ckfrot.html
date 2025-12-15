@@ -1,0 +1,433 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>ckfrot</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>ckfrot</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     CKFROT ( CK frame, find position rotation )
+
+     SUBROUTINE CKFROT ( INST, ET, ROTATE, REF, FOUND )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Find the position rotation matrix from a C-kernel (CK) frame with
+     the specified frame class ID (CK ID) to the base frame of the
+     highest priority CK segment containing orientation data for this
+     CK frame at the time requested.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/ck.html">CK</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     POINTING
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INTEGER               INST
+     DOUBLE PRECISION      ET
+     DOUBLE PRECISION      ROTATE  ( 3, 3 )
+     INTEGER               REF
+     LOGICAL               FOUND
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     INST       I   Frame class ID (CK ID) of a CK frame.
+     ET         I   Epoch measured in seconds past J2000 TDB.
+     ROTATE     O   Rotation matrix from CK frame to frame REF.
+     REF        O   Frame ID of the base reference.
+     FOUND      O   .TRUE. when requested pointing is available.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     INST     is the unique frame class ID (CK ID) of the CK frame for
+              which data is being requested.
+
+     ET       is the epoch for which the position rotation is desired.
+              ET should be given in seconds past the epoch of J2000
+              TDB.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     ROTATE   is a position rotation matrix that converts positions
+              relative to the CK frame given by its frame class ID,
+              INST, to positions relative to the base frame given by
+              its frame ID, REF.
+
+              Thus, if a position S has components x,y,z in the CK
+              frame, then S has components x', y', z' in the base
+              frame.
+
+                 .-  -.     .-        -. .- -.
+                 | x' |     |          | | x |
+                 | y' |  =  |  ROTATE  | | y |
+                 | z' |     |          | | z |
+                 `-  -'     `-        -' `- -'
+
+
+     REF      is the ID code of the base reference frame to which
+              ROTATE will transform positions.
+
+     FOUND    is .TRUE. if a record was found to satisfy the pointing
+              request. FOUND will be .FALSE. otherwise.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If no CK files were loaded prior to calling this routine, an
+         error is signaled by a routine in the call tree of this
+         routine.
+
+     2)  If no SCLK correlation data needed to read CK files were
+         loaded prior to calling this routine, an error is signaled by
+         a routine in the call tree of this routine.
+
+     3)  If the input time ET cannot be converted to an encoded SCLK
+         time, using SCLK data associated with INST, an error is
+         signaled by a routine in the call tree of this routine.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     <b>CKFROT</b> searches through loaded CK files to locate a segment that
+     can satisfy the request for position rotation data for the CK
+     frame with the specified frame class ID at time ET. You must load
+     a CK file containing such data before calling this routine. You
+     must also load SCLK and possibly LSK files needed to convert the
+     input ET time to the encoded SCLK time with which the orientation
+     data stored inside that CK is tagged.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     <b>CKFROT</b> searches through loaded CK files to satisfy a pointing
+     request. Last-loaded files are searched first, and individual
+     files are searched in backwards order, giving priority to
+     segments that were added to a file later than the others.
+
+     The search ends when a segment is found that can give pointing
+     for the specified CK frame at the request time.
+
+     Segments with and without angular velocities are considered by
+     this routine.
+
+     This routine uses the <a href="ckmeta.html">CKMETA</a> routine to determine the SCLK ID
+     used to convert the input ET time to the encoded SCLK time used
+     to look up pointing data in loaded CK files.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Use <b>CKFROT</b> to compute the instantaneous angular velocity
+        vector for the Mars Global Surveyor (MGS) spacecraft frame,
+        'MGS_SPACECRAFT', relative to the inertial frame used as the
+        base frame in CK files containing MGS spacecraft orientation
+        at 2003-JUL-25 13:00:00. The frame class ID (CK ID) for the
+        'MGS_SPACECRAFT' frame is -94000.
+
+
+        Suppose that R(t) is the rotation matrix whose columns
+        represent the inertial pointing vectors of the MGS spacecraft
+        axes at time `t'.
+
+        Then the angular velocity vector points along the vector given
+        by:
+
+                                T
+            limit  AXIS( R(t+h)R )
+            h--&gt;0
+
+
+        And the magnitude of the angular velocity at time `t' is given
+        by:
+
+                                T
+            d ANGLE ( R(t+h)R(t) )
+           ------------------------   at   h = 0
+                      dh
+
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: ckfrot_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                     Contents
+              ---------                     --------
+              naif0012.tls                  Leapseconds
+              mgs_sclkscet_00061.tsc        MGS SCLK coefficients
+              mgs_sc_ext12.bc               MGS s/c bus attitude
+
+           \begindata
+
+           KERNELS_TO_LOAD = ( 'naif0012.tls',
+                               'mgs_sclkscet_00061.tsc',
+                               'mgs_sc_ext12.bc' )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM CKFROT_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local parameters.
+        C
+              CHARACTER*(*)         EPOCH
+              PARAMETER           ( EPOCH  = '2003-JUL-25 13:00:00' )
+
+              INTEGER               INST
+              PARAMETER           ( INST   = -94000 )
+
+        C
+        C     Local variables.
+        C
+              DOUBLE PRECISION      ANGLE
+              DOUBLE PRECISION      ANGVEL ( 3    )
+              DOUBLE PRECISION      AXIS   ( 3    )
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      INFROT ( 3, 3 )
+              DOUBLE PRECISION      H
+              DOUBLE PRECISION      RET    ( 3, 3 )
+              DOUBLE PRECISION      RETH   ( 3, 3 )
+
+              INTEGER               REF
+              INTEGER               REFH
+
+              LOGICAL               FOUND
+              LOGICAL               FOUNDH
+
+        C
+        C     Load the required LSK, SCLK and CK. Use a
+        C     meta-kernel for convenience.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'ckfrot_ex1.tm' )
+
+        C
+        C     First convert the time to seconds past J2000. Set the
+        C     delta time (1 ms).
+        C
+              CALL <a href="str2et.html">STR2ET</a> ( EPOCH, ET )
+              H = 1.D-3
+
+        C
+        C     Now, look up the rotation from the MGS spacecraft
+        C     frame specified by its frame class ID (CK ID) to a
+        C     base reference frame (returned by <b>CKFROT</b>), at ET
+        C     and ET+H.
+        C
+              CALL <b>CKFROT</b> ( INST, ET,   RET,  REF,  FOUND  )
+              CALL <b>CKFROT</b> ( INST, ET+H, RETH, REFH, FOUNDH )
+
+        C
+        C     If both rotations were computed and if the base
+        C     reference frames are the same, compute the
+        C     instantaneous angular velocity vector.
+        C
+              IF ( FOUND .AND. FOUNDH .AND. REF .EQ. REFH ) THEN
+
+        C
+        C        Compute the infinitesimal rotation R(t+h)R(t)**T.
+        C
+                 CALL <a href="mxmt.html">MXMT</a> ( RETH, RET, INFROT )
+
+        C
+        C        Compute the AXIS and ANGLE of the infinitesimal
+        C        rotation.
+        C
+                 CALL <a href="raxisa.html">RAXISA</a> ( INFROT, AXIS, ANGLE )
+
+        C
+        C        Scale AXIS to get the angular velocity vector.
+        C
+                 CALL <a href="vscl.html">VSCL</a> ( ANGLE/H, AXIS, ANGVEL )
+
+        C
+        C        Output the results.
+        C
+                 WRITE(*,'(A)')
+             .           'Instantaneous angular velocity vector:'
+                 WRITE(*,'(3F15.10)') ANGVEL
+                 WRITE(*,'(A,I5)') 'Reference frame ID:', REF
+
+              ELSE
+
+                 WRITE(*,*) 'ERROR: data not found or frame mismatch.'
+
+              END IF
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Instantaneous angular velocity vector:
+           0.0001244121   0.0008314866   0.0003028634
+        Reference frame ID:    1
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  A CK file must be loaded prior to calling this routine.
+
+     2)  LSK and SCLK files needed for time conversions must be loaded
+         prior to calling this routine.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.3.0, 13-DEC-2021 (JDR) (BVS) (NJB)
+
+        Edited the header to comply with NAIF standard and modern
+        SPICE CK and frames terminology. Added initialization of local
+        variable SFND.
+
+        Added complete code example.
+
+    SPICELIB Version 1.2.0, 17-FEB-2000 (WLT)
+
+        The routine now checks to make sure convert ET to TICKS
+        and that at least one C-kernel is loaded before trying
+        to look up the transformation. Also the routine now calls
+        <a href="sce2c.html">SCE2C</a> instead of <a href="sce2t.html">SCE2T</a>.
+
+    SPICELIB Version 1.0.0, 03-MAR-1999 (WLT)</PRE>
+<h4>Link to routine CKFROT source file <a href='../../../src/spicelib/ckfrot.f'>ckfrot.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:02 2021</pre>
+
+</body>
+</html>
+

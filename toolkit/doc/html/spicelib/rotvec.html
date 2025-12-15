@@ -1,0 +1,317 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>rotvec</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>rotvec</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     ROTVEC ( Transform a vector via a rotation )
+
+     SUBROUTINE ROTVEC ( V1, ANGLE, IAXIS, VOUT )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Transform a vector to a new reference frame rotated by ANGLE
+     radians about axis IAXIS. This transformation rotates V1 by
+     -ANGLE radians about the specified axis.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/rotation.html">ROTATION</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     ROTATION
+     VECTOR
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     DOUBLE PRECISION   V1    ( 3 )
+     DOUBLE PRECISION   ANGLE
+     INTEGER            IAXIS
+     DOUBLE PRECISION   VOUT  ( 3 )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     V1         I   Vector whose coordinate system is to be rotated.
+     ANGLE      I   Angle of rotation in radians.
+     IAXIS      I   Axis of rotation (X=1, Y=2, Z=3).
+     VOUT       O   Resulting vector expressed in the new frame.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     V1       is a vector (typically representing a vector fixed in
+              inertial space) which is to be expressed in another
+              reference frame. The vector remains fixed but the
+              reference frame changes.
+
+     ANGLE    is an angle given in radians, through which the rotation
+              is performed.
+
+     IAXIS    is the index of the axis of rotation. The X, Y, and Z
+              axes have indices 1, 2 and 3 respectively.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     VOUT     is the vector expressed in the new reference frame
+              specified by the angle of rotation and axis. If
+
+                 M = [ANGLE]
+                            IAXIS
+
+              represents the rotation matrix described by the ANGLE
+              and IAXIS, (refer to the routine ROTATE) then
+
+                 VOUT =  M * V1  = [ANGLE]      * V1
+                                          IAXIS
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     Error free.
+
+     1)  If the IAXIS index is not in the range 1 to 3, it will be
+         treated the same as that integer 1, 2, or 3 that is congruent
+         to it mod 3.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     A rotation about the first, i.e. X-axis, is described by
+
+        .-                            -.
+        |   1        0          0      |
+        |   0   cos(theta) sin(theta)  |
+        |   0  -sin(theta) cos(theta)  |
+        `-                            -'
+
+     A rotation about the second, i.e. Y-axis, is described by
+
+        .-                            -.
+        |  cos(theta)  0  -sin(theta)  |
+        |      0       1        0      |
+        |  sin(theta)  1   cos(theta)  |
+        `-                            -'
+
+     A rotation about the third, i.e. Z-axis, is described by
+
+        .-                            -.
+        |  cos(theta) sin(theta)   0   |
+        | -sin(theta) cos(theta)   0   |
+        |       0          0       1   |
+        `-                            -'
+
+     <b>ROTVEC</b> decides which form is appropriate according to the value
+     of IAXIS and applies the rotation to the input vector.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Apply a rotation of -45.D0 degrees about the +Z axis to
+        a 3 dimensional vector.
+
+        Example code begins here.
+
+
+              PROGRAM ROTVEC_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions
+        C
+              DOUBLE PRECISION      <a href="pi.html">PI</a>
+
+        C
+        C     Local variables.
+        C
+              DOUBLE PRECISION      ANGLE
+              DOUBLE PRECISION      V1    ( 3 )
+              DOUBLE PRECISION      VOUT  ( 3 )
+
+              INTEGER               I
+              INTEGER               IAXIS
+
+        C
+        C     Input values.
+        C
+              DATA                  V1  / 1.414D0, 0.D0, 0.D0 /
+
+              ANGLE = <a href="pi.html">PI</a>( )/4
+              IAXIS = 3
+
+        C
+        C     Rotate V1 by ANGLE radians about IAXIS
+        C
+              CALL <b>ROTVEC</b> (V1, ANGLE, IAXIS, VOUT)
+
+              WRITE(*,'(A,3F10.3)') 'Input vector  :',
+             .                        ( V1(I), I=1,3 )
+              WRITE(*,'(A,3F10.3)') 'Rotated vector:',
+             .                      ( VOUT(I), I=1,3 )
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Input vector  :     1.414     0.000     0.000
+        Rotated vector:     1.000    -1.000     0.000
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     W.M. Owen          (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 06-JUL-2021 (JDR)
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard. Created
+        complete code example from existing code fragments.
+
+        Changed &quot;coordinate system&quot; to &quot;reference frame&quot; to follow
+        NAIF conventions. Added ROTATION required reading.
+
+    SPICELIB Version 1.0.3, 23-APR-2010 (NJB)
+
+        Header correction: assertions that the output
+        can overwrite the input have been removed.
+
+    SPICELIB Version 1.0.2, 04-OCT-1999 (NJB)
+
+        Procedure line and abstract were changed to dispel the
+        impression that the input vector is rotated by +ANGLE
+        radians about the specified axis.
+
+    SPICELIB Version 1.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.0.0, 31-JAN-1990 (WMO) (WLT)</PRE>
+<h4>Link to routine ROTVEC source file <a href='../../../src/spicelib/rotvec.f'>rotvec.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:44 2021</pre>
+
+</body>
+</html>
+

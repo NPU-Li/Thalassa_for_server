@@ -1,0 +1,90 @@
+#! /bin/bash 
+ 
+### Init
+
+PORTAL_ROOT=$GRIDVIEW_HOME/gridviewAppTemplate/MATH/MATLAB/  
+
+if [ "$#" -eq 0 ]; then echo 'ERROR: no .var file.  Usage: sh MATLAB.run $path/portal.var' && exit -1; fi
+
+### Get parameters from GUI
+
+#VAR_FILE=~/.job_portal.var.$(date "+%Y%m%d_%H%M%S")
+#/bin/cp -f $1 $VAR_FILE 
+#dos2unix $VAR_FILE > /dev/null 2>&1 
+#source $VAR_FILE 
+source $1
+
+APP_NAME=$(basename $PORTAL_ROOT)
+source $PORTAL_ROOT/${APP_NAME}_interface.var
+
+### Copy key files to home dir and work dir
+
+mkdir -p $MIDFILE_DIR
+cp -f $1  $MIDFILE_DIR/job_portal.var
+if [ $? -ne 0 ];then exit 1; fi
+cp $PORTAL_ROOT/${APP_NAME}_interface.var  $MIDFILE_DIR/job_interface.var
+cp $PORTAL_ROOT/${APP_NAME}.run $MIDFILE_DIR
+
+SCHED_TYPE=${SCHED_TYPE,,}  ## value = slurm | pbs 
+JOB_SCRIPT=$WORK_DIR/job_${APP_NAME}.${SCHED_TYPE}
+cp $PORTAL_ROOT/${APP_NAME}_template.${SCHED_TYPE}  $JOB_SCRIPT
+
+### Generate slurm or pbs script by replacing the template's text
+
+  # Replace vars
+sed -i "s/RP_JOB_NAME/$JOB_NAME/g" $JOB_SCRIPT
+sed -i "s/RP_QUEUE/$QUEUE/g" $JOB_SCRIPT
+sed -i "s/RP_NPROC/$NPROC/g" $JOB_SCRIPT
+sed -i "s/RP_NNODE/$NNODE/g" $JOB_SCRIPT
+sed -i "s/RP_PPN/$PPN/g" $JOB_SCRIPT
+sed -i "s/RP_NGPU/$NGPU/g" $JOB_SCRIPT 
+sed -i "s/RP_NODE_STRING/$NODE_STRING/g" $JOB_SCRIPT
+sed -i "s/RP_WALL_TIME/$WALL_TIME/g" $JOB_SCRIPT
+sed -i "s/RP_JOB_MEM/$JOB_MEM/g" $JOB_SCRIPT
+sed -i "s#RP_MIDFILE_DIR#$MIDFILE_DIR#g" $JOB_SCRIPT
+
+  # Delete void vars of slurm script
+if [ -z "$NPROC" ]; then sed -i '/#SBATCH -n/d' $JOB_SCRIPT; fi
+if [ -z "$NNODE" ]; then sed -i '/#SBATCH -N/d' $JOB_SCRIPT; fi
+if [ -z "$PPN" ]; then sed -i '/#SBATCH --ntasks-per-node/d' $JOB_SCRIPT; fi
+if [ -z "$NGPU" ]; then sed -i '/#SBATCH --gres=gpu/d' $JOB_SCRIPT; fi
+if [ -z "$NDCU" ]; then sed -i '/#SBATCH --gres=dcu/d' $JOB_SCRIPT; fi
+if [ -z "$NODE_STRING" ]; then sed -i '/#SBATCH -w/d' $JOB_SCRIPT; fi
+if [ -z "$JOB_MEM" ]; then sed -i '/#SBATCH --mem/d' $JOB_SCRIPT; fi
+
+  # Delete void vars of PBS script
+
+if [ -z "$JOB_MEM" ]; then sed -i '/#PBS -l mem/d' $JOB_SCRIPT; fi
+
+if [[ -n "$NGPU" ]] && [[ "$NGPU" -ge "1" ]]; then
+  sed -i '/MARK_PARA_CPU/d' $JOB_SCRIPT
+elif [[ -z "$NGPU" ]] || [[ "$NGPU" -eq "0" ]]; then
+  sed -i '/MARK_PARA_GPU/d' $JOB_SCRIPT
+else
+  echo "Error: wrong value of \$NGPU : $NGPU" && exit 1
+fi
+
+  # Delete the code of GUI
+if [[ -z "$GUI" ]] || [[ "$GUI" -eq "0" ]]; then
+  sed -i "/MARK_GUI_START/,/MARK_GUI_END/d" $JOB_SCRIPT
+fi
+
+### Submit job
+
+cd $WORK_DIR
+if [ "$SCHED_TYPE" == "slurm" ]; then
+  TMP_VAR=$(sbatch $JOB_SCRIPT) 
+  JOBID=$(echo $TMP_VAR | cut -d" " -f4)
+elif [ "$SCHED_TYPE" == "pbs" ]; then
+  JOBID=$(qsub $JOB_SCRIPT) 
+else 
+  echo "Error: wrong value of \$SCHED_TYPE : $SCHED_TYPE" && exit 1 
+fi
+
+RESULT=$?
+if [ "$RESULT" -eq 0 ];then
+  echo $JOBID | grep "^[0-9].*" || exit 1
+else
+  echo "Job Submit Error: $JOBID" && exit 1
+fi  
+

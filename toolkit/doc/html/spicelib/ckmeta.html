@@ -1,0 +1,401 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>ckmeta</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>ckmeta</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     CKMETA ( CK ID to associated SCLK )
+
+     SUBROUTINE CKMETA ( CKID,  META, IDCODE )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Return (depending upon the user's request) the ID code of either
+     the spacecraft or spacecraft clock associated with a C-Kernel ID
+     code.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/ck.html">CK</a>
+     <a href="../req/frames.html">FRAMES</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     UTILITY
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE               'zzctr.inc'
+
+     INTEGER               CKID
+     CHARACTER*(*)         META
+     INTEGER               IDCODE
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     CKID       I   The ID code for some C kernel object.
+     META       I   The kind of meta data requested 'SPK' or 'SCLK'
+     IDCODE     O   The requested SCLK or spacecraft ID code.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     CKID     is the ID code for some object whose attitude
+              and possibly angular velocity are stored in
+              some C-kernel.
+
+     META     is a character string that indicates which piece
+              of meta data to fetch. Acceptable values are
+              'SCLK' and 'SPK'. The routine is case insensitive.
+              Leading and trailing blanks are insignificant.
+              However, blanks between characters are regarded
+              as being significant.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     IDCODE   if META is 'SCLK' then the value returned in IDCODE
+              is the ID code of the spacecraft clock used for
+              converting ET to TICKS and TICKS to ET for the
+              C-kernel used to represent the attitude of the
+              object with ID code CKID.
+
+              If META is 'SPK' then the value returned in IDCODE is the
+              ID code of the spacecraft on which the platform indicated
+              by CKID is mounted.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If the variable META is not recognized to be one of the
+         inputs 'SPK' or 'SCLK', the error SPICE(UNKNOWNCKMETA)
+         is signaled.
+
+     2)  If CKID is greater than -1000, the associated SCLK and SPK
+         IDs must be in the kernel pool. If they are not present
+         a value of zero is returned for the requested item. Zero
+         is never the valid ID of a spacecraft clock.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This is a utility routine for mapping C-kernels to associated
+     spacecraft clocks.
+
+     An association of an SCLK ID and spacecraft ID with a CK frame
+     class ID may be made by placing in a text kernel the kernel
+     variable assignments
+
+        CK_&lt;ck_frame_class_ID_code&gt;_SCLK = &lt;ID code of SCLK&gt;
+        CK_&lt;ck_frame_class_ID_code&gt;_SPK  = &lt;SPK ID code&gt;
+
+     See the Frames Required Reading section on CK frames.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Suppose you would like to look up the attitude of an object
+        in a C-kernel but have ET and seconds as your input time and
+        tolerance.
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: ckmeta_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name              Contents
+              --------------------   -----------------------
+              cas00071.tsc           CASSINI SCLK
+              naif0012.tls           Leapseconds
+              04153_04182ca_ISS.bc   CASSINI image navigated
+                                     spacecraft CK
+
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'naif0012.tls',
+                                  'cas00071.tsc'
+                                  '04153_04182ca_ISS.bc' )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM CKMETA_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local parameters.
+        C
+        C     -- The code for CASSINI spacecraft reference frame is
+        C        -82000.
+        C
+        C     -- The reference frame we want is J2000.
+        C
+              CHARACTER*(*)         REF
+              PARAMETER           ( REF = 'J2000' )
+
+              INTEGER               CKID
+              PARAMETER           ( CKID = -82000  )
+
+        C
+        C     Local variables.
+        C
+              DOUBLE PRECISION      AV     ( 3 )
+              DOUBLE PRECISION      CLKOUT
+              DOUBLE PRECISION      CMAT   ( 3, 3 )
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      ETOUT
+              DOUBLE PRECISION      SECTOL
+              DOUBLE PRECISION      TICKS
+              DOUBLE PRECISION      TICK2
+              DOUBLE PRECISION      TOL
+
+              INTEGER               IDCODE
+
+              LOGICAL               FOUND
+
+        C
+        C     Initial values.
+        C
+              DATA                  ET      / 141162208.034340D0 /
+              DATA                  SECTOL  / 0.5D0 /
+
+
+        C
+        C     First load the CK, LSK and SCLK files.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'ckmeta_ex1.tm' )
+
+        C
+        C     Get the SCLK identifier of the spacecraft clock required
+        C     to convert from ET to TICKS.
+        C
+              CALL <b>CKMETA</b> ( CKID, 'SCLK', IDCODE )
+
+        C
+        C     Convert ET and ET+SECTOL to spacecraft clock ticks.
+        C
+              CALL <a href="sce2c.html">SCE2C</a>  ( IDCODE, ET,        TICKS  )
+              CALL <a href="sce2c.html">SCE2C</a>  ( IDCODE, ET+SECTOL, TICK2  )
+
+
+        C
+        C     Compute the tolerance in spacecraft clock ticks.
+        C
+              TOL = TICK2 - TICKS
+
+        C
+        C     Look the attitude up.
+        C
+              CALL <a href="ckgpav.html">CKGPAV</a> ( CKID, TICKS, TOL,    REF,
+             .              CMAT, AV,    CLKOUT, FOUND )
+
+              WRITE(*,'(A,F20.6)')    'Input ET:            ', ET
+
+              IF ( FOUND ) THEN
+
+                 CALL <a href="sct2e.html">SCT2E</a> ( IDCODE, CLKOUT, ETOUT )
+                 WRITE(*,'(A,F20.6)') 'Attitude found at ET:', ETOUT
+
+              ELSE
+
+                 WRITE(*,'(A)') 'No attitude found at ET.'
+
+              END IF
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Input ET:                141162208.034340
+        Attitude found at ET:    141162208.034586
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.2.1, 07-JUN-2021 (JDR) (NJB)
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example based on existing fragment.
+
+    SPICELIB Version 1.2.0, 06-SEP-2013 (BVS)
+
+        BUG FIX: the <a href="pool.html">POOL</a> agents now watch both variables --
+        CK_&lt;ID&gt;_SCLK and CK_&lt;ID&gt;_SPK. Before they watched only
+        CK_&lt;ID&gt;_SCLK.
+
+        BUG FIX: if a previously available CK_&lt;ID&gt;_SCLK or CK_&lt;ID&gt;_SPK
+        variable that was used to populate a saved value disappears,
+        the routine now resets and returns the value based on the
+        default rule rather than keeping and returning the stale
+        <a href="pool.html">POOL</a>-based saved value.
+
+        BUG FIX: the routine now deletes watchers for the CK IDs that
+        were bumped from the local buffer.
+
+        Updated to keep track of agent-specific <a href="pool.html">POOL</a> counters and call
+        ZZCVPOOL to make use of them.
+
+    SPICELIB Version 1.1.0, 05-MAR-2009 (NJB)
+
+        This routine now keeps track of whether its kernel pool
+        look-up failed. If so, a kernel pool lookup is attempted on
+        the next call to this routine. This change is an enhancement,
+        not a bug fix (unlike similar modifications in SCLK routines).
+
+        Header sections were put in correct order.
+
+    SPICELIB Version 1.0.1, 09-MAR-1999 (NJB)
+
+        Comments referring to <a href="sce2t.html">SCE2T</a> have been updated to refer to
+        <a href="sce2c.html">SCE2C</a>. Occurrences of &quot;id&quot; replaced by &quot;ID.&quot;
+
+    SPICELIB Version 1.0.0, 04-OCT-1994 (WLT)</PRE>
+<h4>Link to routine CKMETA source file <a href='../../../src/spicelib/ckmeta.f'>ckmeta.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:02 2021</pre>
+
+</body>
+</html>
+

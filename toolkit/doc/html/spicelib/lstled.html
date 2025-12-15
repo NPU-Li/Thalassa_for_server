@@ -1,0 +1,264 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>lstled</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>lstled</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     LSTLED ( Last double precision element less than or equal)
+
+     INTEGER FUNCTION  LSTLED ( X, N, ARRAY )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Find the index of the largest array element less than or equal
+     to a given number X in an array of non-decreasing numbers.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     ARRAY
+     SEARCH
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     DOUBLE PRECISION   X
+     INTEGER            N
+     DOUBLE PRECISION   ARRAY ( * )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     X          I   Upper bound value to search against.
+     N          I   Number of elements in ARRAY.
+     ARRAY      I   Array of possible lower bounds.
+
+     The function returns the index of the last element of ARRAY that
+     is less than or equal to X.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     X        is a double precision value acting as an upper bound: the
+              element of ARRAY that is the greatest element less than
+              or equal to X is to be found.
+
+     N        is the total number of elements in ARRAY.
+
+     ARRAY    is an array of double precision numbers that forms a
+              non-decreasing sequence. The elements of array need not
+              be distinct.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     The function returns the index of the highest-indexed element in
+     the input array that is less than or equal to X. The routine
+     assumes the array elements are sorted in non-decreasing order.
+
+     Indices range from 1 to N.
+
+     If all elements of ARRAY are greater than X, the routine returns
+     the value 0. If N is less than or equal to zero, the routine
+     returns the value 0.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     Error free.
+
+     1)  If N is less than or equal to zero, the function returns 0.
+         This case is not treated as an error.
+
+     2)  If the input array is not sorted in non-decreasing order, the
+         output of this routine is undefined. No error is signaled.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine uses a binary search algorithm and so requires
+     at most on the order of
+
+        log (N)
+           2
+
+     steps to compute the value of <b>LSTLED</b>.
+
+     Note: If you need to find the first element of the array that is
+     greater than X, simply add 1 to the result returned by this
+     function and check to see if the result is within the array bounds
+     given by N.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     If ARRAY(I) = -1 + 4*I/3 (real arithmetic implied here)
+
+     N        = 10
+     X        = 7.12
+
+     then
+
+     <b>LSTLED</b> will be I where
+             (4*I/3) - 1       &lt; or = 7.12
+     but
+             (4*(I+1)/3) - 1   &gt;      7.12 .
+
+     In this case our subsequence is:
+            1/3, 5/3, 9/3, 13/3, 17/3, 21/3, 25/3, .... 37/3
+
+     index:  1    2    3    4     5     6     7    ....  10
+
+     Thus <b>LSTLED</b> will be returned as 6
+
+     The following table shows the values of <b>LSTLED</b> that would be
+     returned for various values of X
+
+            X       <b>LSTLED</b>
+          -----     -------
+           0.12        0
+           1.34        1
+           5.13        4
+           8.00        6
+          15.10       10
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  If the sequence of double precision numbers in the input array
+         ARRAY is not non-decreasing, the program will run to
+         completion but the index found will not mean anything.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 26-OCT-2021 (JDR)
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard. Removed
+        unnecessary $Revisions section. Improved $Detailed_Input,
+        $Detailed_Output, $Particulars, $Exceptions and $Restrictions
+        sections.
+
+    SPICELIB Version 1.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.0.0, 31-JAN-1990 (WLT) (NJB)</PRE>
+<h4>Link to routine LSTLED source file <a href='../../../src/spicelib/lstled.f'>lstled.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:32 2021</pre>
+
+</body>
+</html>
+

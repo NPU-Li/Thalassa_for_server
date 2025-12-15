@@ -1,0 +1,324 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>bschoc</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>bschoc</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     BSCHOC ( Binary search with order vector, character )
+
+     INTEGER FUNCTION BSCHOC ( VALUE, NDIM, ARRAY, ORDER )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Do a binary search for a given value within an array of character
+     strings, accompanied by an order vector. Return the index of the
+     matching array entry, or zero if the key value is not found.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     ARRAY
+     SEARCH
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     CHARACTER*(*)    VALUE
+     INTEGER          NDIM
+     CHARACTER*(*)    ARRAY ( * )
+     INTEGER          ORDER ( * )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     VALUE      I   Key value to be found in ARRAY.
+     NDIM       I   Dimension of ARRAY.
+     ARRAY      I   Character string array to search.
+     ORDER      I   Order vector.
+
+     The function returns the index of the first matching array element
+     or zero if the value is not found.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     VALUE    is the key value to be found in the array. Trailing
+              blanks in this key are not significant: string matches
+              found by this routine do not require trailing blanks in
+              value to match those in the corresponding element of
+              array.
+
+     NDIM     is the number of elements in the input array.
+
+     ARRAY    is the array of character strings to be searched.
+              Trailing blanks in the strings in this array are not
+              significant.
+
+     ORDER    is an order array that can be used to access the elements
+              of ARRAY in order (according to the ASCII collating
+              sequence). The contents of ORDER are a permutation of
+              the sequence of integers ranging from 1 to NDIM.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     The function returns the index of the specified value in the input
+     array. Indices range from 1 to NDIM.
+
+     If the input array does not contain the specified value, the
+     function returns zero.
+
+     If the input array contains more than one occurrence of the
+     specified value, the returned index may point to any of the
+     occurrences.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     Error free.
+
+     1)  If NDIM &lt; 1, the value of the function is zero. This is not
+         considered an error.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     A binary search is performed on the input array, whose order is
+     given by an associated order vector. If an element of the array is
+     found to match the input value, the index of that element is
+     returned. If no matching element is found, zero is returned.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Search for different character strings in an array that
+        is sorted following a given criteria, not necessarily
+        alphabetically.
+
+        Example code begins here.
+
+
+              PROGRAM BSCHOC_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions.
+        C
+              INTEGER                 <b>BSCHOC</b>
+
+        C
+        C     Local constants.
+        C
+              INTEGER                 NDIM
+              PARAMETER             ( NDIM   = 5  )
+
+              INTEGER                 STRLEN
+              PARAMETER             ( STRLEN = 8  )
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(STRLEN)      ARRAY  ( NDIM )
+              CHARACTER*(STRLEN)      NAMES  ( NDIM )
+
+              INTEGER                 I
+              INTEGER                 IDX
+              INTEGER                 ORDER  ( NDIM )
+
+
+        C
+        C     Let ARRAY and ORDER contain the following elements:
+        C
+              DATA                    ARRAY  / 'FEYNMAN', 'BOHR',
+             .                     'EINSTEIN', 'NEWTON',  'GALILEO' /
+
+              DATA                    ORDER  / 2, 3, 1, 5, 4 /
+
+        C
+        C     Set the list of NAMES to be searched.
+        C
+              DATA                    NAMES /  'NEWTON',  'EINSTEIN',
+             .                      'GALILEO', 'Galileo', 'BETHE'    /
+
+        C
+        C     Search for the NAMES.
+        C
+              DO I = 1, NDIM
+
+                 IDX = <b>BSCHOC</b> ( NAMES(I), NDIM, ARRAY, ORDER )
+
+                 IF ( IDX .EQ. 0 ) THEN
+
+                    WRITE(*,*) 'Name ', NAMES(I),
+             .                 ' not found in ARRAY.'
+
+                 ELSE
+
+                    WRITE(*,*) 'Name ', NAMES(I),
+             .                 ' found in position', IDX
+
+                 END IF
+
+              END DO
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+         Name NEWTON   found in position           4
+         Name EINSTEIN found in position           3
+         Name GALILEO  found in position           5
+         Name Galileo  not found in ARRAY.
+         Name BETHE    not found in ARRAY.
+
+
+        Note that these results indicate that:
+
+            ARRAY(4) = 'NEWTON'
+            ARRAY(3) = 'EINSTEIN'
+            ARRAY(5) = 'GALILEO'
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  ORDER is assumed to give the order of the elements of ARRAY in
+         increasing order according to the ASCII collating sequence. If
+         this condition is not met, the results of <b>BSCHOC</b> are
+         unpredictable.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     J. Diaz del Rio    (ODC Space)
+     W.L. Taber         (JPL)
+     I.M. Underwood     (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.0.1, 17-JUN-2021 (JDR)
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example.
+
+        Updated $Brief_I/O, $Detailed_Input and $Detailed_Output
+        sections to improve the description of the arguments and
+        returned values of the function.
+
+    SPICELIB Version 1.0.0, 18-SEP-1995 (IMU) (WLT)</PRE>
+<h4>Link to routine BSCHOC source file <a href='../../../src/spicelib/bschoc.f'>bschoc.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:00 2021</pre>
+
+</body>
+</html>
+

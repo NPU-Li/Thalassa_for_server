@@ -1,0 +1,373 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>prop2b</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>prop2b</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     PROP2B ( Propagate a two-body solution )
+
+     SUBROUTINE PROP2B ( GM, PVINIT, DT, PVPROP )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+ 
+     Compute the state of a massless body at time t_0 + DT by applying 
+     the two-body force model to a given central mass and a given body 
+     state at time t_0.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     CONIC
+     EPHEMERIS
+     UTILITY
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     DOUBLE PRECISION      GM
+     DOUBLE PRECISION      PVINIT ( 6 )
+     DOUBLE PRECISION      DT
+     DOUBLE PRECISION      PVPROP ( 6 )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     GM         I   Gravity of the central mass.
+     PVINIT     I   Initial state from which to propagate a state.
+     DT         I   Time offset from initial state to propagate to.
+     PVPROP     O   The propagated state.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     GM       is the gravitational constant G times the mass M of the
+              central body.
+
+     PVINIT   is the state at some specified time relative to the
+              central mass. The mass of the object is assumed to
+              be negligible when compared to the central mass.
+
+     DT       is a offset in time from the time of the initial
+              state to which the two-body state should be
+              propagated. (The units of time and distance must be
+              the same in GM, PVINIT, and DT).
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     PVPROP   is the two-body propagation of the initial state
+              DT units of time past the epoch of the initial state.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If GM is not positive, the error SPICE(NONPOSITIVEMASS) is
+         signaled.
+
+     2)  If the position of the initial state is the zero vector, the
+         error SPICE(ZEROPOSITION) is signaled.
+
+     3)  If the velocity of the initial state is the zero vector, the
+         error SPICE(ZEROVELOCITY) is signaled.
+
+     4)  If the cross product of the position and velocity of PVINIT
+         has squared length of zero, the error SPICE(NONCONICMOTION)
+         is signaled.
+
+     5)  If DT is so large that there is a danger of floating point
+         overflow during computation, the error SPICE(DTOUTOFRANGE) is
+         signaled and a message is generated describing the problem.
+         The value of DT must be &quot;reasonable&quot;. In other words, DT
+         should be less than 10**20 seconds for realistic solar system
+         orbits specified in the MKS system. (The actual bounds on DT
+         are much greater but require substantial computation.) The
+         &quot;reasonableness&quot; of DT is checked at run-time.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine uses a universal variables formulation for the
+     two-body motion of an object in orbit about a central mass. It
+     propagates an initial state to an epoch offset from the
+     epoch of the initial state by time DT.
+
+     This routine does not suffer from the finite precision
+     problems of the machine that are inherent to classical
+     formulations based on the solutions to Kepler's equation:
+
+           n( t - T ) = E - e Sin(E)         elliptic case
+           n( t - T ) = e sinh(F) - F        hyperbolic case
+
+     The derivation used to determine the propagated state is a
+     slight variation of the derivation in Danby's book
+     &quot;Fundamentals of Celestial Mechanics&quot; [1].
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for these examples may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) When the eccentricity of an orbit is near 1, and the epoch
+        of classical elements is near the epoch of periapse, classical
+        formulations that propagate a state from elements tend to
+        lack robustness due to the finite precision of floating point
+        machines. In those situations it is better to use a universal
+        variables formulation to propagate the state.
+
+        By using this routine, you need not go from a state to
+        elements and back to a state. Instead, you can get the state
+        from an initial state.
+
+        If PVINIT is your initial state and you want the state 3600
+        seconds later, the following call will suffice.
+
+           Look up GM somewhere
+
+           DT = 3600.0D0
+
+           CALL <b>PROP2B</b> ( GM, PVINIT, DT, PVPROP )
+
+        After the call, PVPROP will contain the state of the
+        object 3600 seconds after the time it had state PVINIT.
+
+     2) Use the two-body force model to propagate the state of a
+        massless body orbiting the Earth at 100,000,000 km after half
+        a period.
+
+        In circular two-body motion, the orbital speed is
+
+           s     = sqrt(mu/r)
+
+        where mu is the central mass. After tau/2 = pi*r/s seconds
+        (half period), the state should equal the negative of the
+        original state.
+
+        Example code begins here.
+
+
+              PROGRAM PROP2B_EX2
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions
+        C
+              DOUBLE PRECISION      <a href="pi.html">PI</a>
+
+        C
+        C     Local variables.
+        C
+              DOUBLE PRECISION      MU
+              DOUBLE PRECISION      PVINIT ( 6 )
+              DOUBLE PRECISION      R
+              DOUBLE PRECISION      SPEED
+              DOUBLE PRECISION      STATE  ( 6 )
+              DOUBLE PRECISION      T
+
+        C
+        C     Initial values.
+        C
+              MU    =  3.9860043543609598D+05
+              R     =  1.0D+08
+              SPEED =  SQRT( MU / R )
+              T     =  <a href="pi.html">PI</a>( )*R/SPEED
+
+              PVINIT(1) =  0.0D0
+              PVINIT(2) =  R/SQRT(2.0D0)
+              PVINIT(3) =  R/SQRT(2.0D0)
+              PVINIT(4) =  0.0D0
+              PVINIT(5) = -SPEED/SQRT(2.0D0)
+              PVINIT(6) =  SPEED/SQRT(2.0D0)
+
+        C
+        C     Calculate the state of the body at 0.5 period
+        C     after the epoch.
+        C
+              CALL <b>PROP2B</b> ( MU, PVINIT, T, STATE )
+
+        C
+        C     The `state' vector should equal -pvinit
+        C
+              WRITE(*,*) 'State at t0:'
+              WRITE(*,'(A,3F17.5)') '   R   (km):',
+             .                 PVINIT(1), PVINIT(2), PVINIT(3)
+              WRITE(*,'(A,3F17.5)') '   V (km/s):',
+             .                 PVINIT(4), PVINIT(5), PVINIT(6)
+
+              WRITE(*,*) ' '
+              WRITE(*,*) 'State at tau/2:'
+              WRITE(*,'(A,3F17.5)') '   R   (km):',
+             .                    STATE(1), STATE(2), STATE(3)
+              WRITE(*,'(A,3F17.5)') '   V (km/s):',
+             .                    STATE(4), STATE(5), STATE(6)
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+         State at t0:
+           R   (km):          0.00000   70710678.11865   70710678.11865
+           V (km/s):          0.00000         -0.04464          0.04464
+
+         State at tau/2:
+           R   (km):         -0.00000  -70710678.11865  -70710678.11865
+           V (km/s):          0.00000          0.04464         -0.04464
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  Users should be sure that GM, PVINIT and DT are all in the
+         same system of units ( for example MKS ).
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     [1]  J. Danby, &quot;Fundamentals of Celestial Mechanics,&quot; 2nd Edition,
+          pp 168-180, Willman-Bell, 1988.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     W.L. Taber         (JPL)
+     E.D. Wright        (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 2.2.0, 26-OCT-2021 (JDR)
+
+        Added IMPLICIT NONE statement.
+
+        Removed unnecessary $Revisions section.
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example.
+
+    SPICELIB Version 2.1.0, 31-AUG-2005 (NJB)
+
+        Updated to remove non-standard use of duplicate arguments
+        in <a href="vscl.html">VSCL</a> call.
+
+    SPICELIB Version 2.0.1, 22-AUG-2001 (EDW)
+
+        Corrected ENDIF to END IF.
+
+    SPICELIB Version 2.0.0, 16-MAY-1995 (WLT)
+
+        The initial guess at a solution to Kepler's equation was
+        modified slightly and a loop counter was added to the
+        bisection loop together with logic that will force termination
+        of the bisection loop.
+
+    SPICELIB Version 1.0.0, 10-MAR-1992 (WLT)</PRE>
+<h4>Link to routine PROP2B source file <a href='../../../src/spicelib/prop2b.f'>prop2b.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:40 2021</pre>
+
+</body>
+</html>
+

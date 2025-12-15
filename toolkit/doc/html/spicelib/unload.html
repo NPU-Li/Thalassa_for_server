@@ -1,0 +1,583 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>unload</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>unload</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     UNLOAD ( Unload a kernel )
+
+     ENTRY UNLOAD ( FILE )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Unload a SPICE kernel.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     KERNEL
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+    CHARACTER*(*)         FILE
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     FILE       I   The name of a kernel to unload.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     FILE     is the name of a file to unload. This file
+              should be one loaded through the interface <a href="furnsh.html">FURNSH</a>.
+              If the file is not on the list of loaded kernels
+              no action is taken.
+
+              Note that if FILE is a meta-text kernel, all of
+              the files loaded as a result of loading the meta-text
+              kernel will be unloaded.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     Error free.
+
+     1)  If the specified kernel is not on the list of loaded kernels
+         no action is taken.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     The call
+
+        CALL <b>UNLOAD</b> ( FILE )
+
+     has the effect of &quot;erasing&quot; the last previous call:
+
+        CALL <a href="furnsh.html">FURNSH</a> ( FILE )
+
+     This interface allows you to unload binary and text kernels.
+     Moreover, if you used a meta-text kernel to set up your
+     working environment, you can unload all of the kernels loaded
+     through the meta-kernel by unloading the meta-kernel.
+
+     The usual usage of <a href="furnsh.html">FURNSH</a> is to load each file needed by your
+     program exactly one time. However, it is possible to load a
+     kernel more than one time. (Usually, this is a result of loading
+     meta-kernels without taking the care needed to ensure that the
+     meta-kernels do not specify the same file more than once.) The
+     effect of unloading a kernel that has been loaded more than once
+     is to &quot;undo&quot; the last loading of the kernel. Depending upon the
+     kernel and its relationship to other loaded kernels, this may
+     have no visible effect on the working of your program. To
+     illustrate this behavior suppose that you have a collection of
+     files FILE1, FILE2, FILE3, FILE4, FILE5, FILE6, FILE7, FILE8,
+     META1, META2  where FILE1 ... FILE8 are SPICE kernels and META1
+     and META2 are meta-kernels with the specified kernels to load as
+     shown below.
+
+
+         META1:
+            KERNELS_TO_LOAD = ( FILE2,
+                                FILE3,
+                                FILE4,
+                                FILE5 )
+
+         META2:
+            KERNELS_TO_LOAD = ( FILE2,
+                                FILE3,
+                                FILE7,
+                                FILE8 )
+
+
+      The following sequence of calls
+
+          CALL <a href="furnsh.html">FURNSH</a> ( FILE1 )
+          CALL <a href="furnsh.html">FURNSH</a> ( FILE2 )
+          CALL <a href="furnsh.html">FURNSH</a> ( FILE3 )
+          CALL <a href="furnsh.html">FURNSH</a> ( META1 )
+          CALL <a href="furnsh.html">FURNSH</a> ( FILE6 )
+          CALL <a href="furnsh.html">FURNSH</a> ( META2 )
+
+      has the effect:
+
+          &quot;Load&quot; FILE1
+          &quot;Load&quot; FILE2
+          &quot;Load&quot; FILE3
+          &quot;Load&quot; META1 as a text kernel and then...
+                &quot;Load&quot; FILE2 (note that it was loaded from META1)
+                &quot;Load&quot; FILE3 (note that it was loaded from META1)
+                &quot;Load&quot; FILE4 (note that it was loaded from META1)
+                &quot;Load&quot; FILE5 (note that it was loaded from META1)
+          &quot;Load&quot; FILE6
+          &quot;Load&quot; META2 as a text kernel and then...
+                &quot;Load&quot; FILE2 (note that it was loaded from META2)
+                &quot;Load&quot; FILE3 (note that it was loaded from META2) *
+                &quot;Load&quot; FILE7 (note that it was loaded from META2)
+                &quot;Load&quot; FILE8 (note that it was loaded from META2)
+
+      If we  <b>UNLOAD</b> FILE3
+
+         CALL <b>UNLOAD</b> ( FILE3 )
+
+      we locate the last time FILE3 was loaded (* above) and modify the
+      state of loaded kernels so that it looks as if we had made the
+      following sequence of &quot;load&quot; operations.
+
+          &quot;Load&quot; FILE1
+          &quot;Load&quot; FILE2
+          &quot;Load&quot; FILE3
+          &quot;Load&quot; META1 as a text kernel and then...
+                &quot;Load&quot; FILE2 (note that it was loaded from META1)
+                &quot;Load&quot; FILE3 (note that it was loaded from META1)
+                &quot;Load&quot; FILE4 (note that it was loaded from META1)
+                &quot;Load&quot; FILE5 (note that it was loaded from META1)
+          &quot;Load&quot; FILE6
+          &quot;Load&quot; META2 as a text kernel and then...
+                &quot;Load&quot; FILE2 (note that it was loaded from META2)
+                &quot;Load&quot; FILE7 (note that it was loaded from META2)
+                &quot;Load&quot; FILE8 (note that it was loaded from META2)
+
+      As you can see, the data from FILE3 is still available to the
+      program. All that may have changed is the usage priority
+      associated with that data.
+
+      If we unload META2 (or META1) we remove all remaining files that
+      are noted as being loaded from META2 (or META1)
+
+          CALL <b>UNLOAD</b> ( META2 )
+
+      produces the following load state for the program:
+
+          &quot;Load&quot; FILE1
+          &quot;Load&quot; FILE2
+          &quot;Load&quot; FILE3
+          &quot;Load&quot; META1 as a text kernel and then...
+                &quot;Load&quot; FILE2 (note that it was loaded from META1)
+                &quot;Load&quot; FILE3 (note that it was loaded from META1)
+                &quot;Load&quot; FILE4 (note that it was loaded from META1)
+                &quot;Load&quot; FILE5 (note that it was loaded from META1)
+          &quot;Load&quot; FILE6
+
+      If we had unloaded META1 instead, we would have this load state.
+
+          &quot;Load&quot; FILE1
+          &quot;Load&quot; FILE2
+          &quot;Load&quot; FILE3
+          &quot;Load&quot; FILE6
+          &quot;Load&quot; META2 as a text kernel and then...
+                &quot;Load&quot; FILE2 (note that it was loaded from META2)
+                &quot;Load&quot; FILE7 (note that it was loaded from META2)
+                &quot;Load&quot; FILE8 (note that it was loaded from META2)
+
+      So we see that unloading a file does not necessarily make its
+      data unavailable to your program. Unloading modifies the
+      precedence of the files loaded in your program. The data
+      associated with an unloaded file becomes unavailable only when
+      the file has been unloaded as many times as it was loaded.
+
+      When would you encounter such a scenario? The situation of
+      loading a file more than once might appear if you were trying to
+      contrast the results of computations performed with two
+      different meta-kernels. In such a scenario you might load a
+      &quot;baseline&quot; set of kernels early in your program and then load
+      and unload meta-kernels to compare results between the two
+      different sets of data.
+
+     Unloading Text Kernels or Meta-Kernels
+     --------------------------------------
+
+     Part of the action of unloading text (or meta-kernels) is
+     the clearing of the kernel pool and re-loading any kernels that
+     were not in the specified set of kernels to unload. Since
+     loading of text kernels is not a very fast process, unloading
+     text kernels takes considerably longer than unloading binary
+     kernels. Moreover, since the kernel pool is cleared, any kernel
+     pool variables you have set from your program by using one of the
+     interfaces <a href="pcpool.html">PCPOOL</a>, <a href="pdpool.html">PDPOOL</a>, <a href="pipool.html">PIPOOL</a>, or <a href="lmpool.html">LMPOOL</a> will be removed from
+     the kernel pool. For this reason, if you plan to use this
+     feature in your program, together with one of the routines
+     specified above, you will need to take special precautions to
+     make sure kernel pool variables required by your program do not
+     inadvertently disappear.
+
+     As a side effect of unloading a text kernel, all watched kernel
+     variables are marked as updated. Note that unloading a text
+     kernel does not delete watchers. Watchers can be deleted by
+     calling the <a href="pool.html">POOL</a> entry point <a href="dwpool.html">DWPOOL</a>.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Load a meta-kernel with a PCK, an LSK and an SPK, and
+        separately, a text kernel and a binary PCK. Loop over the
+        loaded kernels, outputting file information for each of
+        them.
+
+        Then unload the text kernels, check that they have been
+        unloaded, and finally unload the meta-kernel.
+
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: unload_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                     Contents
+              ---------                     --------
+              de421.bsp                     Planetary ephemeris
+              pck00009.tpc                  Planet orientation and
+                                            radii
+              naif0012.tls                  Leapseconds
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'de421.bsp',
+                                  'naif0012.tls',
+                                  'pck00009.tpc' )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Use the PCK kernel below as the binary PCK required for the
+        example.
+
+           earth_latest_high_prec.bpc
+
+
+        Use the FK kernel below as the text kernel required for the
+        example.
+
+           RSSD0002.TF
+
+
+        Example code begins here.
+
+
+              PROGRAM UNLOAD_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local constants.
+        C
+              INTEGER               FNAMLN
+              PARAMETER           ( FNAMLN = 256 )
+
+              INTEGER               FTYPLN
+              PARAMETER           ( FTYPLN = 33 )
+
+              INTEGER               SRCLEN
+              PARAMETER           ( SRCLEN = 256 )
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(FNAMLN)    FILE
+              CHARACTER*(FTYPLN)    FILTYP
+              CHARACTER*(SRCLEN)    SRCFIL
+
+              INTEGER               COUNT
+              INTEGER               HANDLE
+
+              LOGICAL               FOUND
+
+        C
+        C     Load several kernel files.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'unload_ex1.tm'              )
+              CALL <a href="furnsh.html">FURNSH</a> ( 'RSSD0002.TF'                )
+              CALL <a href="furnsh.html">FURNSH</a> ( 'earth_latest_high_prec.bpc' )
+
+        C
+        C     Count the number of loaded kernel files.
+        C
+              CALL <a href="ktotal.html">KTOTAL</a> ( 'ALL', COUNT )
+
+              WRITE(*,'(A,I2)') 'The total number of kernels after '
+             . //               'final <a href="furnsh.html">FURNSH</a>: ', COUNT
+              WRITE(*,*) ' '
+
+        C
+        C     Unload the text kernels.
+        C
+              CALL <a href="ktotal.html">KTOTAL</a> ( 'TEXT', COUNT )
+
+              WRITE(*,*) ' '
+              WRITE(*,'(A,I2,A)') 'Unloading', COUNT,
+             .                    ' text kernels...'
+              WRITE(*,*) ' '
+
+              DO WHILE ( COUNT .NE. 0 )
+
+                 CALL <a href="kdata.html">KDATA</a> (      1, 'TEXT',  FILE, FILTYP,
+             .                SRCFIL, HANDLE, FOUND        )
+
+        C
+        C        If the kernel is found in the pool, unload it.
+        C
+                 IF ( FOUND ) THEN
+
+                    CALL <b>UNLOAD</b> ( FILE )
+
+        C
+        C           Check if the file has been unloaded.
+        C
+                    CALL <a href="kinfo.html">KINFO</a> ( FILE, FILTYP, SRCFIL, HANDLE, FOUND )
+
+                    IF ( FOUND ) THEN
+
+                       WRITE(*,'(A)') '  Error unloading ' // FILE
+
+                    ELSE
+
+                       WRITE(*,'(A)') '  Success unloading ' // FILE
+
+                    END IF
+
+        C
+        C        Something is not working. Inform NAIF.
+        C
+                 ELSE
+
+                    WRITE(*,*) ' ERROR: No kernel found but <a href="ktotal.html">KTOTAL</a> '
+             .      //         'returns ', COUNT
+
+                 END IF
+
+        C
+        C        Check if we have more text kernels to unload from
+        C        the kernel pool. Note that unloading a text kernel
+        C        or meta-kernel implies that the kernel pool is
+        C        cleared, and any kernel(s) that were not to be
+        C        unloaded are re-loaded. Therefore the COUNT value
+        C        changes, and the indexing of the files within the
+        C        kernel pool too.
+        C
+                 CALL <a href="ktotal.html">KTOTAL</a> ( 'TEXT', COUNT )
+
+              END DO
+
+              CALL <a href="ktotal.html">KTOTAL</a> ( 'ALL', COUNT )
+
+              WRITE(*,*) ' '
+              WRITE(*,'(A,I2)') 'The total number of kernels after '
+             . //               '<b>UNLOAD</b> calls: ', COUNT
+
+        C
+        C     Unload the meta-kernel and retrieve the number of loaded
+        C     after the clear.
+        C
+              CALL <b>UNLOAD</b> ( 'unload_ex1.tm' )
+
+              CALL <a href="ktotal.html">KTOTAL</a> ( 'ALL', COUNT )
+
+              WRITE(*,*) ' '
+              WRITE(*,'(A,I2)') 'The total number of kernels after '
+             . //               'final <b>UNLOAD</b>: ', COUNT
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        The total number of kernels after final <a href="furnsh.html">FURNSH</a>:  6
+
+
+        Unloading 3 text kernels...
+
+          Success unloading naif0012.tls
+          Success unloading pck00009.tpc
+          Success unloading RSSD0002.TF
+
+        The total number of kernels after <b>UNLOAD</b> calls:  3
+
+        The total number of kernels after final <b>UNLOAD</b>:  1
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  See the note regarding the unloading of Text and meta-text
+         Kernels.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 5.0.1, 08-AUG-2021 (JDR)
+
+        Edited the header to comply with NAIF standard.
+        Created complete code example from existing code fragments.
+
+    SPICELIB Version 5.0.0, 01-FEB-2017 (NJB) (BVS)
+
+        Updated to support use of DSKs.
+
+        Bug fix: now unloads binary kernels via low-level
+        unload routines only when those kernels have just
+        one entry in the <a href="keeper.html">KEEPER</a> database.
+
+        Updated the $Author_and_Institution section.
+
+    SPICELIB Version 3.0.1, 01-JUL-2014 (NJB)
+
+        Updated discussion of kernel variable watchers.
+
+    SPICELIB Version 3.0.0, 15-NOV-2006 (NJB)
+
+        Bug fix: corrected update of source pointers when a
+        meta-kernel is unloaded. Previously source pointers
+        having higher indices than those of the files referenced
+        by the meta kernel were not adjusted when the database
+        was compressed.
+
+    SPICELIB Version 2.0.0, 23-AUG-2001 (WLT)
+
+        Added code to make sure that <b>UNLOAD</b> has the effect of
+        loading all remaining kernels in the order they were first
+        introduced.
+
+    SPICELIB Version 1.0.0, 01-JUL-1999 (WLT)</PRE>
+<h4>Link to routine UNLOAD source file <a href='../../../src/spicelib/keeper.f'>keeper.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:37:04 2021</pre>
+
+</body>
+</html>
+

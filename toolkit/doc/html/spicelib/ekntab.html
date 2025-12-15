@@ -1,0 +1,267 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>ekntab</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>ekntab</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     EKNTAB  ( EK, return number of loaded tables )
+
+     ENTRY EKNTAB ( N )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Return the number of loaded EK tables.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/ek.html">EK</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     EK
+     FILES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+    INTEGER               N
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     N          O   Number of loaded tables.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     N        is the number of loaded tables. The count refers
+              to the number of logical tables; if multiple
+              segments contain data for the same table, these
+              segments collectively contribute only one table
+              to the count.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     The returned count is based on the currently loaded EK files.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine is a utility that provides the caller with the
+     number of loaded tables. Callers of <a href="ektnam.html">EKTNAM</a> can use this count
+     as the upper bound on set of table indices when looking up table
+     names.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Suppose we have several EK files. Load one at a time and
+        display, right after, the number of loaded EK tables in the
+        system.
+
+        Use the EK kernel below to load the Cassini Science Plan
+        SPICE E-Kernel File based upon integrated science plan. This
+        kernel contains 3 tables.
+
+           S79_CIMSSSUPa.bep
+
+        Use the EK kernel below to load the Cassini Spacecraft
+        Sequence Status SPICE E-Kernel File based upon integrated
+        Predicted Events File. This kernel contains 1 table.
+
+           S79_status_pf.bes
+
+
+        Example code begins here.
+
+
+              PROGRAM EKNTAB_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local variables
+        C
+              INTEGER               N
+
+        C
+        C     Load the first EK.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'S79_CIMSSSUPa.bep' )
+
+        C
+        C     Display the number of EK tables in the system after
+        C     the first EK file is loaded.
+        C
+              CALL <b>EKNTAB</b> ( N )
+              WRITE(*,'(A,I3)') 'EK tables in the system (1 EK):', N
+
+        C
+        C     Load the second EK.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'S79_status_pf.bes' )
+
+        C
+        C     Display the number of EK tables in the system after
+        C     the second EK file is loaded.
+        C
+              CALL <b>EKNTAB</b> ( N )
+              WRITE(*,'(A,I3)') 'EK tables in the system (2 EK):', N
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        EK tables in the system (1 EK):  3
+        EK tables in the system (2 EK):  4
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 2.1.0, 06-JUL-2021 (JDR)
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example based on existing fragments.
+
+        Removed the requirement of loading the files via EKELF from the
+        $Files section.
+
+    SPICELIB Version 2.0.0, 16-NOV-2001 (NJB)
+
+        Bug fix: When an already loaded kernel is opened with <a href="ekopr.html">EKOPR</a>,
+        it now has its link count reset to 1 via a call to <a href="ekcls.html">EKCLS</a>.
+
+    SPICELIB Version 1.0.1, 07-JUL-1996 (NJB)
+
+        Previous version line was changed from &quot;Beta&quot; to &quot;SPICELIB.&quot;
+
+    SPICELIB Version 1.0.0, 23-OCT-1995 (NJB)</PRE>
+<h4>Link to routine EKNTAB source file <a href='../../../src/spicelib/ekqmgr.f'>ekqmgr.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:18 2021</pre>
+
+</body>
+</html>
+

@@ -1,0 +1,320 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>ektnam</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>ektnam</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     EKTNAM  ( EK, return name of loaded table )
+
+     ENTRY EKTNAM ( N, TABLE )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Return the name of a specified, loaded table.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/ek.html">EK</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     EK
+     FILES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+    INTEGER               N
+    CHARACTER*(*)         TABLE
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     N          I   Index of table.
+     TABLE      O   Name of table.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     N        is the index of the table whose name is desired.
+              The value of N ranges from 1 to the number of
+              loaded tables, which count may be obtained from
+              <a href="ekntab.html">EKNTAB</a>.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     TABLE    is the name of the N'th loaded table. If TABLE
+              is too small to accommodate the name, the name will
+              be truncated on the right.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     TNAMSZ   is the maximum allowed table name length. See the
+              include file ektnamsz.inc for the actual value of
+              this parameter.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If this routine is called when no files are loaded, the
+         error SPICE(NOLOADEDFILES) is signaled.
+
+     2)  If the input N is out of range, the error SPICE(INVALDINDEX)
+         is signaled.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     The returned name is based on the currently loaded EK files.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine is a utility that provides the caller with the
+     name of a specified loaded table. The index of a table with
+     a given name depends on the kernels loaded and possibly on
+     the order in which the files have been loaded.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Dump the names of all the loaded tables.
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: ektnam_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                 Contents
+              ---------                 --------
+              S78_CIMSSSUPa.bep         Cassini Science Plan #78
+              S79_CIMSSSUPa.bep         Cassini Science Plan #79
+              S79_status_pf.bes         Cassini Spacecraft Sequence
+                                        Status #79
+
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'S78_CIMSSSUPa.bep',
+                                  'S79_CIMSSSUPa.bep',
+                                  'S79_status_pf.bes'  )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM EKTNAM_EX1
+              IMPLICIT NONE
+
+        C
+        C     Include EK parameter declarations:
+        C
+        C        EK Table Name Size
+        C
+              INCLUDE 'ektnamsz.inc'
+
+        C
+        C     Local parameters.
+        C
+              CHARACTER*(*)         META
+              PARAMETER           ( META   = 'ektnam_ex1.tm' )
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(TNAMSZ)      TABNAM
+
+              INTEGER                 NTAB
+              INTEGER                 TAB
+
+        C
+        C     Load the EK files. Use a meta-kernel for convenience.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( META )
+
+        C
+        C     Get the number of loaded tables. The count refers to the
+        C     number of logical tables; if multiple EKs contain data
+        C     for the same table, these EKs collectively contribute
+        C     only one table to the count.
+        C
+              CALL <a href="ekntab.html">EKNTAB</a> ( NTAB )
+
+              WRITE(*,'(A,I3)') 'Number of tables in EK subsystem:',
+             .                   NTAB
+
+              DO TAB = 1, NTAB
+
+        C
+        C        Get the name of the current table, and display it.
+        C
+                 CALL <b>EKTNAM</b> ( TAB, TABNAM )
+                 WRITE(*,'(2A)') '   TABLE = ', TABNAM
+
+              END DO
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Number of tables in EK subsystem:  4
+           TABLE = CASSINI_SP_REQUEST
+           TABLE = CASSINI_SP_OBSERVATION
+           TABLE = CASSINI_SP_REQ_OBS
+           TABLE = CASSINI_STATUS
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 2.1.0, 06-JUL-2021 (JDR)
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example.
+
+        Added description of TNAMSZ parameter.
+
+    SPICELIB Version 2.0.0, 16-NOV-2001 (NJB)
+
+        Bug fix: When an already loaded kernel is opened with <a href="ekopr.html">EKOPR</a>,
+        it now has its link count reset to 1 via a call to <a href="ekcls.html">EKCLS</a>.
+
+    SPICELIB Version 1.0.1, 07-JUL-1996 (NJB)
+
+        Previous version line was changed from &quot;Beta&quot; to &quot;SPICELIB.&quot;
+
+    SPICELIB Version 1.0.0, 23-OCT-1995 (NJB)</PRE>
+<h4>Link to routine EKTNAM source file <a href='../../../src/spicelib/ekqmgr.f'>ekqmgr.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:19 2021</pre>
+
+</body>
+</html>
+

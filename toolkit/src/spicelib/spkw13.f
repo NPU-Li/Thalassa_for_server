@@ -1,0 +1,735 @@
+C$Procedure SPKW13 ( Write SPK segment, type 13 )
+
+      SUBROUTINE SPKW13 (  HANDLE,  BODY,    CENTER,  FRAME,
+     .                     FIRST,   LAST,    SEGID,   DEGREE,
+     .                     N,       STATES,  EPOCHS           )
+
+C$ Abstract
+C
+C     Write a type 13 segment to an SPK file.
+C
+C$ Disclaimer
+C
+C     THIS SOFTWARE AND ANY RELATED MATERIALS WERE CREATED BY THE
+C     CALIFORNIA INSTITUTE OF TECHNOLOGY (CALTECH) UNDER A U.S.
+C     GOVERNMENT CONTRACT WITH THE NATIONAL AERONAUTICS AND SPACE
+C     ADMINISTRATION (NASA). THE SOFTWARE IS TECHNOLOGY AND SOFTWARE
+C     PUBLICLY AVAILABLE UNDER U.S. EXPORT LAWS AND IS PROVIDED "AS-IS"
+C     TO THE RECIPIENT WITHOUT WARRANTY OF ANY KIND, INCLUDING ANY
+C     WARRANTIES OF PERFORMANCE OR MERCHANTABILITY OR FITNESS FOR A
+C     PARTICULAR USE OR PURPOSE (AS SET FORTH IN UNITED STATES UCC
+C     SECTIONS 2312-2313) OR FOR ANY PURPOSE WHATSOEVER, FOR THE
+C     SOFTWARE AND RELATED MATERIALS, HOWEVER USED.
+C
+C     IN NO EVENT SHALL CALTECH, ITS JET PROPULSION LABORATORY, OR NASA
+C     BE LIABLE FOR ANY DAMAGES AND/OR COSTS, INCLUDING, BUT NOT
+C     LIMITED TO, INCIDENTAL OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+C     INCLUDING ECONOMIC DAMAGE OR INJURY TO PROPERTY AND LOST PROFITS,
+C     REGARDLESS OF WHETHER CALTECH, JPL, OR NASA BE ADVISED, HAVE
+C     REASON TO KNOW, OR, IN FACT, SHALL KNOW OF THE POSSIBILITY.
+C
+C     RECIPIENT BEARS ALL RISK RELATING TO QUALITY AND PERFORMANCE OF
+C     THE SOFTWARE AND ANY RELATED MATERIALS, AND AGREES TO INDEMNIFY
+C     CALTECH AND NASA FOR ALL THIRD-PARTY CLAIMS RESULTING FROM THE
+C     ACTIONS OF RECIPIENT IN THE USE OF THE SOFTWARE.
+C
+C$ Required_Reading
+C
+C     NAIF_IDS
+C     SPC
+C     SPK
+C     TIME
+C
+C$ Keywords
+C
+C     EPHEMERIS
+C     FILES
+C
+C$ Declarations
+
+      IMPLICIT NONE
+
+      INTEGER               HANDLE
+      INTEGER               BODY
+      INTEGER               CENTER
+      CHARACTER*(*)         FRAME
+      DOUBLE PRECISION      FIRST
+      DOUBLE PRECISION      LAST
+      CHARACTER*(*)         SEGID
+      INTEGER               DEGREE
+      INTEGER               N
+      DOUBLE PRECISION      STATES ( 6, * )
+      DOUBLE PRECISION      EPOCHS (    * )
+
+      INTEGER               MAXDEG
+      PARAMETER           ( MAXDEG = 27 )
+
+C$ Brief_I/O
+C
+C     VARIABLE  I/O  DESCRIPTION
+C     --------  ---  --------------------------------------------------
+C     HANDLE     I   Handle of an SPK file open for writing.
+C     BODY       I   NAIF code for an ephemeris object.
+C     CENTER     I   NAIF code for center of motion of BODY.
+C     FRAME      I   Reference frame name.
+C     FIRST      I   Start time of interval covered by segment.
+C     LAST       I   End time of interval covered by segment.
+C     SEGID      I   Segment identifier.
+C     DEGREE     I   Degree of interpolating polynomials.
+C     N          I   Number of states.
+C     STATES     I   Array of states.
+C     EPOCHS     I   Array of epochs corresponding to states.
+C     MAXDEG     P   Maximum allowed degree of interpolating polynomial.
+C
+C$ Detailed_Input
+C
+C     HANDLE   is the file handle of an SPK file that has been
+C              opened for writing.
+C
+C     BODY     is the NAIF integer code for an ephemeris object
+C              whose state relative to another body is described
+C              by the segment to be created.
+C
+C     CENTER   is the NAIF integer code for the center of motion
+C              of the object identified by BODY.
+C
+C     FRAME    is the NAIF name for a reference frame
+C              relative to which the state information for BODY
+C              is specified.
+C
+C     FIRST,
+C     LAST     are, respectively, the start and stop times of
+C              the time interval over which the segment defines
+C              the state of BODY.
+C
+C     SEGID    is the segment identifier. An SPK segment
+C              identifier may contain up to 40 characters.
+C
+C     DEGREE   is the degree of the Hermite polynomials used to
+C              interpolate the states. All components of the
+C              state vectors are interpolated by polynomials of
+C              fixed degree.
+C
+C     N        is the number of states in the input state vector
+C              array.
+C
+C     STATES   contains a time-ordered array of geometric states
+C              ( x, y, z, dx/dt, dy/dt, dz/dt, in kilometers and
+C              kilometers per second ) of BODY relative to CENTER,
+C              specified relative to FRAME.
+C
+C     EPOCHS   is an array of epochs corresponding to the members
+C              of the state array. The epochs are specified as
+C              seconds past J2000, TDB.
+C
+C$ Detailed_Output
+C
+C     None. See $Particulars for a description of the effect of this
+C     routine.
+C
+C$ Parameters
+C
+C     MAXDEG   is the maximum allowed degree of the interpolating
+C              polynomial. If the value of MAXDEG is increased,
+C              the SPICELIB routine SPKPV must be changed
+C              accordingly. In particular, the size of the
+C              record passed to SPKRnn and SPKEnn must be
+C              increased, and comments describing the record size
+C              must be changed.
+C
+C$ Exceptions
+C
+C     If any of the following exceptions occur, this routine will return
+C     without creating a new segment.
+C
+C     1)  If FRAME is not a recognized name, the error
+C         SPICE(INVALIDREFFRAME) is signaled.
+C
+C     2)  If the last non-blank character of SEGID occurs past index 40,
+C         the error SPICE(SEGIDTOOLONG) is signaled.
+C
+C     3)  If SEGID contains any nonprintable characters, the error
+C         SPICE(NONPRINTABLECHARS) is signaled.
+C
+C     4)  If DEGREE is not at least 1 or is greater than MAXDEG, the
+C         error SPICE(INVALIDDEGREE) is signaled.
+C
+C     5)  If DEGREE is not odd, the error SPICE(INVALIDDEGREE) is
+C         signaled.
+C
+C     6)  If the number of states N is not at least (DEGREE+1)/2,
+C         the error SPICE(TOOFEWSTATES) is signaled.
+C
+C     7)  If FIRST is greater than or equal to LAST, the error
+C         SPICE(BADDESCRTIMES) is signaled.
+C
+C     8)  If the elements of the array EPOCHS are not in strictly
+C         increasing order, the error SPICE(TIMESOUTOFORDER) is
+C         signaled.
+C
+C     9)  If the first epoch, EPOCHS(1), is greater than FIRST, the
+C         error SPICE(BADDESCRTIMES) is signaled.
+C
+C     10) If the last epoch, EPOCHS(N), is less than LAST, the error
+C         SPICE(BADDESCRTIMES) is signaled.
+C
+C$ Files
+C
+C     A new type 13 SPK segment is written to the SPK file attached
+C     to HANDLE.
+C
+C$ Particulars
+C
+C     This routine writes an SPK type 13 data segment to the open SPK
+C     file according to the format described in the type 13 section of
+C     the SPK Required Reading. The SPK file must have been opened with
+C     write access.
+C
+C$ Examples
+C
+C     The numerical results shown for this example may differ across
+C     platforms. The results depend on the SPICE kernels used as
+C     input, the compiler and supporting libraries, and the machine
+C     specific arithmetic implementation.
+C
+C     1) Suppose that you have a time-ordered array of geometric states
+C        of a new object that follows Phobos, with a delay of 1 hour,
+C        in its orbit around Mars and are prepared to produce a segment
+C        of type 13 in an SPK file. Create a new SPK file with this
+C        segment. Use an existing SPK to create the input data for the
+C        SPK segment.
+C
+C        Use the meta-kernel shown below to load the required SPICE
+C        kernels.
+C
+C
+C           KPL/MK
+C
+C           File: spkw13_ex1.tm
+C
+C           This meta-kernel is intended to support operation of SPICE
+C           example programs. The kernels shown here should not be
+C           assumed to contain adequate or correct versions of data
+C           required by SPICE-based user applications.
+C
+C           In order for an application to use this meta-kernel, the
+C           kernels referenced here must be present in the user's
+C           current working directory.
+C
+C           The names and contents of the kernels referenced
+C           by this meta-kernel are as follows:
+C
+C              File name                        Contents
+C              ---------                        --------
+C              mar097.bsp                       Mars satellite ephemeris
+C              naif0012.tls                     Leapseconds
+C
+C           \begindata
+C
+C              KERNELS_TO_LOAD = ( 'mar097.bsp',
+C                                  'naif0012.tls' )
+C
+C           \begintext
+C
+C           End of meta-kernel
+C
+C
+C        Example code begins here.
+C
+C
+C              PROGRAM SPKW13_EX1
+C              IMPLICIT NONE
+C
+C        C
+C        C     SPICELIB functions
+C        C
+C              DOUBLE PRECISION      HALFPI
+C
+C        C
+C        C     Local parameters.
+C        C
+C              CHARACTER*(*)         SPKNAM
+C              PARAMETER           ( SPKNAM = 'spkw13_ex1.bsp' )
+C
+C              INTEGER               DEGREE
+C              PARAMETER           ( DEGREE = 3   )
+C
+C              INTEGER               MARS
+C              PARAMETER           ( MARS   = 499 )
+C
+C              INTEGER               NAMLEN
+C              PARAMETER           ( NAMLEN = 255 )
+C
+C              INTEGER               NEPOCS
+C              PARAMETER           ( NEPOCS = 800 )
+C
+C              INTEGER               NOBJ
+C              PARAMETER           ( NOBJ   = 403 )
+C
+C        C
+C        C     Local variables.
+C        C
+C              CHARACTER*(NAMLEN)    IFNAME
+C              CHARACTER*(NAMLEN)    SEGID
+C
+C              DOUBLE PRECISION      DELTA
+C              DOUBLE PRECISION      ET
+C              DOUBLE PRECISION      EPOCHS ( NEPOCS )
+C              DOUBLE PRECISION      LT
+C              DOUBLE PRECISION      STATE  ( 6 )
+C              DOUBLE PRECISION      STATES ( 6, NEPOCS )
+C              DOUBLE PRECISION      STEP
+C              DOUBLE PRECISION      TIME
+C
+C              INTEGER               I
+C              INTEGER               HANDLE
+C
+C        C
+C        C     Load the input SPK file.
+C        C
+C              CALL FURNSH ( 'spkw13_ex1.tm' )
+C
+C        C
+C        C     Convert the input UTC to ephemeris time
+C        C
+C              CALL STR2ET ( '2018 Apr 03 08:35', ET )
+C
+C        C
+C        C     Create the time-ordered array of geometric states,
+C        C     at unequal time steps.
+C        C
+C              TIME  = ET
+C              STEP  = 60.D0
+C              DELTA = 10.D0
+C
+C              DO I=1, NEPOCS
+C
+C                 CALL SPKEZR ( 'PHOBOS', TIME,       'J2000', 'NONE',
+C             .                 'MARS',   STATES(1,I), LT             )
+C
+C                 EPOCHS(I) = TIME + 3600.D0
+C                 TIME = TIME + STEP +
+C             .          SIN( HALFPI() * I / 2.D0 ) * DELTA
+C
+C              END DO
+C
+C        C
+C        C     Open a new SPK file, with 5000 characters reserved
+C        C     for comments.
+C        C
+C              IFNAME = 'Test SPK type 13 internal filename.'
+C              CALL SPKOPN ( SPKNAM, IFNAME, 5000, HANDLE )
+C
+C        C
+C        C     Create a segment identifier.
+C        C
+C              SEGID = 'MY_SAMPLE_SPK_TYPE_13_SEGMENT'
+C
+C
+C        C
+C        C     Write the segment.
+C        C
+C              CALL SPKW13 ( HANDLE,    NOBJ,           MARS,  'J2000',
+C             .              EPOCHS(1), EPOCHS(NEPOCS), SEGID,  DEGREE,
+C             .              NEPOCS,    STATES,         EPOCHS        )
+C
+C        C
+C        C     Close the new SPK file.
+C        C
+C              CALL SPKCLS ( HANDLE )
+C
+C        C
+C        C     Compute the state of Phobos as seen from Mars,
+C        C     12 hours after the input UTC time.
+C        C
+C              ET = ET + 43200.0D0
+C              CALL SPKEZR ( 'PHOBOS', ET, 'J2000', 'NONE', 'MARS',
+C             .               STATE,   LT                         )
+C
+C              WRITE (*,'(A)') 'Phobos as seen from Mars'
+C              WRITE (*,'(A,F20.6)') '   Epoch       (s):', ET
+C              WRITE (*,'(A,3F14.6)') '   Position   (km):',
+C             .                                   (STATE(I), I=1,3)
+C              WRITE (*,'(A,3F14.6)') '   Velocity (km/s):',
+C             .                                   (STATE(I), I=4,6)
+C              WRITE (*,*)
+C
+C        C
+C        C     Load the newly created kernel, and compute the state
+C        C     of the new object as seen from Mars, 13 hours after
+C        C     the input UTC time.
+C        C
+C              CALL FURNSH ( SPKNAM )
+C              ET = ET + 3600.0D0
+C
+C              CALL SPKEZR ( '403', ET, 'J2000', 'NONE', 'MARS',
+C             .               STATE,   LT                       )
+C
+C              WRITE (*,'(A)') 'Object 403 as seen from Mars'
+C              WRITE (*,'(A,F20.6)') '   Epoch       (s):', ET
+C              WRITE (*,'(A,3F14.6)') '   Position   (km):',
+C             .                                   (STATE(I), I=1,3)
+C              WRITE (*,'(A,3F14.6)') '   Velocity (km/s):',
+C             .                                   (STATE(I), I=4,6)
+C
+C              END
+C
+C
+C        When this program was executed on a Mac/Intel/gfortran/64-bit
+C        platform, the output was:
+C
+C
+C        Phobos as seen from Mars
+C           Epoch       (s):    576059769.185657
+C           Position   (km):  -7327.262770   2414.326550   5207.106376
+C           Velocity (km/s):     -0.942893     -1.894731     -0.396715
+C
+C        Object 403 as seen from Mars
+C           Epoch       (s):    576063369.185657
+C           Position   (km):  -7327.262770   2414.326550   5207.106376
+C           Velocity (km/s):     -0.942893     -1.894731     -0.396715
+C
+C
+C        Note that after run completion, a new SPK file exists in
+C        the output directory.
+C
+C$ Restrictions
+C
+C     None.
+C
+C$ Literature_References
+C
+C     None.
+C
+C$ Author_and_Institution
+C
+C     N.J. Bachman       (JPL)
+C     J. Diaz del Rio    (ODC Space)
+C
+C$ Version
+C
+C-    SPICELIB Version 2.0.1, 05-JUL-2021 (JDR)
+C
+C        Edited the header to comply with NAIF standard. Removed
+C        unnecessary $Revisions section.
+C
+C-    SPICELIB Version 2.0.0, 23-DEC-2013 (NJB)
+C
+C        Increased MAXDEG to 27 for compatibility
+C        with SPK type 21. Deleted declaration of
+C        unused parameter TYPIDX.
+C
+C-    SPICELIB Version 1.0.0, 20-MAR-2000 (NJB)
+C
+C-&
+
+
+C$ Index_Entries
+C
+C     write SPK type_13 ephemeris data segment
+C
+C-&
+
+
+C
+C     SPICELIB functions
+C
+      INTEGER               LASTNB
+
+      LOGICAL               EVEN
+      LOGICAL               FAILED
+      LOGICAL               RETURN
+
+C
+C     Local parameters
+C
+      INTEGER               SIDLEN
+      PARAMETER           ( SIDLEN  =  40 )
+
+      INTEGER               FPRINT
+      PARAMETER           ( FPRINT  =  32 )
+
+      INTEGER               LPRINT
+      PARAMETER           ( LPRINT  = 126 )
+
+C
+C     Local variables
+C
+      INTEGER               DSCSIZ
+      PARAMETER           ( DSCSIZ  =   5 )
+
+      INTEGER               DTYPE
+      PARAMETER           ( DTYPE   =  13 )
+
+      INTEGER               DIRSIZ
+      PARAMETER           ( DIRSIZ  = 100 )
+
+      INTEGER               STATSZ
+      PARAMETER           ( STATSZ  =   6 )
+
+C
+C     Local variables
+C
+      DOUBLE PRECISION      DESCR  ( DSCSIZ )
+      DOUBLE PRECISION      MAXTIM
+
+      INTEGER               CHRCOD
+      INTEGER               I
+      INTEGER               REFCOD
+      INTEGER               WINSIZ
+
+C
+C     Standard SPICE error handling.
+C
+      IF ( RETURN () ) THEN
+         RETURN
+      ELSE
+         CALL CHKIN ( 'SPKW13' )
+      END IF
+
+C
+C     Set the window size corresponding to the input degree.  This
+C     size will be used in various places below.
+C
+      WINSIZ  =  ( DEGREE + 1 ) / 2
+
+C
+C     Get the NAIF integer code for the reference frame.
+C
+      CALL NAMFRM ( FRAME, REFCOD )
+
+      IF ( REFCOD .EQ. 0 ) THEN
+
+         CALL SETMSG ( 'The reference frame # is not supported.'   )
+         CALL ERRCH  ( '#', FRAME                                  )
+         CALL SIGERR ( 'SPICE(INVALIDREFFRAME)'                    )
+         CALL CHKOUT ( 'SPKW13'                                    )
+         RETURN
+
+      END IF
+
+C
+C     Check to see if the segment identifier is too long.
+C
+      IF ( LASTNB(SEGID) .GT. SIDLEN ) THEN
+
+         CALL SETMSG ( 'Segment identifier contains more than ' //
+     .                 '40 characters.'                          )
+         CALL SIGERR ( 'SPICE(SEGIDTOOLONG)'                     )
+         CALL CHKOUT ( 'SPKW13'                                  )
+         RETURN
+
+      END IF
+
+C
+C     Now check that all the characters in the segment identifier
+C     can be printed.
+C
+      DO I = 1, LASTNB(SEGID)
+
+         CHRCOD = ICHAR( SEGID(I:I) )
+
+         IF ( ( CHRCOD .LT. FPRINT ) .OR. ( CHRCOD .GT. LPRINT ) ) THEN
+
+            CALL SETMSG ( 'The segment identifier contains '  //
+     .                    'nonprintable characters'               )
+            CALL SIGERR ( 'SPICE(NONPRINTABLECHARS)'              )
+            CALL CHKOUT ( 'SPKW13'                                )
+            RETURN
+
+         END IF
+
+      END DO
+
+C
+C     Make sure that the degree of the interpolating polynomials is
+C     in range.
+C
+      IF (  ( DEGREE .LT. 1 ) .OR. ( DEGREE .GT. MAXDEG )  )  THEN
+
+         CALL SETMSG ( 'The interpolating polynomials have degree #; '//
+     .                 'the valid degree range is [1, #]'              )
+         CALL ERRINT ( '#', DEGREE                                     )
+         CALL ERRINT ( '#', MAXDEG                                     )
+         CALL SIGERR ( 'SPICE(INVALIDDEGREE)'                          )
+         CALL CHKOUT ( 'SPKW13'                                        )
+         RETURN
+
+      END IF
+
+C
+C     Make sure that the degree of the interpolating polynomials is odd.
+C
+      IF (  EVEN( DEGREE )  )  THEN
+
+         CALL SETMSG ( 'The interpolating polynomials have degree #; '//
+     .                 'for SPK type 13, the degree must be odd.'      )
+         CALL ERRINT ( '#', DEGREE                                     )
+         CALL SIGERR ( 'SPICE(INVALIDDEGREE)'                          )
+         CALL CHKOUT ( 'SPKW13'                                        )
+         RETURN
+
+      END IF
+
+C
+C     Make sure that the number of states is sufficient to define a
+C     polynomial whose degree is DEGREE.
+C
+      IF ( N .LT. WINSIZ ) THEN
+
+         CALL SETMSG ( 'At least # states are required to define a '  //
+     .                 'Hermite polynomial of degree #.  Number of '  //
+     .                 'states supplied:  #'                           )
+         CALL ERRINT ( '#', WINSIZ                                     )
+         CALL ERRINT ( '#', DEGREE                                     )
+         CALL ERRINT ( '#', N                                          )
+         CALL SIGERR ( 'SPICE(TOOFEWSTATES)'                           )
+         CALL CHKOUT ( 'SPKW13'                                        )
+         RETURN
+
+      END IF
+
+C
+C     The segment stop time should be greater then the begin time.
+C
+      IF ( FIRST .GE. LAST ) THEN
+
+         CALL SETMSG ( 'The segment start time: # is greater then ' //
+     .                 'the segment end time: #'                   )
+         CALL ERRDP  ( '#', FIRST                                  )
+         CALL ERRDP  ( '#', LAST                                   )
+         CALL SIGERR ( 'SPICE(BADDESCRTIMES)'                      )
+         CALL CHKOUT ( 'SPKW13'                                    )
+         RETURN
+
+      END IF
+
+C
+C     Make sure the epochs form a strictly increasing sequence.
+C
+      MAXTIM = EPOCHS(1)
+
+      DO I = 2, N
+
+         IF ( EPOCHS(I) .LE. MAXTIM ) THEN
+
+            CALL SETMSG ( 'EPOCH # having index # is not greater '    //
+     .                    'than its predecessor #.'                   )
+            CALL ERRDP  ( '#',  EPOCHS(I)                             )
+            CALL ERRINT ( '#',  I                                     )
+            CALL ERRDP  ( '#',  EPOCHS(I-1)                           )
+            CALL SIGERR ( 'SPICE(TIMESOUTOFORDER)'                    )
+            CALL CHKOUT ( 'SPKW13'                                    )
+            RETURN
+         ELSE
+            MAXTIM = EPOCHS(I)
+         END IF
+
+      END DO
+
+C
+C     Make sure that the span of the input epochs includes the interval
+C     defined by the segment descriptor.
+C
+      IF (  EPOCHS(1) .GT. FIRST ) THEN
+
+         CALL SETMSG ( 'Segment start time # precedes first epoch #.' )
+         CALL ERRDP  ( '#',  FIRST                                    )
+         CALL ERRDP  ( '#',  EPOCHS(1)                                )
+         CALL SIGERR ( 'SPICE(BADDESCRTIMES)'                         )
+         CALL CHKOUT ( 'SPKW13'                                       )
+         RETURN
+
+      ELSE IF (  EPOCHS(N) .LT. LAST ) THEN
+
+         CALL SETMSG ( 'Segment end time # follows last epoch #.'     )
+         CALL ERRDP  ( '#',  LAST                                     )
+         CALL ERRDP  ( '#',  EPOCHS(N)                                )
+         CALL SIGERR ( 'SPICE(BADDESCRTIMES)'                         )
+         CALL CHKOUT ( 'SPKW13'                                       )
+         RETURN
+
+      END IF
+
+
+
+C
+C     If we made it this far, we're ready to start writing the segment.
+C
+C
+C     Create the segment descriptor.
+C
+      CALL SPKPDS ( BODY, CENTER, FRAME, DTYPE, FIRST, LAST, DESCR )
+
+C
+C     Begin a new segment.
+C
+      CALL DAFBNA ( HANDLE, DESCR, SEGID )
+
+      IF ( FAILED() ) THEN
+         CALL CHKOUT ( 'SPKW13' )
+         RETURN
+      END IF
+
+
+C
+C     The type 13 segment structure is eloquently described by this
+C     diagram from the SPK Required Reading:
+C
+C        +-----------------------+
+C        | State 1               |
+C        +-----------------------+
+C        | State 2               |
+C        +-----------------------+
+C                    .
+C                    .
+C                    .
+C        +-----------------------+
+C        | State N               |
+C        +-----------------------+
+C        | Epoch 1               |
+C        +-----------------------+
+C        | Epoch 2               |
+C        +-----------------------+
+C                    .
+C                    .
+C                    .
+C        +-----------------------+
+C        | Epoch N               |
+C        +-----------------------+
+C        | Epoch 100             | (First directory)
+C        +-----------------------+
+C                    .
+C                    .
+C                    .
+C        +-----------------------+
+C        | Epoch ((N-1)/100)*100 | (Last directory)
+C        +-----------------------+
+C        | Window size - 1       |
+C        +-----------------------+
+C        | Number of states      |
+C        +-----------------------+
+C
+C
+
+      CALL DAFADA ( STATES,  N*STATSZ )
+      CALL DAFADA ( EPOCHS,  N        )
+
+      DO I = 1,   (N-1) / DIRSIZ
+         CALL DAFADA (  EPOCHS( DIRSIZ*I ),  1  )
+      END DO
+
+      CALL DAFADA ( DBLE( WINSIZ - 1),  1 )
+      CALL DAFADA ( DBLE( N         ),  1 )
+
+C
+C     As long as nothing went wrong, end the segment.
+C
+      IF ( .NOT. FAILED() ) THEN
+         CALL DAFENA
+      END IF
+
+
+      CALL CHKOUT ( 'SPKW13' )
+      RETURN
+      END

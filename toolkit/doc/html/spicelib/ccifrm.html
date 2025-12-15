@@ -1,0 +1,366 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>ccifrm</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>ccifrm</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     CCIFRM ( frame Class and Class Id to FRaMe id and name )
+
+     ENTRY CCIFRM ( FRCLSS, CLSSID, FRCODE, FRNAME, CENT, FOUND )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Return the frame name, frame ID, and center associated with
+     a given frame class and class ID.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/frames.html">FRAMES</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     FRAMES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+    INTEGER               FRCLSS
+    INTEGER               CLSSID
+    INTEGER               FRCODE
+    CHARACTER*(*)         FRNAME
+    INTEGER               CENT
+    LOGICAL               FOUND
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     FRCLSS     I   Class of frame.
+     CLSSID     I   Class ID of frame.
+     FRCODE     O   ID code of the frame identified by FRCLSS, CLSSID.
+     FRNAME     O   Name of the frame identified by FRCLSS, CLSSID.
+     CENT       O   Center of the frame identified by FRCLSS, CLSSID.
+     FOUND      O   .TRUE. if the requested information is available.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     FRCLSS   is the class or type of the frame. This identifies
+              which subsystem will be used to perform frame
+              transformations.
+
+     CLSSID   is the ID code used for the frame within its class.
+              This may be different from the frame ID code.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     FRCODE   is the frame ID code for the reference frame
+              identified by FRCLSS and CLSSID.
+
+     FRNAME   is the name of the frame identified by FRCLSS and
+              CLSSID. FRNAME should be declared as CHARACTER*(32)
+              to ensure that it can contain the full name of the
+              frame. If FRNAME does not have enough room to hold
+              the full name of the frame, the name will be
+              truncated on the right.
+
+     CENT     is the body ID code for the center of the reference
+              frame identified by FRCLSS and CLSSID.
+
+     FOUND    is .TRUE. if FRCODE, FRNAME, and CENT are available.
+              Otherwise, FOUND is returned with the value .FALSE.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  This routine assumes that the first frame found with matching
+         class and class ID is the correct one. SPICE's frame system
+         does not diagnose the situation where there are multiple,
+         distinct frames with matching classes and class ID codes, but
+         this situation could occur if such conflicting frame
+         specifications are loaded via one or more frame kernels. The
+         user is responsible for avoiding such frame specification
+         conflicts.
+
+     2)  If FRNAME does not have room to contain the frame name, the
+         name will be truncated on the right. (Declaring FRNAME to be
+         CHARACTER*(32) will ensure that the name will not be
+         truncated).
+
+     3)  If a frame class assignment is found that associates a
+         string (as opposed to numeric) value with a frame class
+         keyword, the error SPICE(INVALIDFRAMEDEF) is signaled.
+
+     4)  If a frame class assignment is found that matches the input
+         class, but a corresponding class ID assignment is not
+         found in the kernel pool, the error SPICE(INVALIDFRAMEDEF)
+         is signaled.
+
+     5)  If a frame specification is found in the kernel pool with
+         matching frame class and class ID, but either the frame name
+         or frame ID code are not found, the error
+         SPICE(INVALIDFRAMEDEF) is signaled.
+
+     6)  If a frame specification is found in the kernel pool with
+         matching frame class and class ID, but the frame center
+         is not found, an error is signaled by a routine
+         in the call tree of this routine.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine allows the user to determine the frame associated
+     with a given frame class and class ID code. The built-in frame
+     list is searched first for a matching frame; if no match is
+     found, then the kernel <a href="pool.html">POOL</a> is searched.
+
+     Since the neither the frame class nor the class ID are primary
+     keys, searching for matching frames is a linear (and therefore
+     typically slow) process.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) The following code example demonstrates how to find the frame
+        information about a frame by its ID using <a href="frinfo.html">FRINFO</a> and
+        by its class and class ID using <b>CCIFRM</b>.
+
+
+        Example code begins here.
+
+
+              PROGRAM CCIFRM_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local parameters.
+        C
+              INTEGER               FRNLEN
+              PARAMETER           ( FRNLEN = 32 )
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(FRNLEN)    FRNAME
+
+              INTEGER               CENTR1
+              INTEGER               CENTR2
+              INTEGER               CLSS
+              INTEGER               CLSSID
+              INTEGER               FRCOD1
+              INTEGER               FRCOD2
+
+              LOGICAL               FOUND
+
+        C
+        C     Find the frame code associated with ITRF93
+        C
+              FRNAME = 'ITRF93'
+              CALL <a href="namfrm.html">NAMFRM</a> ( FRNAME, FRCOD1 )
+
+        C
+        C     Get the frame information.
+        C
+              CALL <a href="frinfo.html">FRINFO</a> ( FRCOD1, CENTR1, CLSS, CLSSID, FOUND )
+
+              IF ( .NOT. FOUND ) THEN
+
+                    WRITE(*,*) 'No info found for frame ', FRCOD1
+                    STOP
+
+              END IF
+
+              WRITE(*,'(A)')    'Frame ITRF93 info:'
+              WRITE(*,'(A,I6)') '   Frame Code: ', FRCOD1
+              WRITE(*,'(A,I6)') '   Center ID : ', CENTR1
+              WRITE(*,'(A,I6)') '   Class     : ', CLSS
+              WRITE(*,'(A,I6)') '   Class ID  : ', CLSSID
+
+        C
+        C     Return the frame name, frame ID, and center associated
+        C     with the frame CLSS and CLSSID.
+        C
+              CALL <b>CCIFRM</b> ( CLSS,   CLSSID, FRCOD2,
+             .              FRNAME, CENTR2, FOUND  )
+
+              IF ( .NOT. FOUND ) THEN
+
+                    WRITE(*,*) 'No info found for type ', CLSS,
+             .                 ' frame ', CLSSID
+                    STOP
+
+              END IF
+
+
+              WRITE(*,'(A,I3,A,I6,A)') 'Type', CLSS, ' frame', CLSSID,
+             .                         ' info:'
+              WRITE(*,'(2A)')   '   Frame name: ', FRNAME
+              WRITE(*,'(A,I6)') '   Frame Code: ', FRCOD2
+              WRITE(*,'(A,I6)') '   Center ID : ', CENTR2
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Frame ITRF93 info:
+           Frame Code:  13000
+           Center ID :    399
+           Class     :      2
+           Class ID  :   3000
+        Type  2 frame  3000 info:
+           Frame name: ITRF93
+           Frame Code:  13000
+           Center ID :    399
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  See item (1) in the $Exceptions section above.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.2.0, 01-OCT-2021 (JDR)
+
+        Edited the header to comply with NAIF standard.
+        Added complete code example from existing fragments.
+
+        Changed the input argument name CLASS to FRCLSS for
+        consistency with other routines.
+
+        Updated maximum frame name length from 26 to 32 in
+        $Detailed_Output and $Exceptions section.
+
+    SPICELIB Version 1.1.1, 02-FEB-2017 (BVS)
+
+        Shortened one of permuted index entries.
+
+    SPICELIB Version 1.1.0, 08-AUG-2012 (BVS)
+
+        The routine was updated to be more efficient by using hashes
+        instead kernel <a href="pool.html">POOL</a> look-ups for kernel <a href="pool.html">POOL</a> frames and by
+        using hashes instead of ordered array searches for built-in
+        frames.
+
+        Bug fix: <b>CCIFRM</b> logic was corrected to examine the built-in
+        frames before looking at the kernel <a href="pool.html">POOL</a> frames.
+
+    SPICELIB Version 1.0.0, 05-NOV-2007 (NJB)</PRE>
+<h4>Link to routine CCIFRM source file <a href='../../../src/spicelib/framex.f'>framex.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:00 2021</pre>
+
+</body>
+</html>
+

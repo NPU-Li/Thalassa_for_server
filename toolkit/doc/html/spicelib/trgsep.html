@@ -1,0 +1,533 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>trgsep</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>trgsep</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     TRGSEP ( Separation quantity from observer )
+
+     DOUBLE PRECISION FUNCTION TRGSEP ( ET,
+    .                                   TARG1,  SHAPE1, FRAME1,
+    .                                   TARG2,  SHAPE2, FRAME2,
+    .                                   OBSRVR, ABCORR )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Compute the angular separation in radians between two spherical
+     or point objects.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     ABCORR
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     ANGLE
+     GEOMETRY
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE 'zzabcorr.inc'
+     INCLUDE 'zzdyn.inc'
+
+     DOUBLE PRECISION      ET
+     CHARACTER*(*)         TARG1
+     CHARACTER*(*)         SHAPE1
+     CHARACTER*(*)         FRAME1
+     CHARACTER*(*)         TARG2
+     CHARACTER*(*)         SHAPE2
+     CHARACTER*(*)         FRAME2
+     CHARACTER*(*)         OBSRVR
+     CHARACTER*(*)         ABCORR
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     ET         I   Ephemeris seconds past J2000 TDB.
+     TARG1      I   First target body name.
+     SHAPE1     I   First target body shape.
+     FRAME1     I   Reference frame of first target.
+     TARG2      I   Second target body name.
+     SHAPE2     I   First target body shape.
+     FRAME2     I   Reference frame of second target.
+     OBSRVR     I   Observing body name.
+     ABCORR     I   Aberration corrections flag.
+
+     The function returns the angular separation between two targets,
+     TARG1 and TARG2, as seen from an observer OBSRVR, possibly
+     corrected for aberration corrections.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     ET       is the time in ephemeris seconds past J2000 TDB at
+              which the separation is to be measured.
+
+     TARG1    is the string naming the first body of interest. You can
+              also supply the integer ID code for the object as an
+              integer string. For example both 'MOON' and '301'
+              are legitimate strings that indicate the moon is the
+              target body.
+
+     SHAPE1   is the string naming the geometric model used to
+              represent the shape of the TARG1 body. Models
+              supported by this routine:
+
+                 'SPHERE'        Treat the body as a sphere with
+                                 radius equal to the maximum value of
+                                 BODYnnn_RADII.
+
+                 'POINT'         Treat the body as a point;
+                                 radius has value zero.
+
+              The SHAPE1 string lacks sensitivity to case, leading
+              and trailing blanks.
+
+     FRAME1   is the string naming the body-fixed reference frame
+              corresponding to TARG1. <b>TRGSEP</b> does not currently use
+              this argument's value, its use is reserved for future
+              shape models. The value 'NULL' will suffice for
+              'POINT' and 'SPHERE' shaped bodies.
+
+     TARG2    is the string naming the second body of interest. You can
+              also supply the integer ID code for the object as an
+              integer string. For example both 'MOON' and '301'
+              are legitimate strings that indicate the moon is the
+              target body.
+
+     SHAPE2   is the string naming the geometric model used to
+              represent the shape of the TARG2. Models supported by
+              this routine:
+
+                 'SPHERE'        Treat the body as a sphere with
+                                 radius equal to the maximum value of
+                                 BODYnnn_RADII.
+
+                 'POINT'         Treat the body as a single point;
+                                 radius has value zero.
+
+              The SHAPE2 string lacks sensitivity to case, leading
+              and trailing blanks.
+
+     FRAME2   is the string naming the body-fixed reference frame
+              corresponding to TARG2. <b>TRGSEP</b> does not currently use
+              this argument's value, its use is reserved for future
+              shape models. The value 'NULL' will suffice for
+              'POINT' and 'SPHERE' shaped bodies.
+
+     OBSRVR   is the string naming the observing body. Optionally, you
+              may supply the ID code of the object as an integer
+              string. For example, both 'EARTH' and '399' are
+              legitimate strings to supply to indicate the
+              observer is Earth.
+
+     ABCORR   is the string description of the aberration corrections
+              to apply to the state evaluations to account for
+              one-way light time and stellar aberration.
+
+              This routine accepts the same aberration corrections
+              as does the SPICE routine <a href="spkezr.html">SPKEZR</a>. See the header of
+              <a href="spkezr.html">SPKEZR</a> for a detailed description of the aberration
+              correction options. For convenience, the options are
+              listed below:
+
+                 'NONE'     Apply no correction.
+
+                 'LT'       &quot;Reception&quot; case: correct for
+                            one-way light time using a Newtonian
+                            formulation.
+
+                 'LT+S'     &quot;Reception&quot; case: correct for
+                            one-way light time and stellar
+                            aberration using a Newtonian
+                            formulation.
+
+                 'CN'       &quot;Reception&quot; case: converged
+                            Newtonian light time correction.
+
+                 'CN+S'     &quot;Reception&quot; case: converged
+                            Newtonian light time and stellar
+                            aberration corrections.
+
+                 'XLT'      &quot;Transmission&quot; case: correct for
+                            one-way light time using a Newtonian
+                            formulation.
+
+                 'XLT+S'    &quot;Transmission&quot; case: correct for
+                            one-way light time and stellar
+                            aberration using a Newtonian
+                            formulation.
+
+                 'XCN'      &quot;Transmission&quot; case: converged
+                            Newtonian light time correction.
+
+                 'XCN+S'    &quot;Transmission&quot; case: converged
+                            Newtonian light time and stellar
+                            aberration corrections.
+
+              The ABCORR string lacks sensitivity to case, leading
+              and trailing blanks.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     The function returns the angular separation between two targets,
+     TARG1 and TARG2, as seen from an observer OBSRVR expressed in
+     radians.
+
+     The observer is the angle's vertex. The angular separation between
+     the targets may be measured between the centers or figures (limbs)
+     of the targets, depending on whether the target shapes are modeled
+     as spheres or points.
+
+     If the target shape is either a spheroid or an ellipsoid, the
+     radius used to compute the limb will be the largest of the radii
+     of the target's tri-axial ellipsoid model.
+
+     If the targets are modeled as points the result ranges from 0
+     to Pi radians or 180 degrees.
+
+     If the target shapes are modeled as spheres or ellipsoids, the
+     function returns a negative value when the bodies overlap
+     (occult). Note that in this situation the function returns 0 when
+     the limbs of the bodies start or finish the overlap.
+
+     The positions of the targets may optionally be corrected for light
+     time and stellar aberration.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If the three objects TARG1, TARG2 and OBSRVR are not
+         distinct, an error is signaled by a routine in the call tree
+         of this routine.
+
+     2)  If the object names for TARG1, TARG2 or OBSRVR cannot resolve
+         to a NAIF body ID, an error is signaled by a routine in the
+         call tree of this routine.
+
+     3)  If the reference frame associated with TARG1, FRAME1, is not
+         centered on TARG1, or if the reference frame associated with
+         TARG2, FRAME2, is not centered on TARG2, an error is signaled
+         by a routine in the call tree of this routine. This
+         restriction does not apply to shapes 'SPHERE' and 'POINT', for
+         which the frame input is ignored.
+
+     4)  If the frame name for FRAME1 or FRAME2 cannot resolve to a
+         NAIF frame ID, an error is signaled by a routine in the call
+         tree of this routine.
+
+     5)  If the body shape for TARG1, SHAPE1, or the body shape for
+         TARG2, SHAPE2, is not recognized, an error is signaled by a
+         routine in the call tree of this routine.
+
+     6)  If the requested aberration correction ABCORR is not
+         recognized, an error is signaled by a routine in the call tree
+         of this routine.
+
+     7)  If either one or both targets' shape is modeled as sphere, and
+         the required PCK data has not been loaded, an error is
+         signaled by a routine in the call tree of this routine.
+
+     8)  If the ephemeris data required to perform the needed state
+         look-ups are not loaded, an error is signaled by a routine in
+         the call tree of this routine.
+
+     9)  If the observer OBSRVR is located within either one of the
+         targets, an error is signaled by a routine in the call tree of
+         this routine.
+
+     10) If an error is signaled, the function returns a meaningless
+         result.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     Appropriate SPICE kernels must be loaded by the calling program
+     before this routine is called.
+
+     The following data are required:
+
+     -  An SPK file (or files) containing ephemeris data sufficient to
+        compute the position of each of the targets with respect to the
+        observer. If aberration corrections are used, the states of
+        target and observer relative to the solar system barycenter
+        must be calculable from the available ephemeris data.
+
+     -  A PCK file containing the targets' tri-axial ellipsoid model,
+        if the targets are modeled as spheres.
+
+     -  If non-inertial reference frames are used, then PCK files,
+        frame kernels, C-kernels, and SCLK kernels may be needed.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine determines the apparent separation between the
+     two objects as observed from a third. The value reported is
+     corrected for light time. Moreover, if at the time this routine
+     is called, stellar aberration corrections are enabled, this
+     correction will also be applied to the apparent positions of the
+     centers of the two objects.
+
+     Please refer to the Aberration Corrections Required Reading
+     (abcorr.req) for detailed information describing the nature and
+     calculation of the applied corrections.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Calculate the apparent angular separation of the Earth and
+        Moon as observed from the Sun at a TDB time known as a time
+        of maximum separation. Calculate and output the separation
+        modeling the Earth and Moon as point bodies and as spheres.
+        Provide the result in degrees.
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: trgsep_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                     Contents
+              ---------                     --------
+              de421.bsp                     Planetary ephemeris
+              pck00009.tpc                  Planet orientation and
+                                            radii
+              naif0009.tls                  Leapseconds
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'de421.bsp',
+                                  'pck00009.tpc',
+                                  'naif0009.tls'  )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM TRGSEP_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions
+        C
+              DOUBLE PRECISION      <b>TRGSEP</b>
+              DOUBLE PRECISION      <a href="dpr.html">DPR</a>
+
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(32)        TARG  (2)
+              CHARACTER*(32)        SHAPE (2)
+              CHARACTER*(32)        FRAME (2)
+              CHARACTER*(64)        TDBSTR
+              CHARACTER*(32)        OBSRVR
+              CHARACTER*(32)        ABCORR
+
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      VALUE
+
+              DATA             FRAME  / 'IAU_MOON', 'IAU_EARTH' /
+
+              DATA             TARG   / 'MOON', 'EARTH'   /
+
+              DATA             SHAPE  / 'POINT', 'SPHERE' /
+
+
+        C
+        C     Load the kernels.
+        C
+              CALL <a href="furnsh.html">FURNSH</a>( 'trgsep_ex1.tm')
+
+              TDBSTR = '2007-JAN-11 11:21:20.213872 (TDB)'
+              OBSRVR = 'SUN'
+              ABCORR = 'LT+S'
+
+              CALL <a href="str2et.html">STR2ET</a> ( TDBSTR, ET )
+
+              VALUE = <b>TRGSEP</b>( ET,
+             .             TARG(1),  SHAPE(1), FRAME(1),
+             .             TARG(2),  SHAPE(1), FRAME(2),
+             .             OBSRVR,   ABCORR )
+
+              WRITE(*, FMT='(A,A6,A6)') 'Bodies:          ',
+             .                                      TARG(1), TARG(2)
+              WRITE(*, FMT='(A,A6)')    'as seen from:    ', OBSRVR
+              WRITE(*, FMT='(A,A36)')   'at TDB time:     ', TDBSTR
+              WRITE(*, FMT='(A,A)')     'with correction: ', ABCORR
+              WRITE(*,*)
+
+              WRITE(*, FMT='(A)') 'Apparent angular separation:'
+              WRITE(*, FMT='(A,F12.8)')
+             .     '   point body models  (deg.): ',
+             .                                        VALUE * <a href="dpr.html">DPR</a>()
+
+              VALUE = <b>TRGSEP</b>( ET,
+             .             TARG(1),  SHAPE(2), FRAME(1),
+             .             TARG(2),  SHAPE(2), FRAME(2),
+             .             OBSRVR, ABCORR )
+
+              WRITE(*, FMT='(A,F12.8)')
+             .     '   sphere body models (deg.): ',
+             .                                        VALUE * <a href="dpr.html">DPR</a>()
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Bodies:          MOON  EARTH
+        as seen from:    SUN
+        at TDB time:     2007-JAN-11 11:21:20.213872 (TDB)
+        with correction: LT+S
+
+        Apparent angular separation:
+           point body models  (deg.):   0.15729276
+           sphere body models (deg.):   0.15413221
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     M. Costa Sitja     (JPL)
+     J. Diaz del Rio    (ODC Space)
+     E.D. Wright        (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.0.0, 07-AUG-2021 (EDW) (JDR) (MCS)
+
+        Based on code originally found in zzgfspu.f.</PRE>
+<h4>Link to routine TRGSEP source file <a href='../../../src/spicelib/trgsep.f'>trgsep.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:37:03 2021</pre>
+
+</body>
+</html>
+

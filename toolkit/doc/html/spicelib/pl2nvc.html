@@ -1,0 +1,449 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>pl2nvc</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>pl2nvc</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     PL2NVC ( Plane to normal vector and constant )
+
+     SUBROUTINE PL2NVC ( PLANE, NORMAL, KONST )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Return a unit normal vector and constant that define a specified
+     plane.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/planes.html">PLANES</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     GEOMETRY
+     MATH
+     PLANE
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INTEGER               UBPL
+     PARAMETER           ( UBPL    =   4 )
+
+     DOUBLE PRECISION      PLANE  ( UBPL )
+     DOUBLE PRECISION      NORMAL (    3 )
+     DOUBLE PRECISION      KONST
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     PLANE      I   A SPICE plane.
+     NORMAL,
+     KONST      O   A normal vector and constant defining the
+                    geometric plane represented by PLANE.
+     UBPL       P   SPICE plane upper bound.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     PLANE    is a SPICE plane.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     NORMAL,
+     KONST    are, respectively, a unit normal vector and
+              constant that define the geometric plane
+              represented by PLANE. Let the symbol &lt; A, B &gt;
+              indicate the inner product of vectors A and B;
+              then the geometric plane is the set of vectors X
+              in three-dimensional space that satisfy
+
+                 &lt; X,  NORMAL &gt;  =  KONST.
+
+              NORMAL is a unit vector. KONST is the distance of
+              the plane from the origin;
+
+                 KONST * NORMAL
+
+              is the closest point in the plane to the origin.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     UBPL     is the upper bound of a SPICE plane array.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     Error free.
+
+     1)  The input plane MUST have been created by one of the SPICELIB
+         routines
+
+            <a href="nvc2pl.html">NVC2PL</a> ( Normal vector and constant to plane )
+            <a href="nvp2pl.html">NVP2PL</a> ( Normal vector and point to plane    )
+            <a href="psv2pl.html">PSV2PL</a> ( Point and spanning vectors to plane )
+
+         Otherwise, the results of this routine are unpredictable.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     SPICELIB geometry routines that deal with planes use the `plane'
+     data type to represent input and output planes. This data type
+     makes the subroutine interfaces simpler and more uniform.
+
+     The SPICELIB routines that produce SPICE planes from data that
+     define a plane are:
+
+        <a href="nvc2pl.html">NVC2PL</a> ( Normal vector and constant to plane )
+        <a href="nvp2pl.html">NVP2PL</a> ( Normal vector and point to plane    )
+        <a href="psv2pl.html">PSV2PL</a> ( Point and spanning vectors to plane )
+
+     The SPICELIB routines that convert SPICE planes to data that
+     define a plane are:
+
+        <b>PL2NVC</b> ( Plane to normal vector and constant )
+        <a href="pl2nvp.html">PL2NVP</a> ( Plane to normal vector and point    )
+        <a href="pl2psv.html">PL2PSV</a> ( Plane to point and spanning vectors )
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for these examples may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Determine the distance of a plane from the origin, and
+        confirm the result by calculating the dot product (inner
+        product) of a vector from the origin to the plane and a
+        vector in that plane.
+
+        The dot product between these two vectors should be zero,
+        to double precision round-off, so orthogonal to that
+        precision.
+
+
+        Example code begins here.
+
+
+              PROGRAM PL2NVC_EX1
+              IMPLICIT NONE
+
+        C
+        C     SPICELIB functions.
+        C
+              DOUBLE PRECISION        <a href="vdot.html">VDOT</a>
+
+        C
+        C     Local constants.
+        C
+              INTEGER                 UBPL
+              PARAMETER             ( UBPL =   4 )
+
+        C
+        C     Local variables.
+        C
+              DOUBLE PRECISION        DOTP
+              DOUBLE PRECISION        KONST
+              DOUBLE PRECISION        PLANE  ( UBPL )
+              DOUBLE PRECISION        NORMAL ( 3    )
+              DOUBLE PRECISION        PLNVEC ( 3    )
+              DOUBLE PRECISION        POINT  ( 3    )
+              DOUBLE PRECISION        VEC    ( 3    )
+
+        C
+        C     Define the plane with a vector normal to the plan
+        C     and a point in the plane.
+        C
+              DATA                    NORMAL / -1.D0,  5.D0,   -3.5D0 /
+              DATA                    POINT  /  9.D0, -0.65D0, -12.D0 /
+
+        C
+        C     Create the SPICE plane from the normal and point.
+        C
+              CALL <a href="nvp2pl.html">NVP2PL</a> ( NORMAL, POINT, PLANE )
+
+        C
+        C     Calculate the normal vector and constant defining
+        C     the plane. The constant value is the distance from
+        C     the origin to the plane.
+        C
+              CALL <b>PL2NVC</b> ( PLANE, NORMAL, KONST )
+              WRITE(*,'(A,F12.7)') 'Distance to the plane:', KONST
+
+        C
+        C     Confirm the results. Calculate a vector
+        C     from the origin to the plane.
+        C
+              CALL <a href="vscl.html">VSCL</a> ( KONST, NORMAL, VEC )
+              WRITE(*,'(A,3F12.7)') 'Vector from origin   :', VEC
+              WRITE(*,*) ' '
+
+        C
+        C     Now calculate a vector in the plane from the
+        C     location in the plane defined by VEC.
+        C
+              CALL <a href="vsub.html">VSUB</a> ( VEC, POINT, PLNVEC )
+
+        C
+        C     These vectors should be orthogonal.
+        C
+              WRITE(*,'(A,F12.7)') 'dot product          :',
+             .                     <a href="vdot.html">VDOT</a>( PLNVEC, VEC )
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Distance to the plane:   4.8102899
+        Vector from origin   :  -0.7777778   3.8888889  -2.7222222
+
+        dot product          :  -0.0000000
+
+
+     2) Apply a linear transformation represented by a matrix to
+        a plane represented by a normal vector and a constant.
+
+        Find a normal vector and constant for the transformed plane.
+
+
+        Example code begins here.
+
+
+              PROGRAM PL2NVC_EX2
+              IMPLICIT NONE
+
+        C
+        C     Local constants.
+        C
+              INTEGER                 UBPL
+              PARAMETER             ( UBPL =   4 )
+
+        C
+        C     Local variables.
+        C
+              DOUBLE PRECISION        AXDEF  ( 3    )
+              DOUBLE PRECISION        KONST
+              DOUBLE PRECISION        PLANE  ( UBPL )
+              DOUBLE PRECISION        M      ( 3, 3 )
+              DOUBLE PRECISION        NORMAL ( 3    )
+              DOUBLE PRECISION        PLNDEF ( 3    )
+              DOUBLE PRECISION        POINT  ( 3    )
+              DOUBLE PRECISION        SPAN1  ( 3    )
+              DOUBLE PRECISION        SPAN2  ( 3    )
+              DOUBLE PRECISION        TKONST
+              DOUBLE PRECISION        TNORML ( 3    )
+              DOUBLE PRECISION        TPLANE ( UBPL )
+              DOUBLE PRECISION        TPOINT ( 3    )
+              DOUBLE PRECISION        TSPAN1 ( 3    )
+              DOUBLE PRECISION        TSPAN2 ( 3    )
+
+        C
+        C     Set the normal vector and the constant defining the
+        C     initial plane.
+        C
+              DATA                    NORMAL /
+             .               -0.1616904D0, 0.8084521D0, -0.5659165D0 /
+
+              DATA                    KONST  /  4.8102899D0 /
+
+        C
+        C     Define a transformation matrix to the right-handed
+        C     reference frame having the +i unit vector as primary
+        C     axis, aligned to the original frame's +X axis, and
+        C     the -j unit vector as second axis, aligned to the +Y
+        C     axis.
+        C
+              DATA                    AXDEF  /  1.D0,  0.D0,  0.D0 /
+              DATA                    PLNDEF /  0.D0, -1.D0,  0.D0 /
+
+
+              CALL <a href="twovec.html">TWOVEC</a> ( AXDEF, 1, PLNDEF, 2, M )
+
+        C
+        C     Make a SPICE plane from NORMAL and KONST, and then
+        C     find a point in the plane and spanning vectors for the
+        C     plane.  NORMAL need not be a unit vector.
+        C
+              CALL <a href="nvc2pl.html">NVC2PL</a> ( NORMAL, KONST,  PLANE         )
+              CALL <a href="pl2psv.html">PL2PSV</a> ( PLANE,  POINT,  SPAN1,  SPAN2 )
+
+        C
+        C     Apply the linear transformation to the point and
+        C     spanning vectors.  All we need to do is multiply
+        C     these vectors by M, since for any linear
+        C     transformation T,
+        C
+        C           T ( POINT  +  t1 * SPAN1     +  t2 * SPAN2 )
+        C
+        C        =  T (POINT)  +  t1 * T(SPAN1)  +  t2 * T(SPAN2),
+        C
+        C     which means that T(POINT), T(SPAN1), and T(SPAN2)
+        C     are a point and spanning vectors for the transformed
+        C     plane.
+        C
+              CALL <a href="mxv.html">MXV</a> ( M, POINT, TPOINT )
+              CALL <a href="mxv.html">MXV</a> ( M, SPAN1, TSPAN1 )
+              CALL <a href="mxv.html">MXV</a> ( M, SPAN2, TSPAN2 )
+
+        C
+        C     Make a new SPICE plane TPLANE from the
+        C     transformed point and spanning vectors, and find a
+        C     unit normal and constant for this new plane.
+        C
+              CALL <a href="psv2pl.html">PSV2PL</a> ( TPOINT, TSPAN1, TSPAN2, TPLANE )
+              CALL <b>PL2NVC</b> ( TPLANE, TNORML, TKONST         )
+
+        C
+        C     Print the results.
+        C
+              WRITE(*,'(A,3F12.7)') 'Unit normal vector:', TNORML
+              WRITE(*,'(A,F12.7)')  'Constant          :', TKONST
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        Unit normal vector:  -0.1616904  -0.8084521   0.5659165
+        Constant          :   4.8102897
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     [1]  G. Thomas and R. Finney, &quot;Calculus and Analytic Geometry,&quot;
+          7th Edition, Addison Wesley, 1988.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 24-AUG-2021 (NJB) (JDR)
+
+        Changed the output argument name CONST to KONST for consistency
+        with other routines.
+
+        Added IMPLICIT NONE statement.
+
+        Edited the header to comply with NAIF standard. Added complete
+        code examples. Added documentation of the parameter UBPL.
+
+    SPICELIB Version 1.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.0.0, 01-NOV-1990 (NJB)</PRE>
+<h4>Link to routine PL2NVC source file <a href='../../../src/spicelib/pl2nvc.f'>pl2nvc.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:39 2021</pre>
+
+</body>
+</html>
+

@@ -1,0 +1,534 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>dskd02</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>dskd02</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     DSKD02 ( DSK, fetch d.p. type 2 data )
+
+     SUBROUTINE DSKD02 ( HANDLE, DLADSC, ITEM, START, ROOM, N, VALUES )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Fetch double precision data from a type 2 DSK segment.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/das.html">DAS</a>
+     <a href="../req/dsk.html">DSK</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     DAS
+     DSK
+     FILES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE 'dla.inc'
+     INCLUDE 'dskdsc.inc'
+     INCLUDE 'dsk02.inc'
+
+     INTEGER               HANDLE
+     INTEGER               DLADSC ( * )
+     INTEGER               ITEM
+     INTEGER               START
+     INTEGER               ROOM
+     INTEGER               N
+     DOUBLE PRECISION      VALUES ( * )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     HANDLE     I   DSK file handle.
+     DLADSC     I   DLA descriptor.
+     ITEM       I   Keyword identifying item to fetch.
+     START      I   Start index.
+     ROOM       I   Amount of room in output array.
+     N          O   Number of values returned.
+     VALUES     O   Array containing requested item.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     HANDLE   is the handle of a DSK file containing a type 2
+              segment from which data are to be fetched.
+
+     DLADSC   is the DLA descriptor associated with the segment
+              from which data are to be fetched.
+
+     ITEM     is an integer &quot;keyword&quot; parameter designating the
+              item to fetch. In the descriptions below, note
+              that &quot;model&quot; refers to the model represented by
+              the designated segment. This model may be a
+              subset of a larger model.
+
+              Names and meanings of parameters supported by this
+              routine are:
+
+                 KWDSC      DSK descriptor of segment. See the
+                            INCLUDE file dskdsc.inc for a
+                            discussion of the contents of DSK
+                            descriptors. Note that DSK
+                            descriptors are not to be confused
+                            with DLA descriptors, which contain
+                            segment component base address and
+                            size information.
+
+                 KWVTBD     Vertex bounds. This is an array of
+                            six values giving the minimum and
+                            maximum values of each component of
+                            the vertex set.
+
+                 KWVXOR     Voxel grid origin. This is the
+                            location of the voxel grid origin in
+                            the body-fixed frame associated with
+                            the target body.
+
+                 KWVXSZ     Voxel size. DSK voxels are cubes;
+                            the edge length of each cube is
+                            given by the voxel size. This
+                            size applies to the fine voxel grid.
+                            Units are km.
+
+
+     START    is the start index within specified data item from
+              which data are to be fetched. The index of the
+              first element of each data item is 1.
+
+     ROOM     is the amount of room in the output array. It
+              is permissible to provide an output array
+              that has too little room to fetch an item in
+              one call.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     N        is the number of elements fetched to the output
+              array VALUES. N is normally in the range
+              1:ROOM; if an error occurs on the call, N is
+              undefined.
+
+     VALUES   is a contiguous set of elements of the item
+              designated by ITEM. The correspondence of
+              VALUES with the elements of the data item is:
+
+                 VALUES(1)      ITEM(START)
+                   ...             ...
+                 VALUES(N)      ITEM(START+N-1)
+
+              If an error occurs on the call, VALUES is
+              undefined.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     See the include file
+
+        dla.inc
+
+     for declarations of DLA descriptor sizes and documentation of the
+     contents of DLA descriptors.
+
+     See the include file
+
+        dskdsc.inc
+
+     for declarations of DSK descriptor sizes and documentation of the
+     contents of DSK descriptors.
+
+     See the include file
+
+        dsk02.inc
+
+     for declarations of DSK data type 2 (plate model) parameters.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If the input handle is invalid, an error is signaled by a
+         routine in the call tree of this routine.
+
+     2)  If a file read error occurs, the error is signaled by a
+         routine in the call tree of this routine.
+
+     3)  If the input DLA descriptor is invalid, the effect of this
+         routine is undefined. The error *may* be diagnosed by
+         routines in the call tree of this routine, but there are no
+         guarantees.
+
+     4)  If ROOM is non-positive, the error SPICE(VALUEOUTOFRANGE)
+         is signaled.
+
+     5)  If the coarse voxel scale read from the designated segment
+         is less than 1, the error SPICE(VALUEOUTOFRANGE) is signaled.
+
+     6)  If the input keyword parameter is not recognized, the error
+         SPICE(NOTSUPPORTED) is signaled.
+
+     7)  If START is less than 1 or greater than the size of the
+         item to be fetched, the error SPICE(INDEXOUTOFRANGE) is
+         signaled.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See input argument HANDLE.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     Most SPICE applications will not need to call this routine. The
+     routines <a href="dskv02.html">DSKV02</a>, <a href="dskp02.html">DSKP02</a>, and <a href="dskz02.html">DSKZ02</a> provide a higher-level
+     interface for fetching DSK type 2 vertex and plate data.
+
+     DSK files are built using the DLA low-level format and
+     the DAS architecture; DLA files are a specialized type of DAS
+     file in which data are organized as a doubly linked list of
+     segments. Each segment's data belong to contiguous components of
+     character, double precision, and integer type.
+
+     Note that the DSK descriptor for the segment is not needed by
+     this routine; the DLA descriptor contains the base address and
+     size information for the integer, double precision, and character
+     components of the segment, and these suffice for the purpose of
+     fetching data.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Look up all the vertices associated with each plate
+        of the model contained in a specified type 2 segment.
+        For this example, we'll show the context of this look-up:
+        opening the DSK file for read access, traversing a trivial,
+        one-segment list to obtain the segment of interest.
+
+
+        Example code begins here.
+
+
+              PROGRAM DSKD02_EX1
+              IMPLICIT NONE
+
+              INCLUDE 'dla.inc'
+              INCLUDE 'dskdsc.inc'
+              INCLUDE 'dsk02.inc'
+
+        C
+        C     Local parameters
+        C
+              CHARACTER*(*)         FMT
+              PARAMETER           ( FMT    = '(1X,A,3(1XE15.8))' )
+
+              INTEGER               FILSIZ
+              PARAMETER           ( FILSIZ = 255 )
+
+        C
+        C     Local variables
+        C
+              CHARACTER*(FILSIZ)    DSK
+
+              DOUBLE PRECISION      VRTCES ( 3, 3 )
+
+              INTEGER               DLADSC ( DLADSZ )
+              INTEGER               HANDLE
+              INTEGER               I
+              INTEGER               J
+              INTEGER               K
+              INTEGER               N
+              INTEGER               NP
+              INTEGER               START
+              INTEGER               VRTIDS ( 3 )
+
+              LOGICAL               FOUND
+
+
+        C
+        C     Prompt for the name of the DSK to read.
+        C
+              CALL PROMPT ( 'Enter DSK name &gt; ', DSK )
+        C
+        C     Open the DSK file for read access.
+        C     We use the DAS-level interface for
+        C     this function.
+        C
+              CALL DASOPR ( DSK, HANDLE )
+
+        C
+        C     Begin a forward search through the
+        C     kernel, treating the file as a DLA.
+        C     In this example, it's a very short
+        C     search.
+        C
+              CALL <a href="dlabfs.html">DLABFS</a> ( HANDLE, DLADSC, FOUND )
+
+              IF ( .NOT. FOUND ) THEN
+        C
+        C        We arrive here only if the kernel
+        C        contains no segments.  This is
+        C        unexpected, but we're prepared for it.
+        C
+                 CALL <a href="setmsg.html">SETMSG</a> ( 'No segments found '
+             .   //            'in DSK file #.'    )
+                 CALL <a href="errch.html">ERRCH</a>  ( '#',  DSK           )
+                 CALL <a href="sigerr.html">SIGERR</a> ( 'SPICE(NODATA)'     )
+
+              END IF
+
+        C
+        C     If we made it this far, DLADSC is the
+        C     DLA descriptor of the first segment.
+        C
+        C     Find the number of plates in the model.
+        C
+              CALL <a href="dski02.html">DSKI02</a> ( HANDLE, DLADSC, KWNP, 1, 1, N, NP )
+              WRITE (*,*) 'Number of plates: ', NP
+
+        C
+        C     For the first 5 plates, look up the desired data.
+        C
+              K = MIN(5, NP)
+              DO I = 1, K
+        C
+        C        For the Ith plate, find the associated
+        C        vertex IDs.  We must take into account
+        C        the fact that each plate has three
+        C        vertices when we compute the start
+        C        index.
+        C
+                 START = 3*(I-1)+1
+
+                 CALL <a href="dski02.html">DSKI02</a> ( HANDLE, DLADSC, KWPLAT, START,
+             .                 3,      N,      VRTIDS        )
+
+                 DO J = 1, 3
+        C
+        C            Fetch the vertex associated with
+        C            the Jth vertex ID.  Again, each
+        C            vertex is a 3-vector.  Note that
+        C            the vertices are double-precision
+        C            data, so we fetch them using
+        C            <b>DSKD02</b>.
+        C
+                     START = 3*( VRTIDS(J) - 1 ) + 1
+
+                     CALL <b>DSKD02</b> ( HANDLE, DLADSC, KWVERT,  START,
+             .                     3,      N,      VRTCES(1,J)    )
+                 END DO
+
+        C
+        C        Display the vertices of the Ith plate:
+        C
+                 WRITE (*,*) ' '
+                 WRITE (*,*) 'Plate number: ', I
+                 WRITE (*,FMT) '   Vertex 1: ', (VRTCES(J,1), J=1,3)
+                 WRITE (*,FMT) '   Vertex 2: ', (VRTCES(J,2), J=1,3)
+                 WRITE (*,FMT) '   Vertex 3: ', (VRTCES(J,3), J=1,3)
+
+              END DO
+
+        C
+        C     Close the kernel.  This isn't necessary in a stand-
+        C     alone program, but it's good practice in subroutines
+        C     because it frees program and system resources.
+        C
+              CALL <a href="dascls.html">DASCLS</a> ( HANDLE )
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, using the DSK file named phobos512.bds, the output
+        was:
+
+
+        Enter DSK name &gt; phobos512.bds
+         Number of plates:      3145728
+
+         Plate number:            1
+            Vertex 1:  -0.67744400E+01  0.62681500E+01  0.60114900E+01
+            Vertex 2:  -0.67623800E+01  0.62572800E+01  0.60255600E+01
+            Vertex 3:  -0.67571000E+01  0.62775400E+01  0.60209600E+01
+
+         Plate number:            2
+            Vertex 1:  -0.67744400E+01  0.62681500E+01  0.60114900E+01
+            Vertex 2:  -0.67797300E+01  0.62479000E+01  0.60161000E+01
+            Vertex 3:  -0.67623800E+01  0.62572800E+01  0.60255600E+01
+
+         Plate number:            3
+            Vertex 1:  -0.67797300E+01  0.62479000E+01  0.60161000E+01
+            Vertex 2:  -0.67676800E+01  0.62370100E+01  0.60301900E+01
+            Vertex 3:  -0.67623800E+01  0.62572800E+01  0.60255600E+01
+
+         Plate number:            4
+            Vertex 1:  -0.67797300E+01  0.62479000E+01  0.60161000E+01
+            Vertex 2:  -0.67849900E+01  0.62276200E+01  0.60207000E+01
+            Vertex 3:  -0.67676800E+01  0.62370100E+01  0.60301900E+01
+
+         Plate number:            5
+            Vertex 1:  -0.67849900E+01  0.62276200E+01  0.60207000E+01
+            Vertex 2:  -0.67729900E+01  0.62167400E+01  0.60348200E+01
+            Vertex 3:  -0.67676800E+01  0.62370100E+01  0.60301900E+01
+
+
+        Note that only the vertex information for first 5 plates is
+        provided.
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  This routine uses discovery check-in to boost
+         execution speed. However, this routine is in
+         violation of NAIF standards for use of discovery
+         check-in:  routines called from this routine may
+         signal errors. If errors are signaled in called
+         routines, this routine's name will be missing
+         from the traceback message.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.0.1, 13-AUG-2021 (JDR) (BVS)
+
+        Edited the header to comply with NAIF standard. Modified code
+        example to reduce the output.
+
+    SPICELIB Version 1.0.0, 04-FEB-2017 (NJB)
+
+        Fixed typo in version description.
+
+        23-AUG-2016
+
+           Now saves NV and updates it only when the current
+           segment changes.
+
+        15-JAN-2016 (NJB)
+
+           Removed code involving parameter NP.
+           Updated header $Examples section.
+
+        DSKLIB Version 3.0.0, 13-MAY-2010 (NJB)
+
+           Updated for compatibility with new DSK type 2
+           segment design.
+
+        DSKLIB Version 2.1.0, 20-APR-2010 (NJB)
+
+           Bug fix: changed declaration of output argument
+           VALUES to double precision.
+
+        DSKLIB Version 2.0.0, 27-DEC-2006 (NJB)
+
+           Updated to remove support for min, max radius
+           lookup. These values are now stored in DSK
+           descriptors.
+
+        DSKLIB Version 1.0.0, 27-OCT-2006 (NJB)</PRE>
+<h4>Link to routine DSKD02 source file <a href='../../../src/spicelib/dskd02.f'>dskd02.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:15 2021</pre>
+
+</body>
+</html>
+

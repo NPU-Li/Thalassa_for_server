@@ -1,0 +1,768 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>ckbsr</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>ckbsr</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     CKBSR ( C-kernel, buffer segments for readers )
+
+     SUBROUTINE CKBSR ( FNAME,
+    .                   HANDLE,
+    .                   INST,
+    .                   SCLKDP,
+    .                   TOL,
+    .                   NEEDAV,
+    .                   DESCR,
+    .                   SEGID,
+    .                   FOUND   )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Load and unload files for use by the readers. Buffer segments
+     for readers.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/ck.html">CK</a>
+     <a href="../req/daf.html">DAF</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     POINTING
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     CHARACTER*(*)         FNAME
+     INTEGER               HANDLE
+     INTEGER               INST
+     DOUBLE PRECISION      SCLKDP
+     DOUBLE PRECISION      TOL
+     LOGICAL               NEEDAV
+     DOUBLE PRECISION      DESCR    ( * )
+     CHARACTER*(*)         SEGID
+     LOGICAL               FOUND
+
+     INTEGER               FTSIZE
+     PARAMETER           ( FTSIZE =  5000 )
+
+     INTEGER               ITSIZE
+     PARAMETER           ( ITSIZE =  5000 )
+
+     INTEGER               LBPOOL
+     PARAMETER           ( LBPOOL =   -5 )
+
+     INTEGER               STSIZE
+     PARAMETER           ( STSIZE = 100000 )
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  ENTRY POINTS
+     --------  ---  --------------------------------------------------
+     FNAME      I   <a href="cklpf.html">CKLPF</a>
+     HANDLE    I-O  <a href="cklpf.html">CKLPF</a>, <a href="ckupf.html">CKUPF</a>, <a href="cksns.html">CKSNS</a>
+     INST       I   <a href="ckbss.html">CKBSS</a>
+     SCLKDP     I   <a href="ckbss.html">CKBSS</a>
+     TOL        I   <a href="ckbss.html">CKBSS</a>
+     NEEDAV     I   <a href="ckbss.html">CKBSS</a>
+     DESCR      O   <a href="cksns.html">CKSNS</a>
+     SEGID      O   <a href="cksns.html">CKSNS</a>
+     FOUND      O   <a href="cksns.html">CKSNS</a>, <a href="ckhave.html">CKHAVE</a>
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     FNAME    is the name of a binary C-kernel file to be loaded.
+
+     HANDLE   on input, is the handle of a binary C-kernel file to be
+              unloaded.
+
+     INST     is the NAIF ID of an instrument.
+
+     SCLKDP   is an encoded spacecraft clock time.
+
+     TOL      is a time tolerance, measured in the same units as
+              encoded spacecraft clock.
+
+     NEEDAV   indicates whether or not angular velocity data are
+              required.
+
+              If .TRUE., only segments containing pointing and angular
+              velocity data will be checked. If .FALSE., segments
+              containing just pointing data will also be considered.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     HANDLE   on output, is the handle of the C-kernel file
+              containing a located segment.
+
+     DESCR    is the packed descriptor of a located segment.
+
+     SEGID    is the identifier of a located segment.
+
+     FOUND    indicates whether a requested segment was found or not.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     FTSIZE   is the maximum number of pointing files that can
+              be loaded by <a href="cklpf.html">CKLPF</a> at any given time for use by the
+              readers.
+
+     ITSIZE   is the maximum number of instruments whose segments
+              are buffered by <a href="cksns.html">CKSNS</a>.
+
+     STSIZE   is the maximum number of segments that can be buffered
+              at any given time by <a href="cksns.html">CKSNS</a>.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If <b>CKBSR</b> is called directly, the error SPICE(CKBOGUSENTRY)
+         is signaled.
+
+     2)  See entry points <a href="cklpf.html">CKLPF</a>, <a href="ckupf.html">CKUPF</a>, <a href="ckbss.html">CKBSS</a>, and <a href="cksns.html">CKSNS</a> for
+         exceptions specific to them.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     C-kernel pointing files are indicated by filename before loading
+     (see <a href="cklpf.html">CKLPF</a>) and handle after loading (all other places).
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     <b>CKBSR</b> serves as an umbrella, allowing data to be shared by its
+     entry points:
+
+        <a href="cklpf.html">CKLPF</a>       Load pointing file.
+        <a href="ckupf.html">CKUPF</a>       Unload pointing file.
+        <a href="ckbss.html">CKBSS</a>       Begin search for segment.
+        <a href="cksns.html">CKSNS</a>       Select next segment.
+        <a href="ckhave.html">CKHAVE</a>      Determine whether or not any CKs are loaded.
+
+     Before a file can be read by the C-kernel readers, it must be
+     loaded by <a href="cklpf.html">CKLPF</a>, which among other things load the file into
+     the DAF subsystem.
+
+     Up to FTSIZE files may be loaded for use simultaneously, and a
+     file only has to be loaded once to become a potential search
+     target for any number of subsequent reads.
+
+     Once a C-kernel has been loaded, it is assigned a file
+     handle, which is used to keep track of the file internally, and
+     which is used by the calling program to refer to the file in all
+     subsequent calls to CK routines.
+
+     A file may be removed from the list of files for potential
+     searching by unloading it via a call to <a href="ckupf.html">CKUPF</a>.
+
+     The purpose of entry points <a href="ckbss.html">CKBSS</a> and <a href="cksns.html">CKSNS</a> is to search for
+     segments in CK files matching certain criteria, which is
+     established based on <a href="ckbss.html">CKBSS</a> input arguments INST, SCLKDP, TOL and
+     NEEDAV. These two routines are used together to search through
+     all loaded CK files for segments.
+
+     <a href="ckbss.html">CKBSS</a> sets up a search for segments by <a href="cksns.html">CKSNS</a>. It records the
+     instrument and time to be searched for, and whether to require
+     segments containing angular velocity data. If angular velocity
+     data are required, only segments containing angular velocity
+     data will be returned by <a href="cksns.html">CKSNS</a>. If angular velocity data are
+     not required, segments returned by <a href="cksns.html">CKSNS</a> may or may not contain
+     angular velocity data.
+
+     <a href="ckbss.html">CKBSS</a> determines the first task that <a href="cksns.html">CKSNS</a> will have to perform
+     if it is called to get an applicable segment.
+
+     <a href="cksns.html">CKSNS</a> finds segments matching the search criteria set up by
+     <a href="ckbss.html">CKBSS</a>. Last-loaded files get searched first, and individual files
+     are searched backwards.
+
+     A segment matches the <a href="ckbss.html">CKBSS</a>/<a href="cksns.html">CKSNS</a> search criteria when the
+     following statements are true.
+
+        1) INST matches the instrument number for the segment.
+
+        2) The time interval [SCLKDP - TOL, SCLKDP + TOL] intersects
+           the time interval of the segment.
+
+        3) If angular velocity data are required, as indicated by
+           NEEDAV, the segment contains angular velocity data.
+
+     When an applicable segment is found, <a href="cksns.html">CKSNS</a> returns that segment's
+     descriptor and identifier, along with the handle of the file
+     containing the segment.
+
+     Subsequent calls to <a href="cksns.html">CKSNS</a> continue the search, picking up where
+     the previous call to this routine left off.
+
+     <a href="cksns.html">CKSNS</a> uses information on loaded files to manage a buffer
+     of saved segment descriptors and identifiers. The buffer is used
+     to speed up access time by minimizing file reads.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Suppose that pointing data for the Viking Orbiter 2 scan
+        platform orientation for a certain interval of time are
+        contained in three separate files, one containing data for the
+        original SEDR (Supplemental Experiment Data Record) files,
+        contains the complete set of pointing data and another two
+        which contain two separate pointing updates based on
+        reconstruction, one of them containing discrete data, and the
+        other continuous pointing data.
+
+        In the following example, pointing from the C-kernel is
+        extracted in two different ways for the purpose of comparing
+        the two updates:
+
+        First, the original pointing file and one of the update files
+        are both loaded and pointing is retrieved for all of the
+        pictures. The update file is searched through first, and if
+        no data for the desired picture is located, then the original
+        file provides the requested pointing.
+
+        Then, the first update file is unloaded, the second update
+        file is loaded, and the same search is performed, as above.
+
+
+        Use the CK kernel below to load the Viking Orbiter 2 scan
+        platform orientation containing a combination of data from
+        SEDR files.
+
+           vo2_sedr_ck2.bc
+
+
+        Use the CK kernel below to load the Viking Orbiter 2 scan
+        platform orientation discrete data reconstructed during
+        cartographic image registration by S. Wu, USGS.
+
+           vo2_swu.bc
+
+
+        Use the CK kernel below to load the Viking Orbiter 2 scan
+        platform orientation discrete data reconstructed during
+        cartographic image registration by S. Wu, USGS, where each
+        discrete pointing instance was &quot;expanded&quot; into a 2 second
+        window.
+
+           vo2_swu_ck2.bc
+
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: ckbsr_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                     Contents
+              ---------                     --------
+              vo2_fict.tsc                  Viking 2 SCLK
+              naif0012.tls                  Leapseconds
+
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'vo2_fict.tsc',
+                                  'naif0012.tls'  )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM CKBSR_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local parameters.
+        C
+              INTEGER               NPICS
+              PARAMETER           ( NPICS  = 5  )
+
+              INTEGER               TIMLEN
+              PARAMETER           ( TIMLEN = 24 )
+
+
+        C
+        C     Local variables.
+        C
+              INTEGER               HANDLE
+              INTEGER               HNORIG
+              INTEGER               HUPDT
+              INTEGER               UPDATE
+              INTEGER               INST
+              INTEGER               SC
+              INTEGER               I
+
+              DOUBLE PRECISION      ET
+              DOUBLE PRECISION      DESCR    (    5 )
+              DOUBLE PRECISION      SCLKDP
+              DOUBLE PRECISION      TOL
+              DOUBLE PRECISION      CLKOUT
+              DOUBLE PRECISION      CMAT     ( 3, 3 )
+              DOUBLE PRECISION      AV       (    3 )
+
+              CHARACTER*(TIMLEN)    FDS      ( NPICS )
+              CHARACTER*(25)        FNAME
+              CHARACTER*(40)        SEGID
+              CHARACTER*(16)        OUTFDS
+              CHARACTER*(14)        TOLSTR
+              CHARACTER*(25)        UDFILE   (    2 )
+
+              LOGICAL               PFOUND
+              LOGICAL               SFOUND
+              LOGICAL               NEEDAV
+
+        C
+        C     Set the times for the pictures.
+        C
+              DATA                  FDS /
+             .                 '1976 OCT 31 22:07:21.000',
+             .                 '1977-JAN-09 18:33:13.707',
+             .                 '1977 APR 24 11:48:05.000',
+             .                 '1977 JUN 07 00:13:15.000',
+             .                 '1977-AUG-07 14:55:12.019' /
+
+
+              UDFILE ( 1 ) = 'vo2_swu.bc'
+              UDFILE ( 2 ) = 'vo2_swu_ck2.bc'
+
+        C
+        C     The NAIF integer ID codes for the Viking Orbiter 2
+        C     spacecraft and scan platform on Viking Orbiter 2 are
+        C     -30 and -30000, respectively.
+        C
+              SC           = -30
+              INST         = -30000
+
+        C
+        C     Load the LSK and Viking 2 SCLK files.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'ckbsr_ex1.tm' )
+
+        C
+        C     Allow a time tolerance of 500 milliseconds.  Convert
+        C     the tolerance to 'ticks', the units of encoded
+        C     spacecraft clock time.
+        C
+              TOLSTR  = '0.500'
+              CALL <a href="sctiks.html">SCTIKS</a> ( SC, TOLSTR, TOL )
+
+        C
+        C     Don't care about angular velocity data.
+        C
+              NEEDAV = .FALSE.
+
+        C
+        C     Load the original CK file first.
+        C
+              CALL <a href="cklpf.html">CKLPF</a> ( 'vo2_sedr_ck2.bc', HNORIG )
+
+        C
+        C     Write banner.
+        C
+              WRITE(*,'(A)') '     Input UTC time       '
+             .            // 'Pointing found in      SCLK time'
+              WRITE(*,'(A)') '------------------------  '
+             .            // '-----------------  ----------------'
+
+              DO UPDATE = 1, 2
+        C
+        C        Load the update file.  Last-loaded files get searched
+        C        first, so the update file will be searched before
+        C        the original file.
+        C
+                 CALL <a href="cklpf.html">CKLPF</a> ( UDFILE ( UPDATE ), HUPDT )
+
+                 DO I = 1, NPICS
+
+        C
+        C           Encode the character string representation of
+        C           spacecraft clock time in FDS.
+        C
+                    CALL <a href="str2et.html">STR2ET</a> ( FDS( I ) , ET  )
+                    CALL <a href="sce2c.html">SCE2C</a>  ( SC, ET, SCLKDP )
+
+        C
+        C           Begin a search for this instrument and time, and
+        C           get the first applicable segment.
+        C
+                    CALL <a href="ckbss.html">CKBSS</a> ( INST,   SCLKDP, TOL,   NEEDAV  )
+                    CALL <a href="cksns.html">CKSNS</a> ( HANDLE, DESCR,  SEGID, SFOUND  )
+
+        C
+        C           Keep trying candidate segments until a segment can
+        C           produce a pointing instance within the specified
+        C           time tolerance of SCLKDP, the encoded spacecraft
+        C           clock time.
+        C
+                    PFOUND = .FALSE.
+                    DO WHILE (  SFOUND .AND. ( .NOT. PFOUND )  )
+
+                       CALL <a href="ckpfs.html">CKPFS</a> ( HANDLE, DESCR,  SCLKDP,
+             .                      TOL,    NEEDAV, CMAT,
+             .                      AV,     CLKOUT, PFOUND )
+
+                       IF ( PFOUND ) THEN
+
+        C
+        C                 Get the name of the file from whence the
+        C                 pointing instance came, decode the
+        C                 spacecraft clock time associated with the
+        C                 instance, and write the results to the
+        C                 table.
+        C
+                          CALL <a href="dafhfn.html">DAFHFN</a> ( HANDLE, FNAME          )
+                          CALL <a href="scdecd.html">SCDECD</a> ( SC,     CLKOUT, OUTFDS )
+
+                          WRITE(*,'(A,2X,A17,2X,A)') FDS( I ), FNAME,
+             .                                       OUTFDS
+
+                       ELSE
+
+        C
+        C                 Look for another candidate segment.
+        C
+                          CALL <a href="cksns.html">CKSNS</a> ( HANDLE, DESCR, SEGID, SFOUND )
+
+                       END IF
+
+                    END DO
+
+                    IF ( .NOT. PFOUND ) THEN
+
+                       WRITE(*,'(A)') FDS( I ) // '  pointing not '
+             .                     // 'found in any file.'
+
+                    END IF
+
+                 END DO
+
+                 WRITE(*,*) ' '
+
+        C
+        C        Unload the update file. The original file stays
+        C        loaded.
+        C
+                 CALL <a href="ckupf.html">CKUPF</a>  ( HUPDT )
+
+              END DO
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+             Input UTC time       Pointing found in      SCLK time
+        ------------------------  -----------------  ----------------
+        1976 OCT 31 22:07:21.000  vo2_sedr_ck2.bc    1/0026345241.000
+        1977-JAN-09 18:33:13.707  vo2_swu.bc         1/0032380394.707
+        1977 APR 24 11:48:05.000  vo2_sedr_ck2.bc    1/0041428086.000
+        1977 JUN 07 00:13:15.000  pointing not found in any file.
+        1977-AUG-07 14:55:12.019  vo2_sedr_ck2.bc    1/0050511313.019
+
+        1976 OCT 31 22:07:21.000  vo2_sedr_ck2.bc    1/0026345241.000
+        1977-JAN-09 18:33:13.707  vo2_swu_ck2.bc     1/0032380394.707
+        1977 APR 24 11:48:05.000  vo2_sedr_ck2.bc    1/0041428086.000
+        1977 JUN 07 00:13:15.000  pointing not found in any file.
+        1977-AUG-07 14:55:12.019  vo2_swu_ck2.bc     1/0050511313.019
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  If Fortran I/O errors occur while searching a loaded CK
+         file, the internal state of this suite of routines may
+         be corrupted. It may be possible to correct the state
+         by unloading the pertinent CK files and then re-loading
+         them.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     J.M. Lynch         (JPL)
+     B.V. Semenov       (JPL)
+     W.L. Taber         (JPL)
+     R.E. Thurman       (JPL)
+     I.M. Underwood     (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 5.1.0, 25-OCT-2021 (JDR) (BVS) (NJB)
+
+        Increased ITSIZE (from 100 to 5000).
+
+        Updated entry point <a href="cksns.html">CKSNS</a> to always initialize FOUND.
+
+        Edited the header of umbrella routine <b>CKBSR</b>, and all entry
+        points to comply with NAIF standard. Created complete code
+        example from existing fragments in <b>CKBSR</b> $Examples section.
+
+        Added references to <a href="ckhave.html">CKHAVE</a> entry point in <b>CKBSR</b> header.
+
+        Moved details related to search criteria and conditions to meet
+        it from the $Detailed_Input to $Particulars.
+
+    SPICELIB Version 5.0.1, 30-JAN-2017 (NJB)
+
+        Corrected various spelling errors within comments.
+
+    SPICELIB Version 5.0.0, 17-MAR-2014 (NJB)
+
+        Updated segment pool initialization condition in entry
+        point <a href="cklpf.html">CKLPF</a> so that the pool is initialized only if the file
+        table is empty.
+
+    SPICELIB Version 4.6.0, 13-JUN-2013 (BVS)
+
+        Increased FTSIZE (from 1000 to 5000).
+
+        Increased STSIZE (from 50000 to 100000).
+
+    SPICELIB Version 4.5.0, 24-FEB-2011 (NJB)
+
+        Bug fixes:
+
+          1) In the <a href="cksns.html">CKSNS</a> 'MAKE ROOM' state, when the
+             suspended activity is 'ADD TO FRONT' and no segment table
+             room is available, the instrument table's pointer to the
+             current segment list is now set to null. Previously the
+             pointer was allowed to go stale.
+
+          2) In <a href="ckupf.html">CKUPF</a>, the null pointer test used to determine
+             eligibility for segment list deletion now uses the .LE.
+             operator instead of the .EQ. operator.
+
+
+    SPICELIB Version 4.4.0, 07-APR-2010 (NJB)
+
+        Increased STSIZE to 50000.
+
+    SPICELIB Version 4.3.1, 28-FEB-2008 (BVS)
+
+        Corrected the contents of the $Required_Reading section
+        of the <a href="ckhave.html">CKHAVE</a> entry point header.
+
+    SPICELIB Version 4.3.0, 23-OCT-2005 (NJB)
+
+        Updated to remove non-standard use of duplicate arguments in
+        MOVED calls in entry points <a href="ckupf.html">CKUPF</a> and <a href="cksns.html">CKSNS</a>. Replaced header
+        reference to <a href="ldpool.html">LDPOOL</a> with reference to <a href="furnsh.html">FURNSH</a>.
+
+    SPICELIB Version 4.2.0, 30-DEC-2004 (NJB)
+
+        Increased STSIZE to 20000.
+
+    SPICELIB Version 4.1.0, 20-NOV-2001 (NJB)
+
+        Bug fixes:
+
+           1) When a segment list is freed because the entire list
+              is contributed by a single CK file, and the list is
+              too large to be buffered, the corresponding instrument
+              table pointer is now set to null.
+
+           2) An algorithm change has eliminated a bug caused by not
+              updating the current instrument index when instrument
+              table entries having empty segment lists were compressed
+              out of the instrument table. Previously the instrument
+              table pointer IINDEX could go stale after the
+              compression.
+
+           3) When a already loaded kernel is re-opened with <a href="dafopr.html">DAFOPR</a>,
+              it now has its link count reset to 1 via a call to
+              <a href="dafcls.html">DAFCLS</a>.
+
+           4) The load routine <a href="cklpf.html">CKLPF</a> now resets all file numbers when
+              the next file number reaches INTMAX()-1, thereby
+              avoiding arithmetic overflow.
+
+           5) The unload routine <a href="ckupf.html">CKUPF</a> now calls RETURN() on entry and
+              returns if so directed.
+
+           6) In <a href="cksns.html">CKSNS</a>, DAF calls are followed by tests of <a href="failed.html">FAILED</a>()
+              in order to ensure that the main state loop terminates.
+
+        The &quot;re-use interval&quot; feature was introduced to improve speed
+        in the case where repeated, consecutive requests are satisfied
+        by the same segment.
+
+        The segment list cost algorithm was modified slightly:
+        the contribution of a file search to the cost of a list
+        is included only when the file search is completed. The
+        cost of finding the re-use interval is accounted for when
+        unbuffered searches are required.
+
+        The file table size has been increased to 1000, in order
+        to take advantage of the DAF system's new ability to load
+        1000 files.
+
+        The instrument table size has been increased to 100 in order
+        to decrease the chance of thrashing due to swapping segment
+        lists for different bodies.
+
+        Various small updates and corrections were made to the
+        comments throughout the file.
+
+    SPICELIB Version 4.0.0, 17-FEB-2000 (WLT)
+
+        Added the Entry point <a href="ckhave.html">CKHAVE</a>
+
+    SPICELIB Version 3.0.0, 03-MAR-1999 (WLT)
+
+        The parameter STSIZE was increased from 1000 to 4000 to
+        avoid the buffering error that exists in the <b>CKBSR</b>.
+
+    SPICELIB Version 2.0.0, 25-NOV-1992 (JML)
+
+     1) When loading a file, <a href="cklpf.html">CKLPF</a> now checks if the file table is
+        full only after determining that the file is not currently
+        loaded. Previously, if the file table was full and an attempt
+        was made to reload a file, an error was signaled. A new
+        exception was added as a result of this change.
+
+     2) A bug in the way that <a href="cklpf.html">CKLPF</a> and <a href="ckupf.html">CKUPF</a> clean up the instrument
+        tables after a file is unloaded was fixed.
+
+     3) Variable declarations were added to the example program
+        so that it can now be compiled.
+
+     4) The length of the elements in the array of segment
+        identifiers ( STIDNT ) was changed from 56 to 40.
+
+    SPICELIB Version 1.1.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.1.0, 01-NOV-1990 (JML)
+
+        An initial value was assigned to the variable STATUS so
+        that an error will be signaled if <a href="cksns.html">CKSNS</a> is called
+        without <a href="ckbss.html">CKBSS</a> ever having been called to initiate the
+        search.
+
+    SPICELIB Version 1.0.0, 07-SEP-1990 (RET) (IMU)</PRE>
+<h4>Link to routine CKBSR source file <a href='../../../src/spicelib/ckbsr.f'>ckbsr.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:01 2021</pre>
+
+</body>
+</html>
+

@@ -1,0 +1,818 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>dskx02</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>dskx02</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     DSKX02 ( DSK, ray-surface intercept, type 2 )
+
+     SUBROUTINE DSKX02 ( HANDLE, DLADSC, VERTEX,
+    .                    RAYDIR, PLID,   XPT,    FOUND )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Determine the plate ID and body-fixed coordinates of the
+     intersection of a specified ray with the surface defined by a
+     type 2 DSK plate model.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     GEOMETRY
+     SHAPES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE              'dla.inc'
+     INCLUDE              'dskdsc.inc'
+     INCLUDE              'dsk02.inc'
+     INCLUDE              'dsktol.inc'
+
+
+     INTEGER               HANDLE
+     INTEGER               DLADSC   ( * )
+     DOUBLE PRECISION      VERTEX   ( 3 )
+     DOUBLE PRECISION      RAYDIR   ( 3 )
+     INTEGER               PLID
+     DOUBLE PRECISION      XPT      ( 3 )
+     LOGICAL               FOUND
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     HANDLE     I   Handle of DSK kernel containing plate model.
+     DLADSC     I   DLA descriptor of plate model segment.
+     VERTEX     I   Ray's vertex in the  body fixed frame.
+     RAYDIR     I   Ray direction in the body fixed frame.
+     PLID       O   ID code of the plate intersected by the ray.
+     XPT        O   Intercept.
+     FOUND      O   Flag indicating whether intercept exists.
+     XFRACT     P   Plate expansion fraction.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     HANDLE   is the file handle of a DSK file containing a shape
+              model for a target body. The shape model is stored
+              in a type 2 DSK segment.
+
+     DLADSC   is the DLA descriptor of a type 2 DSK segment
+              containing plate model data representing the surface of
+              the target body. The caller should declare DLADSC
+              with size DLADSZ; this size parameter is defined in
+              the INCLUDE file dla.inc. Normally this descriptor
+              will be obtained by a search through a DSK file
+              using the DLA search routines; see the $Examples
+              header section below for a working code example
+              illustrating a simple search.
+
+     VERTEX   is the vertex of a ray. VERTEX is expressed relative
+              to the body fixed reference frame associated with the
+              target body. This reference frame is the same frame
+              relative to which the vertices of the plate model
+              are expressed. Units are km.
+
+              The vertex is required to be outside the target
+              body.
+
+     RAYDIR   is the ray's direction vector. RAYDIR is expressed
+              relative to the body fixed reference frame associated
+              with the target body.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     PLID     is the ID of the plate closest to the input ray's
+              vertex at which a ray-surface intercept exists.
+              If no intercept exists, PLID is undefined.
+
+     XPT      is the ray-target intercept closest to the ray's
+              vertex, if an intercept exists. XPT is expressed
+              relative to the body-fixed reference frame associated
+              with the target body. Units are km.
+
+              If no intercept exists, XPT is undefined.
+
+     FOUND    is a logical flag that indicates whether or not the
+              ray does indeed intersect the target. If the ray
+              intersects a plate FOUND is .TRUE. Otherwise FOUND is
+              .FALSE.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     XFRACT   is the default plate expansion fraction. This
+              parameter can be overridden.
+
+     See the include file
+
+        dsktol.inc
+
+     for the values of tolerance parameters used by default by the
+     ray-surface intercept algorithm.
+
+     See the include file
+
+        dla.inc
+
+     for declarations of DLA descriptor sizes and documentation of the
+     contents of DLA descriptors.
+
+     See the include file
+
+        dskdsc.inc
+
+     for declarations of DSK descriptor sizes and documentation of the
+     contents of DSK descriptors.
+
+     See the include file
+
+        dsk02.inc
+
+     for declarations of DSK data type 2 (plate model) parameters.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If the input handle is invalid, an error is signaled by a
+         routine in the call tree of this routine.
+
+     2)  If a file read error occurs, the error is signaled by a
+         routine in the call tree of this routine.
+
+     3)  If the input DLA descriptor is invalid, the effect of this
+         routine is undefined. The error *may* be diagnosed by
+         routines in the call tree of this routine, but there are no
+         guarantees.
+
+     4)  If an error occurs while trying to look up any component
+         of the shape model, the error is signaled by a routine in the
+         call tree of this routine.
+
+     5)  If the input ray direction is the zero vector, the error
+         SPICE(ZEROVECTOR) is signaled.
+
+     6)  If the coarse voxel grid scale of the shape model is less
+         than 1, the error SPICE(VALUEOUTOFRANGE) is signaled.
+
+     7)  If the coarse voxel grid of the shape model contains more
+         than MAXCGR (see dsk02.inc) voxels, the error
+         SPICE(GRIDTOOLARGE) is signaled.
+
+     8)  If the plate list for any intersected voxel is too large
+         for this routine to buffer, the error SPICE(ARRAYTOOSMALL)
+         is signaled.
+
+     9)  Due to round-off errors, results from this routine may
+         differ across platforms. Results also may differ from
+         those expected---and not necessarily by a small amount.
+         For example, a ray may miss a plate it was expected to
+         hit and instead hit another plate considerably farther
+         from the ray's vertex, or miss the target entirely.
+
+     10) In the event that an intercept point lies on multiple
+         plates (that is, the point is on an edge or vertex),
+         a plate will be selected. Due to round-off error, the
+         selection may vary across platforms.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See the description of the input argument HANDLE.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine solves the ray-surface intercept problem for
+     a specified ray and a surface represented by triangular plate
+     model. The surface representation is provided by data in a
+     type 2 segment of a DSK file.
+
+     This routine does not assume that the segment from which the
+     surface model data are read represents the entire surface of
+     the target body. A program could call this routine repeatedly
+     to find the surface intercept of a ray and a shape model
+     partitioned into multiple segments.
+
+     In general, this routine should be expected to run faster
+     when used with smaller shape models.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as input,
+     the compiler and supporting libraries, and the machine specific
+     arithmetic implementation.
+
+     1) Find the surface intercept points corresponding to a latitude/
+        longitude grid of a specified resolution, for a specified
+        target body.
+
+        This simple program assumes the shape model for the target
+        body is stored in a single type 2 DSK segment, and that this
+        segment is the first one in the DSK file to which it belongs.
+
+
+        Example code begins here.
+
+
+              PROGRAM DSKX02_EX1
+              IMPLICIT NONE
+
+              INCLUDE 'dla.inc'
+              INCLUDE 'dskdsc.inc'
+              INCLUDE 'dsk02.inc'
+        C
+        C
+        C     SPICELIB functions
+        C
+              DOUBLE PRECISION      DSKSGR
+              DOUBLE PRECISION      <a href="rpd.html">RPD</a>
+        C
+        C
+        C     Local parameters
+        C
+              INTEGER               FILSIZ
+              PARAMETER           ( FILSIZ = 255 )
+
+              INTEGER               NLAT
+              PARAMETER           ( NLAT   = 9 )
+
+              INTEGER               NLON
+              PARAMETER           ( NLON   = 9 )
+
+        C
+        C     Local parameters
+        C
+              DOUBLE PRECISION      TOL
+              PARAMETER           ( TOL   =  1.D-12 )
+
+        C
+        C     Local variables
+        C
+              CHARACTER*(FILSIZ)    DSK
+
+              DOUBLE PRECISION      DSKDSC ( DSKDSZ )
+              DOUBLE PRECISION      LAT
+              DOUBLE PRECISION      LON
+              DOUBLE PRECISION      MAXR
+              DOUBLE PRECISION      R
+              DOUBLE PRECISION      RAYDIR ( 3 )
+              DOUBLE PRECISION      VERTEX ( 3 )
+              DOUBLE PRECISION      XLAT
+              DOUBLE PRECISION      XLON
+              DOUBLE PRECISION      XPT    ( 3 )
+              DOUBLE PRECISION      XR
+
+              INTEGER               DLADSC ( DLADSZ )
+              INTEGER               HANDLE
+              INTEGER               I
+              INTEGER               J
+              INTEGER               PLID
+
+              LOGICAL               FOUND
+
+        C
+        C     Prompt for the name of the DSK to read.
+        C
+              CALL PROMPT ( 'Enter DSK name &gt; ', DSK )
+        C
+        C     Open the DSK file for read access.
+        C     We use the DAS-level interface for
+        C     this function.
+        C
+              CALL DASOPR ( DSK, HANDLE )
+        C
+        C     Begin a forward search through the
+        C     kernel, treating the file as a DLA.
+        C     In this example, it's a very short
+        C     search.
+        C
+              CALL <a href="dlabfs.html">DLABFS</a> ( HANDLE, DLADSC, FOUND )
+
+              IF ( .NOT. FOUND ) THEN
+        C
+        C        We arrive here only if the kernel
+        C        contains no segments.  This is
+        C        unexpected, but we're prepared for it.
+        C
+                 CALL <a href="setmsg.html">SETMSG</a> ( 'No segments found '
+             .   //            'in DSK file #.'    )
+                 CALL <a href="errch.html">ERRCH</a>  ( '#',  DSK           )
+                 CALL <a href="sigerr.html">SIGERR</a> ( 'SPICE(NODATA)'     )
+
+              END IF
+
+        C
+        C     If we made it this far, DLADSC is the
+        C     DLA descriptor of the first segment.
+        C
+        C     We're going to generate the intercept points
+        C     using a set of rays which point toward the
+        C     origin and whose vertices are on a
+        C     specified lat/lon grid.  To start out we
+        C     must pick a reasonable range from the origin
+        C     for the vertices:  the range must be large
+        C     enough so that the vertices are guaranteed
+        C     to be outside the target body but small
+        C     enough that we don't lose too much precision
+        C     in the surface intercept computation.
+        C
+        C     We'll look up the upper bound for the target
+        C     radius, then use 2 times this value as the
+        C     vertex magnitude.
+        C
+              CALL <a href="dskgd.html">DSKGD</a> ( HANDLE, DLADSC, DSKDSC )
+
+              MAXR = DSKDSC(MX3IDX)
+              R    = 2.D0 * MAXR
+
+        C
+        C     Now generate the intercept points.  We generate
+        C     intercepts along latitude bounds, working from
+        C     north to south. Latitude ranges from +80 to
+        C     -80 degrees. Longitude ranges from 0 to 320
+        C     degrees. The increment is 20 degrees for
+        C     latitude and 40 degrees for longitude.
+        C
+              DO I = 1, NLAT
+
+                 LAT = <a href="rpd.html">RPD</a>() * ( 100.D0 - 20.D0*I )
+
+                 DO J = 1, NLON
+
+                    LON = <a href="rpd.html">RPD</a>() * 40.D0 * (J-1)
+        C
+        C           Produce a ray vertex for the current
+        C           lat/lon value.  Negate the vertex to
+        C           produce the ray's direction vector.
+        C
+                    CALL <a href="latrec.html">LATREC</a> ( R, LON, LAT, VERTEX )
+                    CALL <a href="vminus.html">VMINUS</a> ( VERTEX,      RAYDIR )
+        C
+        C           Find the surface intercept for this
+        C           ray.
+        C
+                    CALL <b>DSKX02</b> ( HANDLE, DLADSC, VERTEX,
+             .                    RAYDIR, PLID,   XPT,    FOUND  )
+        C
+        C           Since the ray passes through the origin on
+        C           the body-fixed frame associated with the
+        C           target body, we'd rarely expect to find that
+        C           the ray failed to intersect the surface.
+        C           For safety, we check the FOUND flag.  (A
+        C           &quot;not found&quot; condition could be a sign of
+        C           a bug.)
+        C
+                    IF ( .NOT. FOUND ) THEN
+
+                       WRITE(*,*) ' '
+                       WRITE(*,*) 'Intercept not found!'
+                       WRITE(*,*) '   Ray vertex:'
+                       WRITE(*,*) '   Longitude (deg): ', LON/<a href="rpd.html">RPD</a>()
+                       WRITE(*,*) '   Latitude  (deg): ', LAT/<a href="rpd.html">RPD</a>()
+                       WRITE(*,*) '   Range      (km): ', R
+                       WRITE(*,*) ' '
+
+                    ELSE
+        C
+        C              This is the normal case.  Display the
+        C              intercept plate ID and the intercept
+        C              point in both Cartesian and latitudinal
+        C              coordinates.  Show the corresponding ray
+        C              vertex to facilitate validation of results.
+        C
+        C              Use <a href="recrad.html">RECRAD</a> rather than <a href="reclat.html">RECLAT</a> to produce
+        C              non-negative longitudes.
+        C
+                       CALL <a href="recrad.html">RECRAD</a> ( XPT, XR, XLON, XLAT )
+
+                       WRITE(*,*) ' '
+                       WRITE(*,*) 'Intercept found:'
+                       WRITE(*,*) '   Plate ID:             ', PLID
+                       WRITE(*, '(1X,A,3F12.8)' )
+             .         '   Cartesian coordinates:', XPT
+                       WRITE(*,*) '   Latitudinal coordinates:'
+                       WRITE(*,*) '   Longitude (deg): ', XLON/<a href="rpd.html">RPD</a>()
+                       WRITE(*,*) '   Latitude  (deg): ', XLAT/<a href="rpd.html">RPD</a>()
+                       WRITE(*,*) '   Range      (km): ', XR
+                       WRITE(*,*)
+                       WRITE(*,*) '   Ray vertex:'
+                       WRITE(*,*) '   Longitude (deg): ', LON/<a href="rpd.html">RPD</a>()
+                       WRITE(*,*) '   Latitude  (deg): ', LAT/<a href="rpd.html">RPD</a>()
+                       WRITE(*,*) '   Range      (km): ', R
+                       WRITE(*,*) ' '
+
+                    END IF
+
+                 END DO
+
+              END DO
+        C
+        C     Close the kernel.  This isn't necessary in a stand-
+        C     alone program, but it's good practice in subroutines
+        C     because it frees program and system resources.
+        C
+              CALL <a href="dascls.html">DASCLS</a> ( HANDLE )
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, using the DSK file named phobos_3_3.bds, the output
+        was:
+
+
+        Enter DSK name &gt; phobos_3_3.bds
+
+         Intercept found:
+            Plate ID:                   306238
+            Cartesian coordinates:  1.52087789  0.00000000  8.62532711
+            Latitudinal coordinates:
+            Longitude (deg):    0.0000000000000000
+            Latitude  (deg):    80.000000000000014
+            Range      (km):    8.7583866856211490
+
+            Ray vertex:
+            Longitude (deg):    0.0000000000000000
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    28.023536291251524
+
+
+         Intercept found:
+            Plate ID:                   317112
+            Cartesian coordinates:  1.18970365  0.99827989  8.80777185
+            Latitudinal coordinates:
+            Longitude (deg):    40.000000000000000
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    8.9436459265318629
+
+            Ray vertex:
+            Longitude (deg):    40.000000000000000
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    28.023536291251524
+
+
+         Intercept found:
+            Plate ID:                   324141
+            Cartesian coordinates:  0.27777518  1.57534131  9.07202903
+            Latitudinal coordinates:
+            Longitude (deg):    80.000000000000028
+            Latitude  (deg):    80.000000000000014
+            Range      (km):    9.2119797003191017
+
+            Ray vertex:
+            Longitude (deg):    80.000000000000000
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    28.023536291251524
+
+
+         Intercept found:
+            Plate ID:                   327994
+            Cartesian coordinates: -0.81082405  1.40438846  9.19682344
+            Latitudinal coordinates:
+            Longitude (deg):    120.00000000000001
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    9.3386992651610452
+
+            Ray vertex:
+            Longitude (deg):    119.99999999999999
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    28.023536291251524
+
+
+         Intercept found:
+            Plate ID:                   329431
+            Cartesian coordinates: -1.47820193  0.53802150  8.92132122
+            Latitudinal coordinates:
+            Longitude (deg):    160.00000000000006
+            Latitude  (deg):    80.000000000000014
+            Range      (km):    9.0589469760393797
+
+            Ray vertex:
+            Longitude (deg):    160.00000000000000
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    28.023536291251524
+
+
+         Intercept found:
+            Plate ID:                   196042
+            Cartesian coordinates: -1.49854761 -0.54542673  9.04411256
+            Latitudinal coordinates:
+            Longitude (deg):    200.00000000000000
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    9.1836325764960041
+
+            Ray vertex:
+            Longitude (deg):    200.00000000000000
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    28.023536291251524
+
+
+         Intercept found:
+            Plate ID:                   235899
+            Cartesian coordinates: -0.78240454 -1.35516441  8.87447325
+            Latitudinal coordinates:
+            Longitude (deg):    239.99999999999991
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    9.0113763066160804
+
+            Ray vertex:
+            Longitude (deg):    239.99999999999997
+            Latitude  (deg):    80.000000000000000
+            Range      (km):    28.023536291251524
+
+
+
+        [...]
+
+
+        Warning: incomplete output. Only 100 out of 1135 lines have
+        been provided.
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     [1]  A. Woo, &quot;Fast Ray-Box Intersection&quot;, Graphic Gems I,
+          395-396, Aug. 1990
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J.A. Bytof         (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     E.D. Wright        (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 13-JAN-2021 (NJB) (JDR) (BVS)
+
+        Bug fix: in some cases the previous version of this routine
+        could still return an intercept outside of the segment
+        boundaries by more than the allowed margin. In those cases,
+        the returned plate ID was invalid. Both problems have been
+        corrected.
+
+        See $Revisions for details.
+
+        Edited the header to comply with NAIF standard. Updated the
+        example code to retrieve directly from the DSK descriptor the
+        upper bound for the target radius. Added record in
+        $Index_Entries.
+
+    SPICELIB Version 1.0.0, 04-APR-2017 (NJB) (EDW) (JAB)
+
+        Added test for containment of intersection point
+        within segment boundaries. Updated logic for saving
+        segment attributes so that errors won't cause saved
+        values to be improperly re-used on subsequent calls.
+
+        24-FEB-2016 (NJB)
+
+           Replaced call to TOGRID with call to ZZTOGRID.
+           Replaced call to PLTREC with call to <a href="pltnrm.html">PLTNRM</a>.
+           Now obtains plate expansion fraction from <a href="dskgtl.html">DSKGTL</a>.
+
+        25-FEB-2015 (NJB)
+
+           Bug fix: now ray-voxel grid intercept is displaced toward
+           the input ray's vertex only when the vertex is outside
+           the target body's voxel grid.
+
+        10-SEP-2014 (NJB)
+
+           Bug fix: during an intercept search over the voxel list
+           returned by <a href="xdda.html">XDDA</a>, if an intercept outside the current
+           voxel---by more than a small tolerance---is found, the
+           search rejects that intercept and continues until a
+           valid intercept is found and all plates in the voxel
+           containing that intercept have been checked for an
+           intersection. The rejected intercept may later be
+           determined to be a valid solution during a check of
+           plates associated with a voxel that contains that
+           intercept; in fact it is the correct solution if no
+           other plates contain a solution closer to the ray's
+           vertex. (Usually there is a unique voxel containing the
+           intercept, but this is not so if the intercept lies on
+           a voxel boundary not on an edge of the voxel grid.)
+
+           Note that there's no need to look for intersections in
+           voxels further out in the voxel list than the first one
+           that contains an intercept.
+
+           The previous version of the routine terminated the
+           search after checking all plates in the current voxel,
+           after an intercept was found on any plate associated
+           with that voxel. The intercept was not required to be
+           contained in the voxel.
+
+           See the $Revisions section for details.
+
+        30-JUN-2014 (NJB)
+
+           Bug fix: renamed &quot;found&quot; flag returned by ZZRAYBOX.
+
+           Added code to test for empty voxel list after
+           voxel list compression.
+
+        15-JUN-2014 (NJB)
+
+           Made some minor edits to in-line comments, and removed
+           comments that had become inapplicable due to code changes.
+
+        06-JUN-2014 (NJB)
+
+           Now expands plates slightly before performing ray-plate
+           intersection computations.
+
+           Bug fix: now calls ZZRAYBOX to find the ray-box intercept.
+           This reduces round-off error in the variable COORD.
+
+        02-MAY-2014 (NJB)
+
+           Bug fix: added <a href="failed.html">FAILED</a> checks after each <a href="dski02.html">DSKI02</a> and <a href="dskd02.html">DSKD02</a>
+           call.
+
+           Some precautionary measures were added: a backstop
+           check for an empty voxel list was added after the <a href="xdda.html">XDDA</a>
+           call. A backstop initialization of PNTR was added
+           before the plate collection loop. This initialization
+           is needed only if the voxel list returned by <a href="xdda.html">XDDA</a> is
+           empty. The list should never be empty.
+
+        25-MAR-2014 (NJB)
+
+           Bug fix: duplicate plates are now marked so that the
+           unmarked instance is the one in the closest voxel to
+           the ray's origin.
+
+           Bug fix: corrected buffer overflow error detection for
+           insertion of plate IDs into plate ID array.
+
+        20-JUL-2011 (NJB)
+
+           Bug fix: this routine now tests <a href="failed.html">FAILED</a> after its
+           call to <a href="xdda.html">XDDA</a>.
+
+           Header correction: the detailed input section
+           now says that the ray's vertex *is* required to
+           be outside the target body.
+
+        09-JUN-2011 (NJB)
+
+           All large local arrays are now saved in order to support
+           calling a C translation of this routine from Java.
+
+           The buffer VIDXS is now initialized prior to its
+           first use in an argument list. This was done to
+           to suppress compiler warnings. The original code was
+           correct, since along with the buffer, an array size
+           of zero was passed to the called function.
+
+           The example program was updated for compatibility with
+           the final DSK descriptor layout. The output format was
+           adjusted. Sample output from the program is now shown
+           in the header.
+
+        13-MAY-2010 (NJB)
+
+           No longer uses plate records to weed out
+           plates prior to ray-plate intercept tests.
+           Now uses local vertex buffer. Logic for choosing
+           plate when intercept is on edge or vertex has
+           been simplified.
+
+        06-MAY-2010 (NJB)
+
+           Now calls <a href="dskb02.html">DSKB02</a> rather than <a href="dskp02.html">DSKP02</a>.
+
+        20-APR-2010 (NJB)
+
+           Updated header section order.
+
+        26-SEP-2008 (NJB)
+
+           Moved OBSMAT computation out of loop.
+
+        27-DEC-2006 (NJB) (EDW)
+
+           Header example was updated to show maximum radius
+           being obtained from DSK descriptor rather than via
+           all to <a href="dskd02.html">DSKD02</a>.
+
+        31-OCT-2006 (NJB) (EDW)
+
+           Modified to work with DLA-based kernels. Many
+           changes were made to the algorithm to improve
+           execution speed.
+
+        19-AUG-2004 (EDW)
+
+           Implemented &quot;Fast Ray-Box Intersection&quot; algorithm.
+           Renamed routine <b>DSKX02</b> from PLBORE_3.
+
+        25-FEB-1999 (JAB)
+
+           Based on PLBORE and PLBORE_2.</PRE>
+<h4>Link to routine DSKX02 source file <a href='../../../src/spicelib/dskx02.f'>dskx02.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:16 2021</pre>
+
+</body>
+</html>
+

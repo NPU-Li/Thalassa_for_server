@@ -1,0 +1,471 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>spkw08</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>spkw08</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     SPKW08 ( Write SPK segment, type 8 )
+
+     SUBROUTINE SPKW08 (  HANDLE,  BODY,    CENTER,  FRAME,
+    .                     FIRST,   LAST,    SEGID,   DEGREE,
+    .                     N,       STATES,  BEGTIM,  STEP     )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Write a type 8 segment to an SPK file.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/naif_ids.html">NAIF_IDS</a>
+     <a href="../req/spc.html">SPC</a>
+     <a href="../req/spk.html">SPK</a>
+     <a href="../req/time.html">TIME</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     EPHEMERIS
+     FILES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     INCLUDE 'spk08.inc'
+
+     INTEGER               HANDLE
+     INTEGER               BODY
+     INTEGER               CENTER
+     CHARACTER*(*)         FRAME
+     DOUBLE PRECISION      FIRST
+     DOUBLE PRECISION      LAST
+     CHARACTER*(*)         SEGID
+     INTEGER               DEGREE
+     INTEGER               N
+     DOUBLE PRECISION      STATES ( 6, * )
+     DOUBLE PRECISION      BEGTIM
+     DOUBLE PRECISION      STEP
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     MAXDEG     P   Maximum degree of interpolating polynomials.
+     TOLSCL     P   Scale factor used to compute time bound tolerance.
+     HANDLE     I   Handle of an SPK file open for writing.
+     BODY       I   NAIF code for an ephemeris object.
+     CENTER     I   NAIF code for center of motion of BODY.
+     FRAME      I   Reference frame name.
+     FIRST      I   Start time of interval covered by segment.
+     LAST       I   End time of interval covered by segment.
+     SEGID      I   Segment identifier.
+     DEGREE     I   Degree of interpolating polynomials.
+     N          I   Number of states.
+     STATES     I   Array of states.
+     BEGTIM     I   Epoch of first state in STATES array.
+     STEP       I   Time step separating epochs of states.
+     MAXDEG     P   Maximum allowed degree of interpolating polynomial.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     HANDLE   is the file handle of an SPK file that has been
+              opened for writing.
+
+     BODY     is the NAIF integer code for an ephemeris object
+              whose state relative to another body is described
+              by the segment to be created.
+
+     CENTER   is the NAIF integer code for the center of motion
+              of the object identified by BODY.
+
+     FRAME    is the NAIF name for a reference frame
+              relative to which the state information for BODY
+              is specified.
+
+     FIRST,
+     LAST     are, respectively, the start and stop times of
+              the time interval over which the segment defines
+              the state of BODY.
+
+     SEGID    is the segment identifier. An SPK segment
+              identifier may contain up to 40 characters.
+
+     DEGREE   is the degree of the Lagrange polynomials used to
+              interpolate the states. All components of the
+              state vectors are interpolated by polynomials of
+              fixed degree.
+
+     N        is the number of states in the input state vector
+              array.
+
+     STATES   contains a time-ordered array of geometric states
+              ( x, y, z, dx/dt, dy/dt, dz/dt, in kilometers and
+              kilometers per second ) of BODY relative to CENTER,
+              specified relative to FRAME.
+
+     BEGTIM   is the epoch corresponding to the first state in
+              the state array. Because extra states are needed
+              at the beginning and end of the segment in order
+              for the interpolation method to work, BEGTIM will
+              normally precede FIRST.
+
+     STEP     is the time step separating the epochs of adjacent
+              states in the input state array. STEP is specified
+              in seconds.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     None. See $Particulars for a description of the effect of this
+     routine.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     See the include file spk08.inc for declarations of the
+     parameters described below.
+
+     MAXDEG   is the maximum degree of Lagrange polynomials that
+              can be used to interpolate states from the segment
+              written by this routine.
+
+     TOLSCL   is a tolerance scale factor (also called a
+              &quot;relative tolerance&quot;) used for time coverage
+              bound checking. TOLSCL is unitless. TOLSCL
+              produces a tolerance value via the formula
+
+                 TOL = TOLSCL * MAX( ABS(FIRST), ABS(LAST) )
+
+              where FIRST and LAST are the coverage time bounds
+              of a type 8 segment, expressed as seconds past
+              J2000 TDB.
+
+              The resulting parameter TOL is used as a tolerance
+              for comparing the input segment descriptor time
+              bounds to the first and last epoch covered by the
+              sequence of time intervals defined by the inputs
+              to <b>SPKW08</b>:
+
+                 BEGTIM
+                 STEP
+                 N
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     If any of the following exceptions occur, this routine will return
+     without creating a new segment.
+
+     1)  If FRAME is not a recognized name, the error
+         SPICE(INVALIDREFFRAME) is signaled.
+
+     2)  If the last non-blank character of SEGID occurs past index 40,
+         the error SPICE(SEGIDTOOLONG) is signaled.
+
+     3)  If SEGID contains any nonprintable characters, the error
+         SPICE(NONPRINTABLECHARS) is signaled.
+
+     4)  If DEGREE is not at least 1 or is greater than MAXDEG, the
+         error SPICE(INVALIDDEGREE) is signaled.
+
+     5)  If the number of states N is not at least DEGREE+1, the error
+         SPICE(TOOFEWSTATES) is signaled.
+
+     6)  If FIRST is greater than LAST, the error
+         SPICE(BADDESCRTIMES) is signaled.
+
+     7)  If STEP is non-positive, the error SPICE(INVALIDSTEPSIZE) is
+         signaled.
+
+     8)  If the start time of the first record exceeds the descriptor
+         begin time by more than a computed tolerance, or if the end
+         time of the last record precedes the descriptor end time by
+         more than a computed tolerance, the error SPICE(COVERAGEGAP)
+         is signaled. See the $Parameters section above for a
+         description of the tolerance.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     A new type 8 SPK segment is written to the SPK file attached
+     to HANDLE.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This routine writes an SPK type 08 data segment to the open SPK
+     file according to the format described in the type 08 section of
+     the SPK Required Reading. The SPK file must have been opened with
+     write access.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) This example demonstrates how to create an SPK type 8 kernel
+        containing only one segment, given a time-ordered set of
+        discrete states and epochs.
+
+
+        Example code begins here.
+
+
+              PROGRAM SPKW08_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local parameters.
+        C
+              INTEGER               NAMLEN
+              PARAMETER           ( NAMLEN = 40 )
+
+        C
+        C     Define the segment identifier parameters.
+        C
+              CHARACTER*(*)         SPK8
+              PARAMETER           ( SPK8   = 'spkw08_ex1.bsp' )
+
+              CHARACTER*(*)         REF
+              PARAMETER           ( REF    = 'J2000'          )
+
+              INTEGER               BODY
+              PARAMETER           ( BODY   = 3  )
+
+              INTEGER               CENTER
+              PARAMETER           ( CENTER = 10 )
+
+              INTEGER               DEGREE
+              PARAMETER           ( DEGREE = 3  )
+
+              INTEGER               NSTATS
+              PARAMETER           ( NSTATS = 9  )
+
+        C
+        C     Local variables.
+        C
+              CHARACTER*(NAMLEN)    IFNAME
+              CHARACTER*(NAMLEN)    SEGID
+
+              DOUBLE PRECISION      BEGTIM
+              DOUBLE PRECISION      FIRST
+              DOUBLE PRECISION      LAST
+              DOUBLE PRECISION      STATES ( 6, NSTATS )
+              DOUBLE PRECISION      STEP
+
+              INTEGER               HANDLE
+              INTEGER               NCOMCH
+
+        C
+        C     Set the array of discrete states to write to the SPK
+        C     segment.
+        C
+              DATA                  STATES /
+             .        101.D0, 201.D0, 301.D0, 401.D0, 501.D0, 601.D0,
+             .        102.D0, 202.D0, 302.D0, 402.D0, 502.D0, 602.D0,
+             .        103.D0, 203.D0, 303.D0, 403.D0, 503.D0, 603.D0,
+             .        104.D0, 204.D0, 304.D0, 404.D0, 504.D0, 604.D0,
+             .        105.D0, 205.D0, 305.D0, 405.D0, 505.D0, 605.D0,
+             .        106.D0, 206.D0, 306.D0, 406.D0, 506.D0, 606.D0,
+             .        107.D0, 207.D0, 307.D0, 407.D0, 507.D0, 607.D0,
+             .        108.D0, 208.D0, 308.D0, 408.D0, 508.D0, 608.D0,
+             .        109.D0, 209.D0, 309.D0, 409.D0, 509.D0, 609.D0  /
+
+
+        C
+        C     Set the start and end times of interval covered by
+        C     segment, and the time step separating epochs of states.
+        C
+              FIRST = 100.D0
+              LAST  = 900.D0
+              STEP  = 100.D0
+
+        C
+        C     NCOMCH is the number of characters to reserve for the
+        C     kernel's comment area. This example doesn't write
+        C     comments, so set to zero.
+        C
+              NCOMCH = 0
+
+        C
+        C     Internal file name and segment ID.
+        C
+              IFNAME = 'Type 8 SPK internal file name.'
+              SEGID  = 'SPK type 8 test segment'
+
+        C
+        C     Open a new SPK file.
+        C
+              CALL <a href="spkopn.html">SPKOPN</a>( SPK8, IFNAME, NCOMCH, HANDLE )
+
+        C
+        C     Set the epoch of first state in STATES array to be
+        C     the start time of the interval covered by the segment.
+        C
+              BEGTIM = FIRST
+
+        C
+        C     Create a type 8 segment.
+        C
+              CALL <b>SPKW08</b> (  HANDLE,  BODY,    CENTER,  REF,
+             .               FIRST,   LAST,    SEGID,   DEGREE,
+             .               NSTATS,  STATES,  BEGTIM,  STEP     )
+
+        C
+        C     Close the SPK file.
+        C
+              CALL <a href="spkcls.html">SPKCLS</a> ( HANDLE )
+
+              END
+
+
+        When this program is executed, no output is presented on
+        screen. After run completion, a new SPK type 8 exists in
+        the output directory.
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     K.R. Gehringer     (JPL)
+     J.M. Lynch         (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 3.1.0, 03-JUN-2021 (JDR)
+
+        Changed the input argument name EPOCH1 to BEGTIM for
+        consistency with other routines.
+
+        Edited the header to comply with NAIF standard. Added
+        complete example code from existing fragment.
+
+        Removed unnecessary $Revisions sections.
+
+    SPICELIB Version 3.0.0, 11-JAN-2013 (NJB)
+
+        Relaxed test on relationship between the time bounds of the
+        input record set (determined by BEGTIM, STEP, and N) and the
+        descriptor bounds FIRST and LAST. Now the descriptor bounds
+        may extend beyond the time bounds of the record set by a ratio
+        computed using the parameter TOLSCL (see $Parameters above for
+        details). MAXDEG was increased to 27.
+
+    SPICELIB Version 2.0.0, 19-SEP-1995 (WLT)
+
+        The routine was upgraded to support non-inertial reference
+        frames.
+
+    SPICELIB Version 1.0.1, 05-OCT-1993 (KRG)
+
+        Removed all references to a specific method of opening the SPK
+        file in the $Brief_I/O, $Detailed_Input, $Particulars and
+        $Examples sections of the header. It is assumed that a person
+        using this routine has some knowledge of the DAF system and the
+        methods for obtaining file handles.
+
+    SPICELIB Version 1.0.0, 08-AUG-1993 (NJB) (JML) (WLT)</PRE>
+<h4>Link to routine SPKW08 source file <a href='../../../src/spicelib/spkw08.f'>spkw08.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:55 2021</pre>
+
+</body>
+</html>
+

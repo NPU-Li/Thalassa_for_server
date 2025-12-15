@@ -1,0 +1,256 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>spcopn</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>spcopn</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     SPCOPN ( SPK or CK, open new file )
+
+     SUBROUTINE SPCOPN ( FNAME, IFNAME, HANDLE )
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Open a new SPK or CK file for subsequent write requests.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     <a href="../req/daf.html">DAF</a>
+     <a href="../req/spc.html">SPC</a>
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     EPHEMERIS
+     FILES
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+     IMPLICIT NONE
+
+     CHARACTER*(*)         FNAME
+     CHARACTER*(*)         IFNAME
+     INTEGER               HANDLE
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     VARIABLE  I/O  DESCRIPTION
+     --------  ---  --------------------------------------------------
+     FNAME      I   Name of SPK or CK file to be created.
+     IFNAME     I   Internal file name.
+     HANDLE     O   Handle of new SPK or CK file.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     FNAME    is the name of a new SPK or CK file to be created.
+
+     IFNAME   is the internal file name of the file to be created.
+              IFNAME may contain up to 60 characters.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     HANDLE   is the file handle assigned to the new file. This
+              should be used to refer to the file in all subsequent
+              calls to DAF and SPC routines.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If the specified file cannot be opened without exceeding the
+         maximum number of files, an error is signaled by a routine in
+         the call tree of this routine.
+
+     2)  If the specified file cannot be opened without exceeding the
+         maximum number of DAF files, an error is signaled by a routine
+         in the call tree of this routine.
+
+     3)  If an I/O error occurs in the process of opening the file,
+         the error is signaled by a routine in the call tree of this
+         routine.
+
+     4)  If (for some reason) the initial records in the file cannot be
+         written, an error is signaled by a routine in the call tree of
+         this routine.
+
+     5)  If no logical units are available, an error is signaled by a
+         routine in the call tree of this routine.
+
+     6)  If the file name is blank or otherwise inappropriate, an error
+         is signaled by a routine in the call tree of this routine.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See argument FNAME above.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     <b>SPCOPN</b> opens a new SPK or CK file. It is identical to <a href="dafopn.html">DAFOPN</a>
+     except <b>SPCOPN</b> defines several of the inputs that <a href="dafopn.html">DAFOPN</a> requires
+     and which specify that the DAF to be opened is an SPK or CK file.
+     Use <a href="dafcls.html">DAFCLS</a> to close any DAF including SPK and CK files.
+
+     <b>SPCOPN</b>, is not to be confused with the routines that load and
+     unload files to and from a buffer for use by the readers such as
+     <a href="spklef.html">SPKLEF</a> (SPK, load ephemeris file) and <a href="cklpf.html">CKLPF</a> (CK, load pointing
+     file). The loading and unloading routines open and close the files
+     internally, so there is no need to call <b>SPCOPN</b> when loading or
+     unloading SPK or CK files.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     In the following code fragment, <b>SPCOPN</b> opens a new file,
+     to which an array is then added. GETDAT is a ficticious
+     non-SPICELIB routine whose function is to get the array data.
+     <a href="dafbna.html">DAFBNA</a> begins a new array, <a href="dafada.html">DAFADA</a> adds data to an array,
+     and <a href="dafena.html">DAFENA</a> ends a new array.
+
+               CALL <b>SPCOPN</b>  ( FNAME,  IFNAME, HANDLE )
+               CALL <a href="dafbna.html">DAFBNA</a>  ( HANDLE, SUM,    NAME   )
+
+               CALL GETDAT  ( N, DATA, FOUND )
+
+               DO WHILE ( FOUND )
+
+                  CALL <a href="dafada.html">DAFADA</a> ( N, DATA )
+                  CALL GETDAT ( N, DATA, FOUND )
+
+               END DO
+
+               CALL <a href="dafena.html">DAFENA</a>
+
+               CALL <a href="dafcls.html">DAFCLS</a> ( HANDLE )
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     J. Diaz del Rio    (ODC Space)
+     J.E. McLean        (JPL)
+     W.L. Taber         (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 1.1.0, 19-APR-2021 (JDR)
+
+        Added IMPLICIT NONE statement. Changed input argument name
+        &quot;SPC&quot; to &quot;FNAME&quot; for consistency with other routines.
+
+        Edited the header to comply with NAIF standard. Updated the
+        $Exceptions section to cover all errors detected by this
+        routine and remove unnecessary introduction referencing DAF
+        required reading.
+
+        Added DAF required reading to $Required_Reading.
+
+    SPICELIB Version 1.0.1, 10-MAR-1992 (WLT)
+
+        Comment section for permuted index source lines was added
+        following the header.
+
+    SPICELIB Version 1.0.0, 05-APR-1991 (JEM)</PRE>
+<h4>Link to routine SPCOPN source file <a href='../../../src/spicelib/spcopn.f'>spcopn.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:49 2021</pre>
+
+</body>
+</html>
+

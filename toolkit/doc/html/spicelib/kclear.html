@@ -1,0 +1,317 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>kclear</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr><td>
+<div align="center">
+Index of Functions: 
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div>
+</td></tr>
+
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>kclear</b></td>
+    </tr>
+    
+
+    <tr>
+      <td style="vertical-align: top;">
+
+       <br>
+       <div align="left"><b>Table of contents</b></div>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+              <a href="#Procedure">Procedure<br></a>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#Required_Reading">Required_Reading<br></a>
+              <a href="#Keywords">Keywords<br></a>
+              <a href="#Declarations">Declarations<br></a>
+              <a href="#Brief_I/O">Brief_I/O<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <a href="#Detailed_Input">Detailed_Input<br></a>
+              <a href="#Detailed_Output">Detailed_Output<br></a>
+              <a href="#Parameters">Parameters<br></a>
+              <a href="#Exceptions">Exceptions<br></a>
+              <a href="#Files">Files<br></a>
+              <a href="#Particulars">Particulars<br></a>
+
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">              <big><b><a href="#Examples">Examples<br></a></b></big>
+              <a href="#Restrictions">Restrictions<br></a>
+              <a href="#Literature_References">Literature_References<br></a>
+              <a href="#Author_and_Institution">Author_and_Institution<br></a>
+              <a href="#Version">Version<br></a>
+            </td>
+          </tr>
+        </tbody>
+</table>
+<hr>
+
+<h4><a name="Procedure">Procedure</a></h4>
+<PRE>
+     KCLEAR ( Keeper clear )
+
+     ENTRY KCLEAR
+</PRE>
+<h4><a name="Abstract">Abstract</a></h4>
+<PRE>
+     Clear the <a href="keeper.html">KEEPER</a> subsystem: unload all kernels, clear the kernel
+     pool, and re-initialize the subsystem. Existing watches on kernel
+     variables are retained.
+</PRE>
+<h4><a name="Required_Reading">Required_Reading</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Keywords">Keywords</a></h4>
+<PRE>
+     KERNEL
+</PRE>
+<h4><a name="Declarations">Declarations</a></h4>
+<PRE>
+    None.
+</PRE>
+<h4><a name="Brief_I/O">Brief_I/O</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Detailed_Input">Detailed_Input</a></h4>
+<PRE>
+     None. This routine operates by side effects. See $Particulars
+     below.
+</PRE>
+<h4><a name="Detailed_Output">Detailed_Output</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Parameters">Parameters</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Exceptions">Exceptions</a></h4>
+<PRE>
+     1)  If an error occurs when setting a kernel pool watch or
+         checking watched variables, the error is signaled by a routine
+         in the call tree of this routine.
+</PRE>
+<h4><a name="Files">Files</a></h4>
+<PRE>
+     See $Particulars.
+</PRE>
+<h4><a name="Particulars">Particulars</a></h4>
+<PRE>
+     This entry point allows you re-initialize the <a href="keeper.html">KEEPER</a> system with
+     a single call.
+
+     This routine unloads all kernels from their kernel-type-specific
+     kernel management subsystems (<a href="spkbsr.html">SPKBSR</a>, <a href="ckbsr.html">CKBSR</a>, etc.), clears the
+     kernel pool, clears <a href="keeper.html">KEEPER</a>'s internal file database, and re-sets
+     the watch status for the kernel variables used to load kernels
+     via meta-kernels. As a side effect of clearing the kernel pool,
+     all watched variables are marked as updated. Note that clearing
+     the kernel pool does not delete watches (aka &quot;watchers&quot;). Watches
+     can be deleted by calling the <a href="pool.html">POOL</a> entry point <a href="dwpool.html">DWPOOL</a>.
+
+     This capability, though implemented in Fortran, is particularly
+     relevant to SPICE implementations such as Icy, for which the
+     state of the <a href="keeper.html">KEEPER</a> system persists after any Icy-based IDL
+     script is run. Successive runs of Icy-based scripts may perform
+     in unexpected ways when scripts access data loaded during runs of
+     previous scripts.
+
+     Cleaning up after such programs using explicit <a href="unload.html">UNLOAD</a> commands is
+     tedious and error-prone. One call to this routine sets the
+     <a href="keeper.html">KEEPER</a> system to its initial state, preventing unintentional
+     interaction between scripts via <a href="keeper.html">KEEPER</a>'s state.
+</PRE>
+<h4><a name="Examples">Examples</a></h4>
+<PRE>
+     The numerical results shown for this example may differ across
+     platforms. The results depend on the SPICE kernels used as
+     input, the compiler and supporting libraries, and the machine
+     specific arithmetic implementation.
+
+     1) Load a meta-kernel containing three kernels, and count the
+        number of files in the kernel pool before and after calling
+        <b>KCLEAR</b>.
+
+        Use the meta-kernel shown below to load the required SPICE
+        kernels.
+
+
+           KPL/MK
+
+           File name: kclear_ex1.tm
+
+           This meta-kernel is intended to support operation of SPICE
+           example programs. The kernels shown here should not be
+           assumed to contain adequate or correct versions of data
+           required by SPICE-based user applications.
+
+           In order for an application to use this meta-kernel, the
+           kernels referenced here must be present in the user's
+           current working directory.
+
+           The names and contents of the kernels referenced
+           by this meta-kernel are as follows:
+
+              File name                     Contents
+              ---------                     --------
+              de421.bsp                     Planetary ephemeris
+              pck00009.tpc                  Planet orientation and
+                                            radii
+              naif0012.tls                  Leapseconds
+
+           \begindata
+
+              KERNELS_TO_LOAD = ( 'de421.bsp',
+                                  'naif0012.tls',
+                                  'pck00009.tpc' )
+
+           \begintext
+
+           End of meta-kernel
+
+
+        Example code begins here.
+
+
+              PROGRAM KCLEAR_EX1
+              IMPLICIT NONE
+
+        C
+        C     Local variables.
+        C
+              INTEGER               COUNT
+
+        C
+        C     Load several kernel files.
+        C
+              CALL <a href="furnsh.html">FURNSH</a> ( 'kclear_ex1.tm' )
+
+        C
+        C     Count the number of loaded kernel files.
+        C
+              CALL <a href="ktotal.html">KTOTAL</a> ( 'ALL', COUNT )
+
+              WRITE(*,'(A,I2)') 'The total number of kernels after '
+             . //               '<a href="furnsh.html">FURNSH</a>: ', COUNT
+
+        C
+        C     Clear the <a href="keeper.html">KEEPER</a> system, retrieve the number of loaded
+        C     after the clear.
+        C
+              CALL <b>KCLEAR</b>()
+
+              CALL <a href="ktotal.html">KTOTAL</a> ( 'ALL', COUNT )
+
+              WRITE(*,'(A,I2)') 'The total number of kernels after '
+             . //               '<b>KCLEAR</b>: ', COUNT
+
+              END
+
+
+        When this program was executed on a Mac/Intel/gfortran/64-bit
+        platform, the output was:
+
+
+        The total number of kernels after <a href="furnsh.html">FURNSH</a>:  4
+        The total number of kernels after <b>KCLEAR</b>:  0
+</PRE>
+<h4><a name="Restrictions">Restrictions</a></h4>
+<PRE>
+     1)  Calling this routine will wipe out any kernel pool data
+         inserted via the SPICELIB API routines to put data into the
+         kernel pool (<a href="pcpool.html">PCPOOL</a>, <a href="pdpool.html">PDPOOL</a> and <a href="pipool.html">PIPOOL</a>).
+</PRE>
+<h4><a name="Literature_References">Literature_References</a></h4>
+<PRE>
+     None.
+</PRE>
+<h4><a name="Author_and_Institution">Author_and_Institution</a></h4>
+<PRE>
+     N.J. Bachman       (JPL)
+     J. Diaz del Rio    (ODC Space)
+     B.V. Semenov       (JPL)
+     E.D. Wright        (JPL)
+</PRE>
+<h4><a name="Version">Version</a></h4>
+<PRE>
+    SPICELIB Version 5.0.1, 08-AUG-2021 (JDR)
+
+        Edited the header to comply with NAIF standard. Added complete
+        code example from existing code fragments.
+
+        Improved $Restrictions section.
+
+    SPICELIB Version 5.0.0, 01-FEB-2017 (NJB) (BVS)
+
+        Updated to support use of DSKs.
+
+        Updated the $Author_and_Institution section.
+
+    SPICELIB Version 1.0.1, 01-JUL-2014 (NJB) (EDW)
+
+        Updated the discussion of kernel variable watchers.
+
+     Last update was 13-APR-2011 (EDW)
+
+        Trivial edit to $Restrictions, replaced P*<a href="pool.html">POOL</a> with
+        PXPOOL. The &quot;*&quot; character causes the HTML documentation
+        script to create a link for the &quot;<a href="pool.html">POOL</a>&quot; substring.
+
+    SPICELIB Version 1.0.0, 15-NOV-2006 (NJB)</PRE>
+<h4>Link to routine KCLEAR source file <a href='../../../src/spicelib/keeper.f'>keeper.f</a> </h4>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Fri Dec 31 18:36:29 2021</pre>
+
+</body>
+</html>
+
