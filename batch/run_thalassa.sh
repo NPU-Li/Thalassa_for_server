@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=ThalassaChdir
-#SBATCH --nodes=2
+#SBATCH --nodes=3
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=50
 #SBATCH --mem=0
@@ -14,13 +14,13 @@ echo "Job ID: $SLURM_JOB_ID"
 echo "Start time: $(date)"
 echo "========================================"
 
-srun --nodes=1 --ntasks=1 --cpus-per-task=40 --exclusive \
+srun --nodes=1 --ntasks=1 --cpus-per-task=50 --exclusive \
     bash -c '
     cd /public/home/guojg/thalassa_dir/batch && \
     python launchgrid.py /public/home/guojg/thalassa_dir/output_data/test1 \
-        --nproc 2 \
+        --nproc 1 \
         --minSID 1 \
-        --maxSID 3 \
+        --maxSID 2 \
         --force
     ' &
 PID1=$!
@@ -30,14 +30,26 @@ srun --nodes=1 --ntasks=1 --cpus-per-task=40 --exclusive \
     bash -c '
     cd /public/home/guojg/thalassa_dir/batch && \
     python launchgrid.py /public/home/guojg/thalassa_dir/output_data/test1 \
-        --nproc 2 \
-        --minSID 4 \
-        --maxSID 6 \
+        --nproc 1 \
+        --minSID 3 \
+        --maxSID 4 \
         --force
     ' &
 PID2=$!
 
-wait $PID1 $PID2
+srun --nodes=1 --ntasks=1 --cpus-per-task=40 --exclusive \
+    bash -c '
+    cd /public/home/guojg/thalassa_dir/batch && \
+    python launchgrid.py /public/home/guojg/thalassa_dir/output_data/test1 \
+        --nproc 1 \
+        --minSID 5 \
+        --maxSID 6 \
+        --force
+    ' &
+PID3=$!
+
+
+wait $PID1 $PID2 $PID3
 
 echo "========================================"
 echo "Job completed at: $(date)"

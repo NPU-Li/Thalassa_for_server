@@ -1,5 +1,5 @@
 %% 参数设置
-basePath = '/public/home/guojg/thalassa_dir/output_batch/C001';
+basePath = '/public/home/guojg/thalassa_dir/output_data/test1/C001';
 nSats    = 6;  % 卫星总数
 
 %% Step 1: 读取 SID 1（参考轨迹）
@@ -57,7 +57,7 @@ for sid = 2:nSats
 
     while ~feof(fid)
         blockData = textscan(fid, '%f%f%f%f%f%f%f', ...
-                              50000, ... % 每批5万行
+                              500000, ... % 每批50万行
                               'Delimiter', ',', ...
                               'CommentStyle', '#');
 

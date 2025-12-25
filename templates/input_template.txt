@@ -29,7 +29,7 @@ gord:      7
 # imcoll:    0 = do not check for collisions with the Moon, 1 = otherwise.
 tol:       1.000000000000000E-09
 tspan:     15.10000000000000E+00
-tstep:     1.000000000000000E-06
+tstep:     4.282400000000000E-08
 mxstep:    5.0E+08
 imcoll:    0
 
